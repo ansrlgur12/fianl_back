@@ -17,4 +17,5 @@ public class TestEntity {
     private Long id;
 
     private String Test;
+    private int age;
 }
