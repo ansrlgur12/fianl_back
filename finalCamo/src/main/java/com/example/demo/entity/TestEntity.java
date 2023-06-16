@@ -18,5 +18,4 @@ public class TestEntity {
 
     private String Test;
     private int age;
-
 }
