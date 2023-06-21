@@ -44,11 +44,11 @@ public class GoCampingController {
         return null;
     }
 
-//    @GetMapping("/campData")
-//    public ResponseEntity<List<CampDto>> campData() {
-//        List<CampDto> list = campingDataService.getCampData();
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
+    @GetMapping("/campData")
+    public ResponseEntity<List<CampDto>> campData() {
+        List<CampDto> list = campingDataService.getCampData();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
 }
 
