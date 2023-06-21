@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import javax.persistence.*;
 
 /**
@@ -11,8 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@ToString
-@Table(name = "onelinereview")
+@Table(name = "one_line_review")
 public class OneLineReview {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,11 +22,11 @@ public class OneLineReview {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member1 member;
 
     @ManyToOne
-    @JoinColumn(name = "campsite_id")
-    private Campsite campsite;
+    @JoinColumn(name = "gocamping_id")
+    private Camp camp;
 
     @Column(nullable = false)
     private String comment; // 한줄평
