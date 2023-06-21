@@ -43,7 +43,8 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/thymeleaf/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/json").permitAll()
+                .antMatchers("/camping-data").permitAll()
+                .antMatchers(HttpMethod.POST, "/json", "/camp-json").permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/sign-api/exception").permitAll()
                 .anyRequest().authenticated()
 

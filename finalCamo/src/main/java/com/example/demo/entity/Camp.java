@@ -35,7 +35,11 @@ public class Camp {
     private String tel;
     private String homepage;
     private String resveCl;
+    private String intro;
+
+    @Column(length = 2000)
     private String featureNm; // 소개
+
     private String siteBottomCl1;
     private String siteBottomCl2;
     private String siteBottomCl3;

@@ -16,7 +16,7 @@ public class CampApp {
         String apiUrl = "http://apis.data.go.kr/B551011/GoCamping/basedList?";
 
         // API 요청 파라미터 설정 (예시: 캠핑장 정보 검색)
-        String params = "&numOfRows=3507&MobileOS=ETC&MobileApp=AppTest";
+        String params = "&numOfRows=3507&MobileOS=ETC&MobileApp=AppTest&_type=json";
         String apiUrlWithParams = apiUrl +  "serviceKey=" + apiKey + params;
 
         // HttpClient 객체 생성
@@ -38,6 +38,7 @@ public class CampApp {
                 String responseBody = response.body();
                 // 응답 데이터 처리
                 System.out.println(responseBody);
+
             } else {
                 System.out.println("API 호출 실패. 상태 코드: " + statusCode);
             }
