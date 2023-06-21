@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProductService {
     @Autowired
@@ -22,5 +25,21 @@ public class ProductService {
         product.setCategory3Name(productDto.getCategory3Name());
         product.setCategory4Name(productDto.getCategory4Name());
         return productRepository.save(product); 
+    }
+    public List<ProductDto> getItemList() {
+        List<Product> productList = productRepository.findAll();
+        List<ProductDto> productDtos = new ArrayList<>();
+        for(Product product :productList ) {
+            ProductDto productDto = new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setProductName(product.getProductName());
+            productDto.setPrice(product.getPrice());
+            productDto.setBrand(product.getBrand());
+            productDto.setImageUrl(product.getImageUrl());
+            productDto.setCategory3Name(product.getCategory3Name());
+            productDto.setCategory4Name(product.getCategory4Name());
+            productDtos.add(productDto);
+        }
+        return productDtos;
     }
 }
