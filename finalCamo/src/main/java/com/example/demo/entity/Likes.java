@@ -24,7 +24,7 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member member; // !! 회원번호
+    private Member1 member; // !! 회원번호
 
     @ManyToOne
     @JoinColumn(name = "gocamping_id")
@@ -35,3 +35,5 @@ public class Likes {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+}
+

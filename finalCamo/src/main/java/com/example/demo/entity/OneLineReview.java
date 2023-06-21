@@ -22,7 +22,7 @@ public class OneLineReview {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member1 member;
 
     @ManyToOne
     @JoinColumn(name = "gocamping_id")
@@ -34,3 +34,4 @@ public class OneLineReview {
     @Column(nullable = false)
     private int rating; // 한줄평 점수
 }
+

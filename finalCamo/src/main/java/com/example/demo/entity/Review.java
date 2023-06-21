@@ -20,7 +20,7 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member1 member;
 
     @Column(nullable = false) //게시글 제목
     private String title;
@@ -34,3 +34,4 @@ public class Review {
     @Column(nullable = false) //글타입
     private int postType;
 }
+

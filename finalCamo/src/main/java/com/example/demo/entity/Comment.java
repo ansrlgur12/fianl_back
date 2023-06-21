@@ -25,7 +25,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member member;
+    private Member1 member;
 
     @Column(nullable = false)
     private String content; //댓글 내용
@@ -33,3 +33,4 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime createdAt; //작성일자
 }
+

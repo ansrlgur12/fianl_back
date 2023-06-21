@@ -22,8 +22,9 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "member_id", referencedColumnName="id")
-    private Member member;
+    private Member1 member;
 
     @Column(nullable = false)
     private int productQuantity; // 상품 수량
 }
+
