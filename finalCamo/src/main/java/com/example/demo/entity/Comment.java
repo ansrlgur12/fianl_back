@@ -27,10 +27,10 @@ public class Comment {
     @JoinColumn(name = "member_id")
     private Member1 member;
 
+
     @Column(nullable = false)
     private String content; //댓글 내용
 
     @Column(nullable = false)
     private LocalDateTime createdAt; //작성일자
 }
-

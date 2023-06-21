@@ -27,4 +27,3 @@ public class Cart {
     @Column(nullable = false)
     private int productQuantity; // 상품 수량
 }
-

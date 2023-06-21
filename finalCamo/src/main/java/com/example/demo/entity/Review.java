@@ -34,4 +34,3 @@ public class Review {
     @Column(nullable = false) //글타입
     private int postType;
 }
-

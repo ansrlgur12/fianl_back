@@ -34,4 +34,3 @@ public class OneLineReview {
     @Column(nullable = false)
     private int rating; // 한줄평 점수
 }
-
