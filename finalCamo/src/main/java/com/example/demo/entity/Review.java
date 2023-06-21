@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -12,12 +11,11 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@ToString
-@Table(name = "review")
+@Table(name = "reviews")
 public class Review {
     @Id
-    @Column(name="product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="review_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

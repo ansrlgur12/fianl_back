@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,8 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
-@Table(name = "likes") // 'Like'는 SQL 키워드이므로 likes로
+@Table(name = "likes_table")
 public class Likes {
 
     @Id
@@ -29,12 +27,11 @@ public class Likes {
     private Member member; // !! 회원번호
 
     @ManyToOne
-    @JoinColumn(name = "campsite_id")
-    private Campsite campsite; // !! 캠핑장번호
+    @JoinColumn(name = "gocamping_id")
+    private Camp camp; //
 
     @Column(nullable = false)
     private int likes; // 좋아요
 
     @Column(nullable = false)
-    private LocalDateTime createdAt; //작성일자
-}
+    private LocalDateTime createdAt;

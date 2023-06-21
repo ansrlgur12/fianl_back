@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import javax.persistence.*;
 
 /**
@@ -11,9 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name="cart")
-
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
