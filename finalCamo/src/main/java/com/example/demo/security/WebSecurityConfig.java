@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                 .antMatchers("/thymeleaf/**").permitAll()
                 .antMatchers("/camp/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
-                .antMatchers(HttpMethod.GET, "/product").permitAll()
+                .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
 
                 .antMatchers("/camping-data", "/campData").permitAll()
                 .antMatchers(HttpMethod.POST, "/json", "/camp-json").permitAll()
