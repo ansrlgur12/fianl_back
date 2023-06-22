@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+
 public class ProductController {
     private final ProductService productService; // ProductService를 주입하기 위한 생성자
 
@@ -23,7 +26,7 @@ public class ProductController {
         this.productService = productService; // 주입받은 ProductService를 사용할 수 있도록 필드에 저장
     }
 
-    @PostMapping("/json")
+    @PostMapping("/product-data")
 
     public void createFromJson() {
 
@@ -43,7 +46,11 @@ public class ProductController {
         List<ProductDto> list = productService.getItemList();
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
-
+    @GetMapping("/productDetail/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+        ProductDto productDto = productService.getProductById(id);
+        return new ResponseEntity<>(productDto,HttpStatus.OK);
+    }
 
     }
 
