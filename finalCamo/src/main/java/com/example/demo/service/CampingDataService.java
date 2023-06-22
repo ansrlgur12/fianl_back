@@ -73,6 +73,7 @@ public class CampingDataService {
         camp.setHomepage(campDto.getHomepage());
         camp.setResveCl(campDto.getResveCl());
         camp.setFeatureNm(campDto.getFeatureNm());
+        camp.setIntro(campDto.getIntro());
         camp.setSiteBottomCl1(campDto.getSiteBottomCl1());
         camp.setSiteBottomCl2(campDto.getSiteBottomCl2());
         camp.setSiteBottomCl3(campDto.getSiteBottomCl3());
@@ -187,4 +188,19 @@ public class CampingDataService {
         }
         return campDtos;
     }
+
+    public List<CampDto> getOverlay(String xValue, String yValue){
+        List<Camp> items = campRepository.findByMapXAndMapY(xValue, yValue);
+        List<CampDto> campDtos = new ArrayList<>();
+        for (Camp camp : items ) {
+            CampDto campDto = new CampDto();
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setTel(camp.getTel());
+            campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDtos.add(campDto);
+        }
+        return campDtos;
+    }
+
 }
