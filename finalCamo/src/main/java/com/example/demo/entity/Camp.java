@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -54,6 +55,10 @@ public class Camp {
     private String lineIntro;
     private String eqpmnLendCl;
 
+    @OneToMany(mappedBy = "camp")
+    private List<Likes> likes; // 회원의 장바구니 리스트
 
+    @OneToMany(mappedBy = "camp")
+    private List<OneLineReview> oneLineReview; // 한줄평
 
 }

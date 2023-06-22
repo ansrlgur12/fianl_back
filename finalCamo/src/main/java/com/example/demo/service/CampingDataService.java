@@ -88,7 +88,7 @@ public class CampingDataService {
         camp.setEqpmnLendCl(campDto.getEqpmnLendCl());
         return campRepository.save(camp);
     }
-//    public void saveCampingData(List<CampDto> campDto) {
+    //    public void saveCampingData(List<CampDto> campDto) {
 //        List<Camp> campingEntityList = new ArrayList<>();
 //        for (CampDto campingDTO : campDto) {
 //            Camp camp = new Camp();
@@ -98,7 +98,7 @@ public class CampingDataService {
 //        }
 //        campRepository.saveAll(campingEntityList);
 //    }
-public void saveCampingData(JsonNode arrayNode) {
+    public void saveCampingData(JsonNode arrayNode) {
         List<CampDto> campingDTOList = new ArrayList<>();
         for (JsonNode item : arrayNode) {
             CampDto campingDTO = new CampDto();
