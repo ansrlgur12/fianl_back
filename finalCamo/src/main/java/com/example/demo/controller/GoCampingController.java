@@ -24,11 +24,12 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
+@RequestMapping("/camp")
 public class GoCampingController {
 
     private final CampingDataService campingDataService;
 
-    @GetMapping("/camping-data")
+    @GetMapping("/camping-data") // 캠핑장 정보 불러오기
     public String getCampingData() throws JsonProcessingException {
         String url = "http://apis.data.go.kr/B551011/GoCamping/basedList?serviceKey=q/N6THt6wGszjSEFU5zzQVQIq44LTMRAzwL8RLnLtj7YRmwQec87Tx1SMf48wKbaOH2LLcoHyXVnR8YTfHapdg==&numOfRows=3507&MobileOS=ETC&MobileApp=AppTest&_type=json";
         RestTemplate restTemplate = new RestTemplate();
@@ -47,6 +48,12 @@ public class GoCampingController {
     @GetMapping("/campData")
     public ResponseEntity<List<CampDto>> campData() {
         List<CampDto> list = campingDataService.getCampData();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping("/overlay/{xValue}/{yValue}")
+    public ResponseEntity<List<CampDto>> overlay(@PathVariable String xValue, @PathVariable String yValue){
+        List<CampDto> list = campingDataService.getOverlay(xValue, yValue);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

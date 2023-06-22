@@ -73,6 +73,7 @@ public class CampingDataService {
         camp.setHomepage(campDto.getHomepage());
         camp.setResveCl(campDto.getResveCl());
         camp.setFeatureNm(campDto.getFeatureNm());
+        camp.setIntro(campDto.getIntro());
         camp.setSiteBottomCl1(campDto.getSiteBottomCl1());
         camp.setSiteBottomCl2(campDto.getSiteBottomCl2());
         camp.setSiteBottomCl3(campDto.getSiteBottomCl3());
@@ -88,7 +89,7 @@ public class CampingDataService {
         camp.setEqpmnLendCl(campDto.getEqpmnLendCl());
         return campRepository.save(camp);
     }
-//    public void saveCampingData(List<CampDto> campDto) {
+    //    public void saveCampingData(List<CampDto> campDto) {
 //        List<Camp> campingEntityList = new ArrayList<>();
 //        for (CampDto campingDTO : campDto) {
 //            Camp camp = new Camp();
@@ -98,7 +99,7 @@ public class CampingDataService {
 //        }
 //        campRepository.saveAll(campingEntityList);
 //    }
-public void saveCampingData(JsonNode arrayNode) {
+    public void saveCampingData(JsonNode arrayNode) {
         List<CampDto> campingDTOList = new ArrayList<>();
         for (JsonNode item : arrayNode) {
             CampDto campingDTO = new CampDto();
@@ -187,4 +188,19 @@ public void saveCampingData(JsonNode arrayNode) {
         }
         return campDtos;
     }
+
+    public List<CampDto> getOverlay(String xValue, String yValue){
+        List<Camp> items = campRepository.findByMapXAndMapY(xValue, yValue);
+        List<CampDto> campDtos = new ArrayList<>();
+        for (Camp camp : items ) {
+            CampDto campDto = new CampDto();
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setTel(camp.getTel());
+            campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDtos.add(campDto);
+        }
+        return campDtos;
+    }
+
 }
