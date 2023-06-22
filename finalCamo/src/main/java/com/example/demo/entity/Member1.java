@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +19,7 @@ import java.util.List;
 @Table(name = "member1")
 public class Member1 {
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // 회원 번호
 
@@ -33,8 +35,9 @@ public class Member1 {
     @OneToMany(mappedBy = "member1")
     private List<Comment> comment; // 회원의 댓글 리스트
 
-    @OneToMany(mappedBy = "member1")
-    private List<Likes> likes; // 회원의 좋아요 리스트
+    @ManyToOne
+    @JoinColumn(name = "member1")
+    private Member1 member1;
 
     @OneToMany(mappedBy = "member1")
     private List<OneLineReview> oneLineReviews; // 회원의 한줄평 리스트

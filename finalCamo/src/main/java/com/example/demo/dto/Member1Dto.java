@@ -5,17 +5,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-public class ReviewDto {
+public class Member1Dto {
     private Long id;
-    private Long memberId;
-    private String title;
-    private String content;
-    private LocalDate date;
-    private int postType;
+    private String username;
+    private String email;
 }

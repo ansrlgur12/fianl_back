@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,11 +27,13 @@ public class Product {
     private String category3Name;
     private String category4Name;
 
+
+
     @OneToMany(mappedBy = "product")
     private List<Cart> cart; // 회원의 장바구니 리스트
 
     @OneToMany(mappedBy = "product")
-    private List<Likes> likes; // 회원의 장바구니 리스트
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "product")
     private List<OneLineReview> oneLineReview; // 회원의 장바구니 리스트

@@ -21,15 +21,5 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void removeFromCart(Long cartId) { // 장바구니 상품 삭제
-        cartRepository.deleteById(cartId);
-    }
 
-//    public List<Cart> getCartByMember(Long memberId) { // 특정 사용자 장바구니 조회
-//        return cartRepository.findByMember_Id(memberId);
-//    }
-//
-//    public void clearCartByMember(Long memberId) { // 특정 사용자의 장바구니 비우기
-//        List<Cart> cartList = cartRepository.findByMember_Id(memberId);
-//        cartRepository.deleteAll(cartList);
     }
