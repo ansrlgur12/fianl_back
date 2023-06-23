@@ -57,5 +57,11 @@ public class GoCampingController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    @GetMapping("/animalData")
+    public ResponseEntity<List<CampDto>> animalData() {
+        List<CampDto> list = campingDataService.getAnimalData();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }
 

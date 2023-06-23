@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface CampRepository extends JpaRepository<Camp, Long> {
     List<Camp> findByMapXAndMapY(String mapX, String mapY);
+
+    List<Camp> findByAnimalCmgClNot(String animalCmgCl);
+
 }

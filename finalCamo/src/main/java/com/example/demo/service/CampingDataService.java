@@ -202,5 +202,47 @@ public class CampingDataService {
         }
         return campDtos;
     }
-
+    public List<CampDto> getAnimalData() {
+        List<Camp> items = campRepository.findByAnimalCmgClNot("불가능");
+        List<CampDto> campDtos = new ArrayList<>();
+        for (Camp camp : items) {
+            CampDto campDto = new CampDto();
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setBrazierCl(camp.getBrazierCl());
+            campDto.setSbrsCl(camp.getSbrsCl());
+            campDto.setSbrsEtc(camp.getSbrsEtc());
+            campDto.setHvofBgnde(camp.getHvofBgnde());
+            campDto.setHvofEnddle(camp.getHvofEnddle());
+            campDto.setWtrplCo(camp.getWtrplCo());
+            campDto.setToiletCo(camp.getToiletCo());
+            campDto.setSwrmCo(camp.getSwrmCo());
+            campDto.setDoNm(camp.getDoNm());
+            campDto.setSigunguNm(camp.getSigunguNm());
+            campDto.setZipcode(camp.getZipcode());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setAddr2(camp.getAddr2());
+            campDto.setMapX(camp.getMapX());
+            campDto.setMapY(camp.getMapY());
+            campDto.setTel(camp.getTel());
+            campDto.setHomepage(camp.getHomepage());
+            campDto.setResveCl(camp.getResveCl());
+            campDto.setIntro(camp.getIntro());
+            campDto.setFeatureNm(camp.getFeatureNm());
+            campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+            campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+            campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+            campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+            campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+            campDto.setExtshrCo(camp.getExtshrCo());
+            campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+            campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+            campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+            campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDto.setCreatedtime(camp.getCreatedtime());
+            campDto.setLineIntro(camp.getLineIntro());
+            campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+            campDtos.add(campDto);
+        }
+        return campDtos;
+    }
 }
