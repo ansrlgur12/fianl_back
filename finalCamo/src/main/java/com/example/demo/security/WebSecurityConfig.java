@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/thymeleaf/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/json").permitAll()
+                .antMatchers(HttpMethod.POST, "/product_data").permitAll()
                 .antMatchers(HttpMethod.GET, "/product").permitAll()
 
                 .antMatchers("/camping-data", "/campData").permitAll()
