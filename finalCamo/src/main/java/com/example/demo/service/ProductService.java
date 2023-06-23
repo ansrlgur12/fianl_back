@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -16,7 +17,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
 
-    public  Product save(ProductDto productDto){// ProductDto를 매개변수로 받는 save 메소드
+    public Product save(ProductDto productDto) {// ProductDto를 매개변수로 받는 save 메소드
         Product product = new Product(); // 객체 생성
         product.setProductName(productDto.getProductName());
         product.setPrice(productDto.getPrice());
@@ -24,12 +25,13 @@ public class ProductService {
         product.setImageUrl(productDto.getImageUrl());
         product.setCategory3Name(productDto.getCategory3Name());
         product.setCategory4Name(productDto.getCategory4Name());
-        return productRepository.save(product); 
+        return productRepository.save(product);
     }
+
     public List<ProductDto> getItemList() {
         List<Product> productList = productRepository.findAll();
         List<ProductDto> productDtos = new ArrayList<>();
-        for(Product product :productList ) {
+        for (Product product : productList) {
             ProductDto productDto = new ProductDto();
             productDto.setId(product.getId());
             productDto.setProductName(product.getProductName());
@@ -42,4 +44,22 @@ public class ProductService {
         }
         return productDtos;
     }
-}
+
+    public ProductDto getProductById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            ProductDto productDto = new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setProductName(product.getProductName());
+            productDto.setPrice(product.getPrice());
+            productDto.setBrand(product.getBrand());
+            productDto.setImageUrl(product.getImageUrl());
+            productDto.setCategory3Name(product.getCategory3Name());
+            productDto.setCategory4Name(product.getCategory4Name());
+            return productDto;
+
+        } else {
+            throw new RuntimeException("에러" + id);
+        }
+    }}

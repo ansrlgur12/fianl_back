@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                 .antMatchers("/review/**").permitAll()
                 .antMatchers("/one-Line/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
-                .antMatchers(HttpMethod.GET, "/product").permitAll()
+                .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
 
 
 
