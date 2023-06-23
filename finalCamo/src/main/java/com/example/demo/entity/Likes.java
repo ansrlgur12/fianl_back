@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Getter
+@Builder
 @Setter
 @Table(name = "likes")
 public class Likes {
