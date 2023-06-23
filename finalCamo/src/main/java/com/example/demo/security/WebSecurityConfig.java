@@ -55,7 +55,7 @@ public class WebSecurityConfig {
 
 
                 .antMatchers("/camping-data", "/campData").permitAll()
-                .antMatchers(HttpMethod.POST, "/json", "/camp-json").permitAll()
+                .antMatchers(HttpMethod.POST, "/product-data", "/camp-json").permitAll()
 
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/sign-api/exception").permitAll()
                 .anyRequest().authenticated()
