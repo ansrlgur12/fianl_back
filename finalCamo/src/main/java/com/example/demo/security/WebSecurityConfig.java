@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
 @Configuration
@@ -44,8 +45,14 @@ public class WebSecurityConfig {
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/thymeleaf/**").permitAll()
                 .antMatchers("/camp/**").permitAll()
+                .antMatchers("/likes/**").permitAll()
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/review/**").permitAll()
+                .antMatchers("/one-Line/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
                 .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
+
+
 
                 .antMatchers("/camping-data", "/campData").permitAll()
                 .antMatchers(HttpMethod.POST, "/json", "/camp-json").permitAll()
