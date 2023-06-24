@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,10 +36,13 @@ public class Camp {
     private String tel;
     private String homepage;
     private String resveCl;
-    private String intro;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String intro; // 소개
 
     @Column(length = 2000)
-    private String featureNm; // 소개
+    private String featureNm; // 특징
 
     private String siteBottomCl1;
     private String siteBottomCl2;
@@ -54,6 +58,10 @@ public class Camp {
     private String lineIntro;
     private String eqpmnLendCl;
 
+    @OneToMany(mappedBy = "camp")
+    private List<Likes> likes; // 회원의 장바구니 리스트
 
+    @OneToMany(mappedBy = "camp")
+    private List<OneLineReview> oneLineReview; // 한줄평
 
 }

@@ -1,11 +1,14 @@
 
 package com.example.demo.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class OneLineReviewDto {
     private Long id;
     private Long productId;

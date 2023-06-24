@@ -73,6 +73,7 @@ public class CampingDataService {
         camp.setHomepage(campDto.getHomepage());
         camp.setResveCl(campDto.getResveCl());
         camp.setFeatureNm(campDto.getFeatureNm());
+        camp.setIntro(campDto.getIntro());
         camp.setSiteBottomCl1(campDto.getSiteBottomCl1());
         camp.setSiteBottomCl2(campDto.getSiteBottomCl2());
         camp.setSiteBottomCl3(campDto.getSiteBottomCl3());
@@ -88,7 +89,7 @@ public class CampingDataService {
         camp.setEqpmnLendCl(campDto.getEqpmnLendCl());
         return campRepository.save(camp);
     }
-//    public void saveCampingData(List<CampDto> campDto) {
+    //    public void saveCampingData(List<CampDto> campDto) {
 //        List<Camp> campingEntityList = new ArrayList<>();
 //        for (CampDto campingDTO : campDto) {
 //            Camp camp = new Camp();
@@ -98,7 +99,7 @@ public class CampingDataService {
 //        }
 //        campRepository.saveAll(campingEntityList);
 //    }
-public void saveCampingData(JsonNode arrayNode) {
+    public void saveCampingData(JsonNode arrayNode) {
         List<CampDto> campingDTOList = new ArrayList<>();
         for (JsonNode item : arrayNode) {
             CampDto campingDTO = new CampDto();
@@ -146,6 +147,63 @@ public void saveCampingData(JsonNode arrayNode) {
 
     public List<CampDto> getCampData(){
         List<Camp> items = campRepository.findAll();
+        List<CampDto> campDtos = new ArrayList<>();
+        for (Camp camp : items) {
+            CampDto campDto = new CampDto();
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setBrazierCl(camp.getBrazierCl());
+            campDto.setSbrsCl(camp.getSbrsCl());
+            campDto.setSbrsEtc(camp.getSbrsEtc());
+            campDto.setHvofBgnde(camp.getHvofBgnde());
+            campDto.setHvofEnddle(camp.getHvofEnddle());
+            campDto.setWtrplCo(camp.getWtrplCo());
+            campDto.setToiletCo(camp.getToiletCo());
+            campDto.setSwrmCo(camp.getSwrmCo());
+            campDto.setDoNm(camp.getDoNm());
+            campDto.setSigunguNm(camp.getSigunguNm());
+            campDto.setZipcode(camp.getZipcode());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setAddr2(camp.getAddr2());
+            campDto.setMapX(camp.getMapX());
+            campDto.setMapY(camp.getMapY());
+            campDto.setTel(camp.getTel());
+            campDto.setHomepage(camp.getHomepage());
+            campDto.setResveCl(camp.getResveCl());
+            campDto.setIntro(camp.getIntro());
+            campDto.setFeatureNm(camp.getFeatureNm());
+            campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+            campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+            campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+            campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+            campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+            campDto.setExtshrCo(camp.getExtshrCo());
+            campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+            campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+            campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+            campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDto.setCreatedtime(camp.getCreatedtime());
+            campDto.setLineIntro(camp.getLineIntro());
+            campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+            campDtos.add(campDto);
+        }
+        return campDtos;
+    }
+
+    public List<CampDto> getOverlay(String xValue, String yValue){
+        List<Camp> items = campRepository.findByMapXAndMapY(xValue, yValue);
+        List<CampDto> campDtos = new ArrayList<>();
+        for (Camp camp : items ) {
+            CampDto campDto = new CampDto();
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setTel(camp.getTel());
+            campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDtos.add(campDto);
+        }
+        return campDtos;
+    }
+    public List<CampDto> getAnimalData() {
+        List<Camp> items = campRepository.findByAnimalCmgClNot("불가능");
         List<CampDto> campDtos = new ArrayList<>();
         for (Camp camp : items) {
             CampDto campDto = new CampDto();

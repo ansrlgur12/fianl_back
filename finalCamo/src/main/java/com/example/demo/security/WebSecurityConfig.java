@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequiredArgsConstructor
 @Configuration
@@ -43,11 +44,23 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/thymeleaf/**").permitAll()
+<<<<<<< HEAD
                 .antMatchers(HttpMethod.POST, "/product_data").permitAll()
                 .antMatchers(HttpMethod.GET, "/product").permitAll()
+=======
+                .antMatchers("/camp/**").permitAll()
+                .antMatchers("/likes/**").permitAll()
+                .antMatchers("/comment/**").permitAll()
+                .antMatchers("/review/**").permitAll()
+                .antMatchers("/one-Line/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/json").permitAll()
+                .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
+
+
+>>>>>>> 2f985d9126ad823982f1c70aa25f2eb1be80a868
 
                 .antMatchers("/camping-data", "/campData").permitAll()
-                .antMatchers(HttpMethod.POST, "/json", "/camp-json").permitAll()
+                .antMatchers(HttpMethod.POST, "/product-data", "/camp-json").permitAll()
 
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/sign-api/exception").permitAll()
                 .anyRequest().authenticated()

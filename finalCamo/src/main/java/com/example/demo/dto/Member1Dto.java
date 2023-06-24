@@ -9,9 +9,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class CartDto {
+public class Member1Dto {
     private Long id;
-    private Long productId;
-    private Long memberId;
-    private int productQuantity;
+    private String username;
+    private String email;
 }
