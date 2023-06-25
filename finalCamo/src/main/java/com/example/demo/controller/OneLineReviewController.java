@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/api/one-Line")
+@RequestMapping("/one-Line")
 public class OneLineReviewController {
 
     private final OneLineReviewService oneLineReviewService;
@@ -24,17 +24,16 @@ public class OneLineReviewController {
     }
 
     /**
-     * 한줄평 생성
+     * 특정 상품 한줄평 생성
      */
     @PostMapping
     public ResponseEntity<OneLineReviewDto> createOneLineReview(
             @RequestParam Long productId,
             @RequestParam Long memberId,
-            @RequestParam Long campId,
             @RequestParam String comment,
             @RequestParam int rating) {
         OneLineReviewDto createdReview = oneLineReviewService.createOneLineReview(
-                productId, memberId, campId, comment, rating);
+                productId, memberId, comment, rating);
         return ResponseEntity.ok(createdReview);
     }
 
@@ -60,16 +59,16 @@ public class OneLineReviewController {
         return ResponseEntity.ok(reviews);
     }
 
-    /**
-     * 특정 캠핑장 한줄평 조회
-     */
-    @GetMapping("/camp/{campId}")
-    public ResponseEntity<List<OneLineReviewDto>> getOneLineReviewsByCamp(@PathVariable Long campId) {
-        Camp camp = new Camp();
-        camp.setId(campId);
-        List<OneLineReviewDto> reviews = oneLineReviewService.getOneLineReviewsByCamp(camp);
-        return ResponseEntity.ok(reviews);
-    }
+//    /**
+//     * 특정 캠핑장 한줄평 조회
+//     */
+//    @GetMapping("/camp/{campId}")
+//    public ResponseEntity<List<OneLineReviewDto>> getOneLineReviewsByCamp(@PathVariable Long campId) {
+//        Camp camp = new Camp();
+//        camp.setId(campId);
+//        List<OneLineReviewDto> reviews = oneLineReviewService.getOneLineReviewsByCamp(camp);
+//        return ResponseEntity.ok(reviews);
+//    }
 
     /**
      * 한줄평 수정

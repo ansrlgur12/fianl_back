@@ -1,25 +1,24 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 /**
  * 좋아요
  */
 @Entity
 @Getter
-@Builder
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "likes")
 public class Likes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long count; //좋아요 갯수
+    private Long count;
 
     @ManyToOne
     @JoinColumn(name = "product")
