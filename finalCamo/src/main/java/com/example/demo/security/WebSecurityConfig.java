@@ -44,10 +44,8 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/thymeleaf/**").permitAll()
-<<<<<<< HEAD
                 .antMatchers(HttpMethod.POST, "/product_data").permitAll()
                 .antMatchers(HttpMethod.GET, "/product").permitAll()
-=======
                 .antMatchers("/camp/**").permitAll()
                 .antMatchers("/likes/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
@@ -55,9 +53,6 @@ public class WebSecurityConfig {
                 .antMatchers("/one-Line/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
                 .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
-
-
->>>>>>> 2f985d9126ad823982f1c70aa25f2eb1be80a868
 
                 .antMatchers("/camping-data", "/campData").permitAll()
                 .antMatchers(HttpMethod.POST, "/product-data", "/camp-json").permitAll()

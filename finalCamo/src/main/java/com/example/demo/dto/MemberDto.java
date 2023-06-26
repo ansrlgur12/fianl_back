@@ -3,6 +3,8 @@ package com.example.demo.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class MemberDto {
@@ -20,4 +22,5 @@ public class MemberDto {
     private String reqAgreed;
     private String optAgreed;
     private String snsLogin;
+    private LocalDateTime join_time;
 }

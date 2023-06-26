@@ -5,18 +5,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "member")
 @Getter @Setter @ToString
 public class Member {
-    @Id
-    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userNumber;
-
-    @Column(unique = true)
-    private String userId;
+    private String userNumber;
 
     private String userName;
 
@@ -26,14 +22,15 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Id
     @Column(unique = true, nullable = false)
-    private String email;
+    private Long email;
 
-    private Long userAddr;
+    private String userAddr;
 
     private int userPhoneNm;
 
-    private Long userImg;
+    private String userImg;
 
     private String userGrade;
 
@@ -45,4 +42,6 @@ public class Member {
     private String optAgreed;
 
     private String snsLogin;
+
+    private LocalDateTime join_time;
 }
