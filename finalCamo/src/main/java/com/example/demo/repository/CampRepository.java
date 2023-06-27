@@ -12,4 +12,7 @@ public interface CampRepository extends JpaRepository<Camp, Long> {
 
     List<Camp> findByAnimalCmgClNot(String animalCmgCl);
 
+    List<Camp> findByFacltNmContaining(String facltNm);
+
+    List<Camp> findByAnimalCmgClNotContainingAndFacltNmContaining(String animalCmgCl, String facltNm);
 }

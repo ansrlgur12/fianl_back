@@ -3,12 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.dto.LikesDto;
 import com.example.demo.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/likes")
 public class LikesController {
+
     private final LikesService likesService;
 
     @Autowired
@@ -17,32 +19,56 @@ public class LikesController {
     }
 
     /**
-     * 특정 회원 특정상품 좋아요 갯수 추가
+     * 특정 상품 좋아요
      */
-    @PostMapping("/{member1Id}/{productId}")
-    public LikesDto likeProductByMember(@PathVariable Long member1Id, @PathVariable Long productId) {
-        return likesService.likeProductByMember(member1Id, productId);
+    @PostMapping("/product/{productId}/member/{memberId}")
+    public ResponseEntity<LikesDto> likeProduct(@PathVariable Long memberId, @PathVariable Long productId) {
+        return ResponseEntity.ok(likesService.likeProductByMember(memberId, productId));
     }
 
     /**
-     * 특정 제품 좋아요 취소
+     * 특정 상품 좋아요 취소
      */
-    @DeleteMapping("/{member1Id}/{productId}")
-    public void unlikeProductByMember(@PathVariable Long member1Id, @PathVariable Long productId) {
-        likesService.unlikeProductByMember(member1Id, productId);
+    @DeleteMapping("/product/{productId}/member/{memberId}")
+    public ResponseEntity<Void> unlikeProduct(@PathVariable Long memberId, @PathVariable Long productId) {
+        likesService.unlikeProductByMember(memberId, productId);
+        return ResponseEntity.ok().build();
     }
 
     /**
-     * 특정 제품 좋아요 갯수 조회
+     * 특정 상품 좋아요 갯수 확인
      */
-    @GetMapping("/count/{productId}") //특정 제품 좋아요 갯수 조회
-    public int countLikesByProduct(@PathVariable Long productId) {
-        return likesService.countLikesByProduct(productId);
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<Integer> countProductLikes(@PathVariable Long productId) {
+        return ResponseEntity.ok(likesService.countLikesByProduct(productId));
     }
+
+    /**
+     * 특정 캠핑장 좋아요
+     */
+    @PostMapping("/camp/{campId}/member/{memberId}")
+    public ResponseEntity<LikesDto> likeCamp(@PathVariable Long memberId, @PathVariable Long campId) {
+        return ResponseEntity.ok(likesService.likeCampByMember(memberId, campId));
+    }
+
+    /**
+     * 특정 캠핑장 좋아요 취소
+     */
+    @DeleteMapping("/camp/{campId}/member/{memberId}")
+    public ResponseEntity<Void> unlikeCamp(@PathVariable Long memberId, @PathVariable Long campId) {
+        likesService.unlikeCampByMember(memberId, campId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 특정 상품 캠핑장 갯수 확인
+     */
+    @GetMapping("/camp/{campId}")
+    public ResponseEntity<Integer> countCampLikes(@PathVariable Long campId) {
+        return ResponseEntity.ok(likesService.countLikesByCamp(campId));
+    }
+
+    /**
+     * 특정멤버가 한 좋아요 갯수 확인
+     */
 }
-
-
-//    @GetMapping("/{member1Id}/{productId}")
-//    public boolean isProductLikedByMember(@PathVariable Long member1Id, @PathVariable Long productId) {
-//        return likesService.isProductLikedByMember(member1Id, productId);
-//    }
