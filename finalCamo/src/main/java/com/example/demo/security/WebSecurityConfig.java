@@ -44,15 +44,16 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/thymeleaf/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/product_data").permitAll()
+                .antMatchers(HttpMethod.GET, "/product").permitAll()
                 .antMatchers("/camp/**").permitAll()
                 .antMatchers("/likes/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
                 .antMatchers("/review/**").permitAll()
                 .antMatchers("/one-Line/**").permitAll()
+                .antMatchers("/intro").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
                 .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
-
-
 
                 .antMatchers("/camping-data", "/campData").permitAll()
                 .antMatchers(HttpMethod.POST, "/product-data", "/camp-json").permitAll()
