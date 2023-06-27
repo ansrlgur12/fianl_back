@@ -126,4 +126,22 @@ public class ReviewService {
         return reviewDtoList;
     }
 
-}
+    /**
+     * 특정 게시글번호에 맞는 글 가져오기
+     */
+    @Transactional(readOnly = true)
+    public ReviewDto getReviewById(Long id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+        return ReviewDto.builder()
+                .id(review.getId())
+                .memberId(review.getMember1().getId())
+                .title(review.getTitle())
+                .content(review.getContent())
+                .date(review.getDate())
+                .postType(review.getPostType())
+                .build();
+    }
+
+    }
+
