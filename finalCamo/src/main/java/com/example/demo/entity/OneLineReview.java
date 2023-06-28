@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "one_line_review")
 public class OneLineReview {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 한줄평 번호
 
     @ManyToOne
@@ -25,8 +25,8 @@ public class OneLineReview {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "member1")
-    private Member1 member1;
+    @JoinColumn(name = "member")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "camp")

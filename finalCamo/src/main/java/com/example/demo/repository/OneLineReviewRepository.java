@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface OneLineReviewRepository extends JpaRepository<OneLineReview, Long> {
     List<OneLineReview> findByProduct(Product product);
-    List<OneLineReview> findByMember1(Member1 member);
+    List<OneLineReview> findByMember(Member member);
     List<OneLineReview> findByCamp(Camp camp);
 
 }

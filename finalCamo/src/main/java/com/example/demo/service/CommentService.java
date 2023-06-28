@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
-import com.example.demo.entity.Member1;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.Review;
 import com.example.demo.repository.CommentRepository;
-import com.example.demo.repository.Member1Repository;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ import java.util.List;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final Member1Repository member1Repository;
+    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, Member1Repository member1Repository,
+    public CommentService(CommentRepository commentRepository, MemberRepository member1Repository,
                           ReviewRepository reviewRepository) {
         this.commentRepository = commentRepository;
-        this.member1Repository = member1Repository;
+        this.memberRepository = member1Repository;
         this.reviewRepository = reviewRepository;
     }
 
@@ -35,14 +35,14 @@ public class CommentService {
      * 특정 회원 댓글 생성
      */
     public CommentDto createComment(Long reviewId, Long memberId, String content) {
-        Member1 member1 = member1Repository.findById(memberId)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다.")); // 에러처리
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰가 없습니다.")); // 에러처리
 
         Comment comment = new Comment();
         comment.setReview(review);
-        comment.setMember1(member1);
+        comment.setMember(member);
         comment.setContent(content);
         comment.setCreatedAt(LocalDateTime.now());
 
@@ -52,7 +52,7 @@ public class CommentService {
                 .id(savedComment.getId())
                 .postType(savedComment.getPostType())
                 .reviewId(savedComment.getReview().getId())
-                .memberId(savedComment.getMember1().getId())
+                .memberId(savedComment.getMember().getUserNumber())
                 .content(savedComment.getContent())
                 .createdAt(savedComment.getCreatedAt())
                 .build();
@@ -75,7 +75,7 @@ public class CommentService {
                 .id(updatedComment.getId())
                 .postType(updatedComment.getPostType())
                 .reviewId(updatedComment.getReview().getId())
-                .memberId(updatedComment.getMember1().getId())
+                .memberId(updatedComment.getMember().getUserNumber())
                 .content(updatedComment.getContent())
                 .createdAt(updatedComment.getCreatedAt())
                 .build();
@@ -108,7 +108,7 @@ public class CommentService {
                     .id(comment.getId())
                     .postType(comment.getPostType())
                     .reviewId(comment.getReview().getId())
-                    .memberId(comment.getMember1().getId())
+                    .memberId(comment.getMember().getUserNumber())
                     .content(comment.getContent())
                     .createdAt(comment.getCreatedAt())
                     .build();
