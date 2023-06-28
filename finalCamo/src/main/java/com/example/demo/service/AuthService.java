@@ -1,7 +1,9 @@
 //package com.example.demo.service;
 //
 //import com.example.demo.dto.TokenDto;
+//import com.example.demo.entity.Member;
 //import com.example.demo.jwt.TokenProvider;
+//import com.example.demo.repository.MemberRepository;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

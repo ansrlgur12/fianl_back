@@ -5,9 +5,9 @@ import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,14 +15,20 @@ import java.util.Optional;
 @Slf4j
 @ToString
 @Service
-@RequiredArgsConstructor
+
 public class MemberService {
     private final MemberRepository memberRepository;
+
+    @Autowired
+    public MemberService (MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
+    }
+
     public List<Member> findMember() {
         return memberRepository.findAll();
     }
 
-    public boolean regMember(String nickName, String email, String pwd, String agreed) {
+    public boolean regMember(String nickName, String email, String password, String agreed) {
         // 이메일 중복 체크
         Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
@@ -34,7 +40,7 @@ public class MemberService {
         Member newMember = new Member();
         newMember.setNickName(nickName);
         newMember.setEmail(email);
-        newMember.setPassword(pwd);
+        newMember.setPassword(password);
         newMember.setReqAgreed(agreed);
         newMember.setJoin_time(LocalDateTime.now());
         newMember.setUserGrade("1");
@@ -44,15 +50,15 @@ public class MemberService {
         return true;
     }
 
-    public boolean login(String email, String password) {
+    public Optional<Member> login(String email, String password) {
         // 이메일과 비밀번호를 기반으로 회원을 검색
         Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
         if (memberOptional.isPresent()) {
             // 회원이 존재하면 로그인 성공
-            return true;
+            return memberOptional;
         } else {
             // 회원이 존재하지 않으면 로그인 실패
-            return false;
+            return Optional.empty();
         }
     }
 
