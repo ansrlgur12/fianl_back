@@ -13,26 +13,24 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 @Transactional
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final MemberRepository member1Repository;
+    private final MemberRepository memberRepository;
 
-@Autowired
-    public ReviewService(ReviewRepository reviewRepository,
-                         MemberRepository member1Repository){
-    this.reviewRepository = reviewRepository;
-    this.member1Repository = member1Repository;
-}
+    @Autowired
+    public ReviewService(ReviewRepository reviewRepository, MemberRepository memberRepository) {
+        this.reviewRepository = reviewRepository;
+        this.memberRepository = memberRepository;
+    }
 
     /**
      * 리뷰 작성
      */
     public ReviewDto createReview(Long memberId, String title, String content, LocalDate date, int postType) {
-        Member member = member1Repository.findById(memberId)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
 
         Review review = new Review();
@@ -60,7 +58,7 @@ public class ReviewService {
     @Transactional
     public ReviewDto updateReview(Long id, ReviewDto reviewDto) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
         review.setTitle(reviewDto.getTitle());
         review.setContent(reviewDto.getContent());
         review.setDate(reviewDto.getDate());
@@ -77,7 +75,7 @@ public class ReviewService {
     }
 
     /**
-     * 리뷰삭제
+     * 리뷰 삭제
      */
     @Transactional
     public void deleteReview(Long id) {
@@ -89,7 +87,10 @@ public class ReviewService {
      */
     @Transactional(readOnly = true)
     public List<ReviewDto> getReviewsByMember(Long memberId) {
-        List<Review> reviews = reviewRepository.findByMember(memberId);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+
+        List<Review> reviews = reviewRepository.findByMember(member);
         List<ReviewDto> reviewDtoList = new ArrayList<>();
         for (Review review : reviews) {
             ReviewDto reviewDto = ReviewDto.builder()
@@ -106,9 +107,9 @@ public class ReviewService {
     }
 
     /**
-     * 특정 게시글에 맞는 글 가져오기
+     * 특정 게시글에 맞는 리뷰 가져오기
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ReviewDto> getReviewsByPostType(int postType) {
         List<Review> reviews = reviewRepository.findByPostType(postType);
         List<ReviewDto> reviewDtoList = new ArrayList<>();
@@ -127,7 +128,7 @@ public class ReviewService {
     }
 
     /**
-     * 특정 게시글번호에 맞는 글 가져오기
+     * 특정 게시글번호에 해당하는 리뷰 가져오기
      */
     @Transactional(readOnly = true)
     public ReviewDto getReviewById(Long id) {
@@ -143,5 +144,5 @@ public class ReviewService {
                 .build();
     }
 
-    }
 
+}

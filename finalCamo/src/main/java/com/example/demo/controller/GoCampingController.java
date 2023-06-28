@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,9 +46,10 @@ public class GoCampingController {
         return null;
     }
 
-    @GetMapping("/campData")
-    public ResponseEntity<List<CampDto>> campData() {
-        List<CampDto> list = campingDataService.getCampData();
+
+    @GetMapping("/campData/{dho}/{sigungu}")
+    public ResponseEntity<List<CampDto>> campData(@PathVariable String dho, @PathVariable String sigungu) {
+        List<CampDto> list = campingDataService.getCampData(dho, sigungu);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -57,9 +59,9 @@ public class GoCampingController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/animalData")
-    public ResponseEntity<List<CampDto>> animalData() {
-        List<CampDto> list = campingDataService.getAnimalData();
+    @GetMapping("/animalData/{dho}/{sigungu}")
+    public ResponseEntity<List<CampDto>> animalData(@PathVariable String dho, @PathVariable String sigungu) {
+        List<CampDto> list = campingDataService.getAnimalData(dho, sigungu);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
