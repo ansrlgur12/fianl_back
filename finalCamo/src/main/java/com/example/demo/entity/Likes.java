@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class Likes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long count;
 
     @ManyToOne
@@ -25,8 +25,8 @@ public class Likes {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "member1")
-    private Member1 member1;
+    @JoinColumn(name = "member")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "camp")

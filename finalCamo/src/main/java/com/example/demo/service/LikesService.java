@@ -3,11 +3,11 @@ package com.example.demo.service;
 import com.example.demo.dto.LikesDto;
 import com.example.demo.entity.Camp;
 import com.example.demo.entity.Likes;
-import com.example.demo.entity.Member1;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.CampRepository;
 import com.example.demo.repository.LikesRepository;
-import com.example.demo.repository.Member1Repository;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class LikesService {
 
     private final LikesRepository likesRepository;
-    private final Member1Repository member1Repository;
+    private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
     private final CampRepository campRepository;
 
     @Autowired
-    public LikesService(LikesRepository likesRepository, Member1Repository member1Repository,
+    public LikesService(LikesRepository likesRepository, MemberRepository memberRepository,
                         ProductRepository productRepository, CampRepository campRepository) {
         this.likesRepository = likesRepository;
-        this.member1Repository = member1Repository;
+        this.memberRepository = memberRepository;
         this.productRepository = productRepository;
         this.campRepository = campRepository;
     }
@@ -34,14 +34,14 @@ public class LikesService {
     /**
      * 특정 상품 좋아요
      */
-    public LikesDto likeProductByMember(Long member1Id, Long productId) {
-        Member1 member1 = member1Repository.findById(member1Id)
+    public LikesDto likeProductByMember(Long memberId, Long productId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("제품이 없습니다."));
 
         Likes savedLike = Likes.builder()
-                .member1(member1)
+                .member(member)
                 .product(product)
                 .build();
         savedLike = likesRepository.save(savedLike);
@@ -49,7 +49,7 @@ public class LikesService {
         LikesDto likesDto = LikesDto.builder()
                 .count(savedLike.getCount())
                 .productId(savedLike.getProduct().getId())
-                .memberId(savedLike.getMember1().getId())
+                .memberId(savedLike.getMember().getUserNumber())
                 .build();
 
         return likesDto;
@@ -58,12 +58,12 @@ public class LikesService {
     /**
      * 특정 상품 좋아요 취소
      */
-    public void unlikeProductByMember(Long member1Id, Long productId) {
-        Member1 member1 = member1Repository.findById(member1Id)
+    public void unlikeProductByMember(Long memberId, Long productId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("제품이 없습니다."));
-        likesRepository.deleteByMember1AndProduct(member1, product);
+        likesRepository.deleteByMemberAndProduct(member, product);
     }
 
     /**
@@ -78,14 +78,14 @@ public class LikesService {
     /**
      * 특정 캠핑장 좋아요
      */
-    public LikesDto likeCampByMember(Long member1Id, Long campId) {
-        Member1 member1 = member1Repository.findById(member1Id)
+    public LikesDto likeCampByMember(Long memberId, Long campId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
         Camp camp = campRepository.findById(campId)
                 .orElseThrow(() -> new RuntimeException("캠핑장이 없습니다."));
 
         Likes savedLike = Likes.builder()
-                .member1(member1)
+                .member(member)
                 .camp(camp)
                 .build();
         savedLike = likesRepository.save(savedLike);
@@ -93,7 +93,7 @@ public class LikesService {
         LikesDto likesDto = LikesDto.builder()
                 .count(savedLike.getCount())
                 .campId(savedLike.getCamp().getId())
-                .memberId(savedLike.getMember1().getId())
+                .memberId(savedLike.getMember().getUserNumber())
                 .build();
 
         return likesDto;
@@ -103,21 +103,20 @@ public class LikesService {
     /**
      * 특정 캠핑장 좋아요 취소
      */
-    public void unlikeCampByMember(Long member1Id, Long campId) {
-        Member1 member1 = member1Repository.findById(member1Id)
+    public void unlikeCampByMember(Long memberId, Long campId) {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
         Camp camp = campRepository.findById(campId)
                 .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
-        likesRepository.deleteByMember1AndCamp(member1, camp);
+        likesRepository.deleteByMemberAndCamp(member, camp);
     }
 
     /**
-     * 특정 상품 좋아요 갯수 확인
+     * 특정 캠핑장 좋아요 갯수 확인
      */
     public int countLikesByCamp(Long campId) {
         Camp camp = campRepository.findById(campId)
                 .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
         return likesRepository.countByCamp(camp);
     }
-
 }

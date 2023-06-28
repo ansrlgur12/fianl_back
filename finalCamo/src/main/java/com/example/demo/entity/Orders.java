@@ -14,12 +14,16 @@ import java.time.LocalDate;
 @Table(name = "orders")
 public class Orders {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // 주문번호
 
     @ManyToOne
     @JoinColumn(name = "product")
     private Product product;  // 상품번호
+
+    @ManyToOne
+    @JoinColumn(name = "member")
+    private Member member;  // 상품번호
 
     @Column(nullable = false)
     private LocalDate orderDate;  // 주문일

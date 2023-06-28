@@ -21,8 +21,8 @@ public class Cart {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "member1")
-    private Member1 member1;
+    @JoinColumn(name = "member")
+    private Member member;
 
     @Column(nullable = false)
     private int productQuantity; // 상품 수량
