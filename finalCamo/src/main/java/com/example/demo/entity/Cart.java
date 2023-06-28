@@ -2,28 +2,34 @@ package com.example.demo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 장바구니
  */
 @Entity
+@Table(name = "cart")
 @Getter
 @Setter
-@Table(name= "cart")
+@ToString
 public class Cart {
+
     @Id
+    @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; //장바구니 번호
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "member")
+    @OneToOne(fetch = FetchType.LAZY)           // @OneToOne 어노테이션을 통해 회원 엔티티와 일대일로 매핑
+    @JoinColumn(name="member_id")               // JoinColumn 어노테이션을 이용해 매핑할 외래키를 지정
     private Member member;
 
-    @Column(nullable = false)
-    private int productQuantity; // 상품 수량
+    public static Cart createCart(Member member) {
+        Cart cart = new Cart();
+        cart.setMember(member);
+        return cart;
+    }
 }
