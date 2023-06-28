@@ -55,6 +55,15 @@ public class ReviewController {
     }
 
     /**
+     * 모든 리뷰 가져오기
+     */
+    @GetMapping
+    public ResponseEntity<List<ReviewDto>> getAllReviews() {
+        List<ReviewDto> reviews = reviewService.getAllReviews();
+        return ResponseEntity.ok(reviews);
+    }
+
+    /**
      * 특정 회원이 작성한 리뷰 가져오기
      */
     @GetMapping("/member/{memberId}")

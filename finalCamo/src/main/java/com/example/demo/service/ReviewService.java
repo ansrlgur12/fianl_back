@@ -83,6 +83,26 @@ public class ReviewService {
     }
 
     /**
+     * 모든 리뷰 가져오기
+     */
+    @Transactional(readOnly = true)
+    public List<ReviewDto> getAllReviews() {
+        List<Review> reviews = reviewRepository.findAll();
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+        for (Review review : reviews) {
+            ReviewDto reviewDto = ReviewDto.builder()
+                    .id(review.getId())
+                    .memberId(review.getMember().getUserNumber())
+                    .title(review.getTitle())
+                    .content(review.getContent())
+                    .date(review.getDate())
+                    .postType(review.getPostType())
+                    .build();
+            reviewDtoList.add(reviewDto);
+        }
+        return reviewDtoList;
+    }
+    /**
      * 특정 회원이 작성한 리뷰 가져오기
      */
     @Transactional(readOnly = true)
