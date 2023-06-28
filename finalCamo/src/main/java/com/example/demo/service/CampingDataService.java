@@ -145,46 +145,135 @@ public class CampingDataService {
         }
     }
 
-    public List<CampDto> getCampData(){
+    public List<CampDto> getCampData(String dho, String sigungu){
+//        switch(sort) {
+//            case "이름순" : break;
+//            case "정복순" : break;
+//            case "조회순" : break;
+//            case "추천순" : break;
+//            case "댓글순" : break;
+//        }
         List<Camp> items = campRepository.findAll();
+        List<Camp> itemsBySelect = campRepository.findByDoNmContainingAndSigunguNmContaining(dho, sigungu);
+        List<Camp> itemsByDho = campRepository.findByDoNmContaining(dho);
         List<CampDto> campDtos = new ArrayList<>();
-        for (Camp camp : items) {
-            CampDto campDto = new CampDto();
-            campDto.setFacltNm(camp.getFacltNm());
-            campDto.setBrazierCl(camp.getBrazierCl());
-            campDto.setSbrsCl(camp.getSbrsCl());
-            campDto.setSbrsEtc(camp.getSbrsEtc());
-            campDto.setHvofBgnde(camp.getHvofBgnde());
-            campDto.setHvofEnddle(camp.getHvofEnddle());
-            campDto.setWtrplCo(camp.getWtrplCo());
-            campDto.setToiletCo(camp.getToiletCo());
-            campDto.setSwrmCo(camp.getSwrmCo());
-            campDto.setDoNm(camp.getDoNm());
-            campDto.setSigunguNm(camp.getSigunguNm());
-            campDto.setZipcode(camp.getZipcode());
-            campDto.setAddr1(camp.getAddr1());
-            campDto.setAddr2(camp.getAddr2());
-            campDto.setMapX(camp.getMapX());
-            campDto.setMapY(camp.getMapY());
-            campDto.setTel(camp.getTel());
-            campDto.setHomepage(camp.getHomepage());
-            campDto.setResveCl(camp.getResveCl());
-            campDto.setIntro(camp.getIntro());
-            campDto.setFeatureNm(camp.getFeatureNm());
-            campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-            campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-            campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-            campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-            campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-            campDto.setExtshrCo(camp.getExtshrCo());
-            campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-            campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-            campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
-            campDto.setFirstImageUrl(camp.getFirstImageUrl());
-            campDto.setCreatedtime(camp.getCreatedtime());
-            campDto.setLineIntro(camp.getLineIntro());
-            campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
-            campDtos.add(campDto);
+        if("ALL".equals(dho) && "시.군.구".equals(sigungu)){
+            for (Camp camp : items) {
+                CampDto campDto = new CampDto();
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setBrazierCl(camp.getBrazierCl());
+                campDto.setSbrsCl(camp.getSbrsCl());
+                campDto.setSbrsEtc(camp.getSbrsEtc());
+                campDto.setHvofBgnde(camp.getHvofBgnde());
+                campDto.setHvofEnddle(camp.getHvofEnddle());
+                campDto.setWtrplCo(camp.getWtrplCo());
+                campDto.setToiletCo(camp.getToiletCo());
+                campDto.setSwrmCo(camp.getSwrmCo());
+                campDto.setDoNm(camp.getDoNm());
+                campDto.setSigunguNm(camp.getSigunguNm());
+                campDto.setZipcode(camp.getZipcode());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setAddr2(camp.getAddr2());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setTel(camp.getTel());
+                campDto.setHomepage(camp.getHomepage());
+                campDto.setResveCl(camp.getResveCl());
+                campDto.setIntro(camp.getIntro());
+                campDto.setFeatureNm(camp.getFeatureNm());
+                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+                campDto.setExtshrCo(camp.getExtshrCo());
+                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setLineIntro(camp.getLineIntro());
+                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+                campDtos.add(campDto);
+            }
+        } else if (!"ALL".equals(dho) && "시.군.구".equals(sigungu)) {
+            for (Camp camp : itemsByDho) {
+                CampDto campDto = new CampDto();
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setBrazierCl(camp.getBrazierCl());
+                campDto.setSbrsCl(camp.getSbrsCl());
+                campDto.setSbrsEtc(camp.getSbrsEtc());
+                campDto.setHvofBgnde(camp.getHvofBgnde());
+                campDto.setHvofEnddle(camp.getHvofEnddle());
+                campDto.setWtrplCo(camp.getWtrplCo());
+                campDto.setToiletCo(camp.getToiletCo());
+                campDto.setSwrmCo(camp.getSwrmCo());
+                campDto.setDoNm(camp.getDoNm());
+                campDto.setSigunguNm(camp.getSigunguNm());
+                campDto.setZipcode(camp.getZipcode());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setAddr2(camp.getAddr2());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setTel(camp.getTel());
+                campDto.setHomepage(camp.getHomepage());
+                campDto.setResveCl(camp.getResveCl());
+                campDto.setIntro(camp.getIntro());
+                campDto.setFeatureNm(camp.getFeatureNm());
+                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+                campDto.setExtshrCo(camp.getExtshrCo());
+                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setLineIntro(camp.getLineIntro());
+                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+                campDtos.add(campDto);
+            }
+        } else {
+            for (Camp camp : itemsBySelect) {
+                CampDto campDto = new CampDto();
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setBrazierCl(camp.getBrazierCl());
+                campDto.setSbrsCl(camp.getSbrsCl());
+                campDto.setSbrsEtc(camp.getSbrsEtc());
+                campDto.setHvofBgnde(camp.getHvofBgnde());
+                campDto.setHvofEnddle(camp.getHvofEnddle());
+                campDto.setWtrplCo(camp.getWtrplCo());
+                campDto.setToiletCo(camp.getToiletCo());
+                campDto.setSwrmCo(camp.getSwrmCo());
+                campDto.setDoNm(camp.getDoNm());
+                campDto.setSigunguNm(camp.getSigunguNm());
+                campDto.setZipcode(camp.getZipcode());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setAddr2(camp.getAddr2());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setTel(camp.getTel());
+                campDto.setHomepage(camp.getHomepage());
+                campDto.setResveCl(camp.getResveCl());
+                campDto.setIntro(camp.getIntro());
+                campDto.setFeatureNm(camp.getFeatureNm());
+                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+                campDto.setExtshrCo(camp.getExtshrCo());
+                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setLineIntro(camp.getLineIntro());
+                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+                campDtos.add(campDto);
+            }
         }
         return campDtos;
     }
@@ -198,50 +287,134 @@ public class CampingDataService {
             campDto.setAddr1(camp.getAddr1());
             campDto.setTel(camp.getTel());
             campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDto.setMapX(camp.getMapX());
+            campDto.setMapY(camp.getMapY());
             campDtos.add(campDto);
         }
         return campDtos;
     }
-    public List<CampDto> getAnimalData() {
+    public List<CampDto> getAnimalData(String dho, String sigungu) {
         List<Camp> items = campRepository.findByAnimalCmgClNot("불가능");
+        List<Camp> itemsBySelect = campRepository.findByDoNmContainingAndSigunguNmContainingAndAnimalCmgClNotContaining(dho, sigungu, "불가능");
+        List<Camp> itemsByDho = campRepository.findByDoNmContainingAndAnimalCmgClNotContaining(dho, "불가능");
         List<CampDto> campDtos = new ArrayList<>();
-        for (Camp camp : items) {
-            CampDto campDto = new CampDto();
-            campDto.setFacltNm(camp.getFacltNm());
-            campDto.setBrazierCl(camp.getBrazierCl());
-            campDto.setSbrsCl(camp.getSbrsCl());
-            campDto.setSbrsEtc(camp.getSbrsEtc());
-            campDto.setHvofBgnde(camp.getHvofBgnde());
-            campDto.setHvofEnddle(camp.getHvofEnddle());
-            campDto.setWtrplCo(camp.getWtrplCo());
-            campDto.setToiletCo(camp.getToiletCo());
-            campDto.setSwrmCo(camp.getSwrmCo());
-            campDto.setDoNm(camp.getDoNm());
-            campDto.setSigunguNm(camp.getSigunguNm());
-            campDto.setZipcode(camp.getZipcode());
-            campDto.setAddr1(camp.getAddr1());
-            campDto.setAddr2(camp.getAddr2());
-            campDto.setMapX(camp.getMapX());
-            campDto.setMapY(camp.getMapY());
-            campDto.setTel(camp.getTel());
-            campDto.setHomepage(camp.getHomepage());
-            campDto.setResveCl(camp.getResveCl());
-            campDto.setIntro(camp.getIntro());
-            campDto.setFeatureNm(camp.getFeatureNm());
-            campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-            campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-            campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-            campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-            campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-            campDto.setExtshrCo(camp.getExtshrCo());
-            campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-            campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-            campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
-            campDto.setFirstImageUrl(camp.getFirstImageUrl());
-            campDto.setCreatedtime(camp.getCreatedtime());
-            campDto.setLineIntro(camp.getLineIntro());
-            campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
-            campDtos.add(campDto);
+        if("ALL".equals(dho) && "시.군.구".equals(sigungu)){
+            for (Camp camp : items) {
+                CampDto campDto = new CampDto();
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setBrazierCl(camp.getBrazierCl());
+                campDto.setSbrsCl(camp.getSbrsCl());
+                campDto.setSbrsEtc(camp.getSbrsEtc());
+                campDto.setHvofBgnde(camp.getHvofBgnde());
+                campDto.setHvofEnddle(camp.getHvofEnddle());
+                campDto.setWtrplCo(camp.getWtrplCo());
+                campDto.setToiletCo(camp.getToiletCo());
+                campDto.setSwrmCo(camp.getSwrmCo());
+                campDto.setDoNm(camp.getDoNm());
+                campDto.setSigunguNm(camp.getSigunguNm());
+                campDto.setZipcode(camp.getZipcode());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setAddr2(camp.getAddr2());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setTel(camp.getTel());
+                campDto.setHomepage(camp.getHomepage());
+                campDto.setResveCl(camp.getResveCl());
+                campDto.setIntro(camp.getIntro());
+                campDto.setFeatureNm(camp.getFeatureNm());
+                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+                campDto.setExtshrCo(camp.getExtshrCo());
+                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setLineIntro(camp.getLineIntro());
+                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+                campDtos.add(campDto);
+            }
+        } else if (!"ALL".equals(dho) && "시.군.구".equals(sigungu)) {
+            for (Camp camp : itemsByDho) {
+                CampDto campDto = new CampDto();
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setBrazierCl(camp.getBrazierCl());
+                campDto.setSbrsCl(camp.getSbrsCl());
+                campDto.setSbrsEtc(camp.getSbrsEtc());
+                campDto.setHvofBgnde(camp.getHvofBgnde());
+                campDto.setHvofEnddle(camp.getHvofEnddle());
+                campDto.setWtrplCo(camp.getWtrplCo());
+                campDto.setToiletCo(camp.getToiletCo());
+                campDto.setSwrmCo(camp.getSwrmCo());
+                campDto.setDoNm(camp.getDoNm());
+                campDto.setSigunguNm(camp.getSigunguNm());
+                campDto.setZipcode(camp.getZipcode());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setAddr2(camp.getAddr2());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setTel(camp.getTel());
+                campDto.setHomepage(camp.getHomepage());
+                campDto.setResveCl(camp.getResveCl());
+                campDto.setIntro(camp.getIntro());
+                campDto.setFeatureNm(camp.getFeatureNm());
+                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+                campDto.setExtshrCo(camp.getExtshrCo());
+                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setLineIntro(camp.getLineIntro());
+                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+                campDtos.add(campDto);
+            }
+        } else {
+            for (Camp camp : itemsBySelect) {
+                CampDto campDto = new CampDto();
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setBrazierCl(camp.getBrazierCl());
+                campDto.setSbrsCl(camp.getSbrsCl());
+                campDto.setSbrsEtc(camp.getSbrsEtc());
+                campDto.setHvofBgnde(camp.getHvofBgnde());
+                campDto.setHvofEnddle(camp.getHvofEnddle());
+                campDto.setWtrplCo(camp.getWtrplCo());
+                campDto.setToiletCo(camp.getToiletCo());
+                campDto.setSwrmCo(camp.getSwrmCo());
+                campDto.setDoNm(camp.getDoNm());
+                campDto.setSigunguNm(camp.getSigunguNm());
+                campDto.setZipcode(camp.getZipcode());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setAddr2(camp.getAddr2());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setTel(camp.getTel());
+                campDto.setHomepage(camp.getHomepage());
+                campDto.setResveCl(camp.getResveCl());
+                campDto.setIntro(camp.getIntro());
+                campDto.setFeatureNm(camp.getFeatureNm());
+                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
+                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
+                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
+                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
+                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
+                campDto.setExtshrCo(camp.getExtshrCo());
+                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
+                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setLineIntro(camp.getLineIntro());
+                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
+                campDtos.add(campDto);
+            }
         }
         return campDtos;
     }
