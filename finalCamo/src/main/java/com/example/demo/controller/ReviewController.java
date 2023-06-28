@@ -72,4 +72,13 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
+    /**
+     * 특정 게시글번호에 맞는 글 가져오기
+     */
+    @GetMapping("/reviewById/{id}")
+    public ResponseEntity<ReviewDto> getReviewById(@PathVariable("id") Long id) {
+        ReviewDto review = reviewService.getReviewById(id);
+        return ResponseEntity.ok(review);
+    }
+
 }
