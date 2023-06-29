@@ -17,8 +17,9 @@ import java.util.List;
 @Builder
 public class Member {
     @Id
+    @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userNumber;
+    private Long id;
     private String userName;
     @Column(unique = true, nullable = false)
     private String nickName;
