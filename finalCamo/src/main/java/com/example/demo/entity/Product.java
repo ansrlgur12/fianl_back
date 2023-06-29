@@ -31,8 +31,8 @@ public class Product {
 
 
 
-    @OneToMany(mappedBy = "product")
-    private List<Cart> cart; // 회원의 장바구니 리스트
+//    @OneToMany(mappedBy = "product")
+//    private List<Cart> cart; // 회원의 장바구니 리스트
 
     @OneToMany(mappedBy = "product")
     private List<Likes> likes;
