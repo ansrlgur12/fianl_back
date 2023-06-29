@@ -17,9 +17,9 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  // 주문번호
 
-//    @ManyToOne
-//    @JoinColumn(name = "product")
-//    private Product product;  // 상품번호
+    @ManyToOne
+    @JoinColumn(name = "product")
+    private Product product;  // 상품번호
 
     @ManyToOne
     @JoinColumn(name = "member")

@@ -20,9 +20,9 @@ public class OneLineReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 한줄평 번호
 
-//    @ManyToOne
-//    @JoinColumn(name = "product")
-//    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "product")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "member")

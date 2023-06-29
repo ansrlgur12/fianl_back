@@ -39,6 +39,7 @@ public class Member {
     private String snsLogin;
     private LocalDateTime join_time;
 
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -50,6 +51,7 @@ public class Member {
         this.reqAgreed = reqAgreed;
         this.authority = authority;
     }
+
     @OneToMany(mappedBy = "member")
     private List<Cart> cart; // 회원의 장바구니 리스트
 
