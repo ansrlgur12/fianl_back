@@ -31,8 +31,6 @@ public class MemberController {
      * 회원 가입
      */
 
-
-
 //    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @PostMapping("/signup")
     public ResponseEntity<Boolean> registerMember(@RequestBody Map<String, String> data) {
@@ -48,16 +46,29 @@ public class MemberController {
     /**
      * 로그인
      */
-    @PostMapping("/login")
-    public ResponseEntity<Member> login(@RequestBody MemberDto memberDto) {
-        Optional<Member> member = memberService.login(memberDto.getEmail(), memberDto.getPassword());
-        if (member.isPresent()) {
-            // 로그인 성공
-            return new ResponseEntity<>(member.get(), HttpStatus.OK);
+//    @PostMapping("/login")
+//    public ResponseEntity<Member> login(@RequestBody MemberDto memberDto) {
+//        Optional<Member> member = memberService.login(memberDto.getEmail(), memberDto.getPassword());
+//        if (member.isPresent()) {
+//            // 로그인 성공
+//            return new ResponseEntity<>(member.get(), HttpStatus.OK);
+//        } else {
+//            // 로그인 실패
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
+//    }
+    // POST : 로그인 체크
+    @PostMapping(value="/login")
+    public ResponseEntity<Boolean> login(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+        System.out.println("이메일 : " + email);
+        System.out.println("패스워드 : " + password);
+        boolean result = memberService.login(email, password);
+        if (result) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
         } else {
-            // 로그인 실패
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
-
 }
