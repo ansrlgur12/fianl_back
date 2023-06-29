@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -22,11 +19,12 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public MemberService (MemberRepository memberRepository){
+    public MemberService (MemberRepository memberRepository, PasswordEncoder passwordEncoder){
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Member> findMember() {
@@ -35,7 +33,7 @@ public class MemberService {
 
     public boolean regMember(String nickName, String email, String password, String agreed) {
         // 이메일 중복 체크
-        Optional<Optional<Member>> existingMember = Optional.ofNullable(memberRepository.findByEmail(email));
+        Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
             // 이미 같은 이메일로 가입된 회원이 있는 경우
             return false;
