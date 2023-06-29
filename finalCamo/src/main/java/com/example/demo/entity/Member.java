@@ -39,8 +39,8 @@ public class Member {
     private String snsLogin;
     private LocalDateTime join_time;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Cart> cart; // 회원의 장바구니 리스트
+    @OneToMany(mappedBy = "member")
+    private List<Cart> cart; // 회원의 장바구니 리스트
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comment; // 답글
