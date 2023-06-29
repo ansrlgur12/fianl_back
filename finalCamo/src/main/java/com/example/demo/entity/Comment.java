@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name= "comment")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //댓글 번호
 
     private int postType; // 글타입
@@ -27,8 +27,8 @@ public class Comment {
     private Review review;
 
     @ManyToOne
-    @JoinColumn(name = "member1")
-    private Member1 member1;
+    @JoinColumn(name = "member")
+    private Member member;
 
     @Column(nullable = false)
     private String content; //댓글 내용

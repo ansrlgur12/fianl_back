@@ -9,8 +9,9 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Member1Dto {
+public class FavoriteDto {
     private Long id;
-    private String username;
-    private String email;
+    private ProductDto product;
+    private Long userNumber;
+
 }

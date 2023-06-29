@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.OneLineReviewDto;
 import com.example.demo.entity.*;
 import com.example.demo.repository.CampRepository;
-import com.example.demo.repository.Member1Repository;
+import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.OneLineReviewRepository;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import java.util.NoSuchElementException;
 public class OneLineReviewService {
 
     private final OneLineReviewRepository oneLineReviewRepository;
-    private final Member1Repository member1Repository;
+    private final MemberRepository member1Repository;
     private final ProductRepository productRepository;
     private final CampRepository campRepository;
 
     @Autowired
-    public OneLineReviewService(OneLineReviewRepository oneLineReviewRepository, Member1Repository member1Repository, ProductRepository productRepository,
+    public OneLineReviewService(OneLineReviewRepository oneLineReviewRepository, MemberRepository member1Repository, ProductRepository productRepository,
                                 CampRepository campRepository){
         this.oneLineReviewRepository = oneLineReviewRepository;
         this.member1Repository = member1Repository;
@@ -36,14 +36,14 @@ public class OneLineReviewService {
      * 특정 상품 한줄평 생성
      */
     public OneLineReviewDto createOneLineReview(Long productId, Long memberId, String comment, int rating) {
-        Member1 member1 = member1Repository.findById(memberId)
+        Member member = member1Repository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("제품이 없습니다."));
 
         OneLineReview oneLineReview = new OneLineReview();
         oneLineReview.setProduct(product);
-        oneLineReview.setMember1(member1);
+        oneLineReview.setMember(member);
         oneLineReview.setComment(comment);
         oneLineReview.setRating(rating);
 
@@ -52,7 +52,7 @@ public class OneLineReviewService {
         return OneLineReviewDto.builder()
                 .id(savedOneLineReview.getId())
                 .productId(savedOneLineReview.getProduct().getId())
-                .memberId(savedOneLineReview.getMember1().getId())
+                .memberId(savedOneLineReview.getMember().getUserNumber())
                 .comment(savedOneLineReview.getComment())
                 .rating(savedOneLineReview.getRating())
                 .build();
@@ -70,7 +70,7 @@ public class OneLineReviewService {
             OneLineReviewDto oneLineReviewDto = OneLineReviewDto.builder()
                     .id(oneLineReview.getId())
                     .productId(oneLineReview.getProduct().getId())
-                    .memberId(oneLineReview.getMember1().getId())
+                    .memberId(oneLineReview.getMember().getUserNumber())
                     .comment(oneLineReview.getComment())
                     .rating(oneLineReview.getRating())
                     .build();
@@ -83,15 +83,15 @@ public class OneLineReviewService {
     /**
      * 특정 회원 한줄평 조회
      */
-    public List<OneLineReviewDto> getOneLineReviewsByMember(Member1 member) {
-        List<OneLineReview> oneLineReviews = oneLineReviewRepository.findByMember1(member);
+    public List<OneLineReviewDto> getOneLineReviewsByMember(Member member) {
+        List<OneLineReview> oneLineReviews = oneLineReviewRepository.findByMember(member);
         List<OneLineReviewDto> oneLineReviewDtos = new ArrayList<>();
 
         for (OneLineReview oneLineReview : oneLineReviews) {
             OneLineReviewDto oneLineReviewDto = OneLineReviewDto.builder()
                     .id(oneLineReview.getId())
                     .productId(oneLineReview.getProduct().getId())
-                    .memberId(oneLineReview.getMember1().getId())
+                    .memberId(oneLineReview.getMember().getUserNumber())
                     .comment(oneLineReview.getComment())
                     .rating(oneLineReview.getRating())
                     .build();
@@ -136,7 +136,7 @@ public class OneLineReviewService {
         return OneLineReviewDto.builder()
                 .id(savedReview.getId())
                 .productId(savedReview.getProduct().getId())
-                .memberId(savedReview.getMember1().getId())
+                .memberId(savedReview.getMember().getUserNumber())
                 .comment(savedReview.getComment())
                 .rating(savedReview.getRating())
                 .build();

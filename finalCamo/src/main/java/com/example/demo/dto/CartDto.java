@@ -5,13 +5,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class CartDto {
-    private Long id;
-    private Long productId;
-    private Long memberId;
-    private int productQuantity;
+    private Long cartItemId;
+    private String productName;
+    private int quantity;
+    private String imageUrl;
 }

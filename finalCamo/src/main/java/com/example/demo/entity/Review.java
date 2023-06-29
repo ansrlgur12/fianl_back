@@ -16,13 +16,13 @@ import java.time.LocalDate;
 @Table(name = "review")
 public class Review {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="review")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "member1")
-    private Member1 member1;
+    @JoinColumn(name = "member")
+    private Member member;
 
     @Column(nullable = false) //게시글 제목
     private String title;

@@ -5,20 +5,25 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Member {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userNumber;
+    @Column(name="member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String userName;
     @Column(unique = true, nullable = false)
     private String nickName;
+
     @Column(nullable = false)
     private String password;
     @Column(unique = true, nullable = false)
@@ -45,4 +50,21 @@ public class Member {
         this.reqAgreed = reqAgreed;
         this.authority = authority;
     }
+    @OneToMany(mappedBy = "member")
+    private List<Cart> cart; // 회원의 장바구니 리스트
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comment; // 답글
+
+    @OneToMany(mappedBy = "member")
+    private List<Likes> likes; // 좋아요
+
+    @OneToMany(mappedBy = "member")
+    private List<OneLineReview> oneLineReview; // 한줄평
+
+    @OneToMany(mappedBy = "member")
+    private List<Orders> orders; // 주문
+
+    @OneToMany(mappedBy = "member")
+    private List<Review> review; // 리뷰게시판
 }

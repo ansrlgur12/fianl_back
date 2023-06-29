@@ -36,9 +36,12 @@ public class Product {
     private List<Likes> likes;
 
     @OneToMany(mappedBy = "product")
-    private List<OneLineReview> oneLineReview; // 회원의 장바구니 리스트
+    private List<OneLineReview> oneLineReview; // 회원의 리뷰
 
     @OneToMany(mappedBy = "product")
-    private List<Orders> orders; // 회원의 장바구니 리스트
+    private List<Orders> orders; // 회원의 결제내역
+
+    @OneToMany(mappedBy = "product")
+    private List<Favorite> favorites;
 
 }

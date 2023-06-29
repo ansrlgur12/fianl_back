@@ -1,16 +1,18 @@
 package com.example.demo.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class MemberDto {
-    private Long userNumber;
-    private String userId;
+    private Long id;
     private String userName;
     private String nickName;
     private String password;

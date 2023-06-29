@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.OneLineReviewDto;
-import com.example.demo.entity.Camp;
-import com.example.demo.entity.Member1;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.Product;
 import com.example.demo.service.OneLineReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +52,8 @@ public class OneLineReviewController {
      */
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<OneLineReviewDto>> getOneLineReviewsByMember(@PathVariable Long memberId) {
-        Member1 member = new Member1();
-        member.setId(memberId);
+        Member member = new Member();
+        member.setUserNumber(memberId);
         List<OneLineReviewDto> reviews = oneLineReviewService.getOneLineReviewsByMember(member);
         return ResponseEntity.ok(reviews);
     }
