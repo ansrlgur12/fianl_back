@@ -6,18 +6,23 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @ToString
 @Service
-
+//@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+
+//    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public MemberService (MemberRepository memberRepository){
@@ -30,7 +35,7 @@ public class MemberService {
 
     public boolean regMember(String nickName, String email, String password, String agreed) {
         // 이메일 중복 체크
-        Optional<Member> existingMember = Optional.ofNullable(memberRepository.findByEmail(email));
+        Optional<Optional<Member>> existingMember = Optional.ofNullable(memberRepository.findByEmail(email));
         if (existingMember.isPresent()) {
             // 이미 같은 이메일로 가입된 회원이 있는 경우
             return false;
@@ -50,16 +55,25 @@ public class MemberService {
         return true;
     }
 
-    public Optional<Member> login(String email, String password) {
-        // 이메일과 비밀번호를 기반으로 회원을 검색
+//    public Optional<Member> login(String email, String password) {
+//        // 이메일과 비밀번호를 기반으로 회원을 검색
+//        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
+//        if (memberOptional.isPresent()) {
+//            // 회원이 존재하면 로그인 성공
+//            return memberOptional;
+//        } else {
+//            // 회원이 존재하지 않으면 로그인 실패
+//            return Optional.empty();
+//        }
+//    }
+    // 로그인 체크
+    public boolean login(String email, String password) {
         Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
         if (memberOptional.isPresent()) {
-            // 회원이 존재하면 로그인 성공
-            return memberOptional;
-        } else {
-            // 회원이 존재하지 않으면 로그인 실패
-            return Optional.empty();
+            System.out.println(memberOptional);
+            return true;
         }
+        return false;
     }
 
     /**
