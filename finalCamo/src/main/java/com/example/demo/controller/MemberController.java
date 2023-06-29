@@ -31,7 +31,7 @@ public class MemberController {
      * 회원 가입
      */
 
-//    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @PostMapping("/signup")
     public ResponseEntity<Boolean> registerMember(@RequestBody Map<String, String> data) {
         System.out.println("넘어온 데이터 : " + data);

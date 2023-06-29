@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 /**
- * 장바구니
+ * 찜목록
  */
 @Entity
 @Getter
