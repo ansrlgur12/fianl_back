@@ -1,11 +1,9 @@
 package com.example.demo.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.example.demo.constant.Authority;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,4 +33,16 @@ public class Member {
     private String optAgreed;
     private String snsLogin;
     private LocalDateTime join_time;
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
+    public Member(String nickName, String email, String password, String reqAgreed, Authority authority){
+        this.nickName = nickName;
+        this.email = email;
+        this.password = password;
+        this.reqAgreed = reqAgreed;
+        this.authority = authority;
+    }
 }
