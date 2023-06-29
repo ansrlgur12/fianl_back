@@ -1,9 +1,9 @@
 package com.example.demo.entity;
 
+import com.example.demo.constant.Authority;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,8 +39,19 @@ public class Member {
     private String snsLogin;
     private LocalDateTime join_time;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Cart> cart; // 회원의 장바구니 리스트
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
+    public Member(String nickName, String email, String password, String reqAgreed, Authority authority){
+        this.nickName = nickName;
+        this.email = email;
+        this.password = password;
+        this.reqAgreed = reqAgreed;
+        this.authority = authority;
+    }
+    @OneToMany(mappedBy = "member")
+    private List<Cart> cart; // 회원의 장바구니 리스트
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comment; // 답글
