@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.CampDto;
 import com.example.demo.dto.ProductDto;
 import com.example.demo.entity.Camp;
+import com.example.demo.repository.CampRepository;
 import com.example.demo.service.CampingDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,6 +31,7 @@ import java.util.List;
 public class GoCampingController {
 
     private final CampingDataService campingDataService;
+    private final CampRepository campRepository;
 
     @GetMapping("/camping-data") // 캠핑장 정보 불러오기
     public String getCampingData() throws JsonProcessingException {
@@ -72,5 +75,18 @@ public class GoCampingController {
         List<CampDto> list = campingDataService.getSearchData(searchValue, currentData);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/viewCount/{facltNm}")
+    public ResponseEntity<String> viewCount(@PathVariable String facltNm) {
+        List<Camp> camps = campRepository.findByFacltNm(facltNm);
+        if (camps.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Camp camp = camps.get(0);
+        camp.setViewCount(camp.getViewCount() + 1);
+        campRepository.save(camp);
+        return ResponseEntity.ok(facltNm + "의 조회수가 증가되었습니다.");
+    }
+
 }
 
