@@ -19,10 +19,10 @@ public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long count;
-
-    @ManyToOne
-    @JoinColumn(name = "product")
-    private Product product;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "product")
+//    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "member")

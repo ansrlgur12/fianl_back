@@ -52,7 +52,7 @@ public class CommentService {
                 .id(savedComment.getId())
                 .postType(savedComment.getPostType())
                 .reviewId(savedComment.getReview().getId())
-                .memberId(savedComment.getMember().getUserNumber())
+                .memberId(savedComment.getMember().getId())
                 .content(savedComment.getContent())
                 .createdAt(savedComment.getCreatedAt())
                 .build();
@@ -75,7 +75,7 @@ public class CommentService {
                 .id(updatedComment.getId())
                 .postType(updatedComment.getPostType())
                 .reviewId(updatedComment.getReview().getId())
-                .memberId(updatedComment.getMember().getUserNumber())
+                .memberId(updatedComment.getMember().getId())
                 .content(updatedComment.getContent())
                 .createdAt(updatedComment.getCreatedAt())
                 .build();
@@ -108,7 +108,7 @@ public class CommentService {
                     .id(comment.getId())
                     .postType(comment.getPostType())
                     .reviewId(comment.getReview().getId())
-                    .memberId(comment.getMember().getUserNumber())
+                    .memberId(comment.getMember().getId())
                     .content(comment.getContent())
                     .createdAt(comment.getCreatedAt())
                     .build();

@@ -35,7 +35,7 @@ public class MemberService {
 
     public boolean regMember(String nickName, String email, String password, String agreed) {
         // 이메일 중복 체크
-        Optional<Member> existingMember = memberRepository.findByEmail(email);
+        Optional<Member> existingMember = Optional.ofNullable(memberRepository.findByEmail(email));
         if (existingMember.isPresent()) {
             // 이미 같은 이메일로 가입된 회원이 있는 경우
             return false;

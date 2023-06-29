@@ -44,7 +44,7 @@ public class ReviewService {
 
         return ReviewDto.builder()
                 .id(savedReview.getId())
-                .memberId(savedReview.getMember().getUserNumber())
+                .memberId(savedReview.getMember().getId())
                 .title(savedReview.getTitle())
                 .content(savedReview.getContent())
                 .date(savedReview.getDate())
@@ -66,7 +66,7 @@ public class ReviewService {
         Review updatedReview = reviewRepository.save(review);
         return ReviewDto.builder()
                 .id(updatedReview.getId())
-                .memberId(updatedReview.getMember().getUserNumber())
+                .memberId(updatedReview.getMember().getId())
                 .title(updatedReview.getTitle())
                 .content(updatedReview.getContent())
                 .date(updatedReview.getDate())
@@ -92,7 +92,7 @@ public class ReviewService {
         for (Review review : reviews) {
             ReviewDto reviewDto = ReviewDto.builder()
                     .id(review.getId())
-                    .memberId(review.getMember().getUserNumber())
+                    .memberId(review.getMember().getId())
                     .title(review.getTitle())
                     .content(review.getContent())
                     .date(review.getDate())
@@ -115,7 +115,7 @@ public class ReviewService {
         for (Review review : reviews) {
             ReviewDto reviewDto = ReviewDto.builder()
                     .id(review.getId())
-                    .memberId(review.getMember().getUserNumber())
+                    .memberId(review.getMember().getId())
                     .title(review.getTitle())
                     .content(review.getContent())
                     .date(review.getDate())
@@ -136,7 +136,7 @@ public class ReviewService {
         for (Review review : reviews) {
             ReviewDto reviewDto = ReviewDto.builder()
                     .id(review.getId())
-                    .memberId(review.getMember().getUserNumber())
+                    .memberId(review.getMember().getId())
                     .title(review.getTitle())
                     .content(review.getContent())
                     .date(review.getDate())
@@ -156,7 +156,7 @@ public class ReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
         return ReviewDto.builder()
                 .id(review.getId())
-                .memberId(review.getMember().getUserNumber())
+                .memberId(review.getMember().getId())
                 .title(review.getTitle())
                 .content(review.getContent())
                 .date(review.getDate())

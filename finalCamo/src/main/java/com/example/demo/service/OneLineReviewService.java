@@ -52,7 +52,7 @@ public class OneLineReviewService {
         return OneLineReviewDto.builder()
                 .id(savedOneLineReview.getId())
                 .productId(savedOneLineReview.getProduct().getId())
-                .memberId(savedOneLineReview.getMember().getUserNumber())
+                .memberId(savedOneLineReview.getMember().getId())
                 .comment(savedOneLineReview.getComment())
                 .rating(savedOneLineReview.getRating())
                 .build();
@@ -70,7 +70,7 @@ public class OneLineReviewService {
             OneLineReviewDto oneLineReviewDto = OneLineReviewDto.builder()
                     .id(oneLineReview.getId())
                     .productId(oneLineReview.getProduct().getId())
-                    .memberId(oneLineReview.getMember().getUserNumber())
+                    .memberId(oneLineReview.getMember().getId())
                     .comment(oneLineReview.getComment())
                     .rating(oneLineReview.getRating())
                     .build();
@@ -91,7 +91,7 @@ public class OneLineReviewService {
             OneLineReviewDto oneLineReviewDto = OneLineReviewDto.builder()
                     .id(oneLineReview.getId())
                     .productId(oneLineReview.getProduct().getId())
-                    .memberId(oneLineReview.getMember().getUserNumber())
+                    .memberId(oneLineReview.getMember().getId())
                     .comment(oneLineReview.getComment())
                     .rating(oneLineReview.getRating())
                     .build();
@@ -136,7 +136,7 @@ public class OneLineReviewService {
         return OneLineReviewDto.builder()
                 .id(savedReview.getId())
                 .productId(savedReview.getProduct().getId())
-                .memberId(savedReview.getMember().getUserNumber())
+                .memberId(savedReview.getMember().getId())
                 .comment(savedReview.getComment())
                 .rating(savedReview.getRating())
                 .build();
