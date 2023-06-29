@@ -53,7 +53,7 @@ public class OneLineReviewController {
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<OneLineReviewDto>> getOneLineReviewsByMember(@PathVariable Long memberId) {
         Member member = new Member();
-        member.setUserNumber(memberId);
+        member.setId(memberId);
         List<OneLineReviewDto> reviews = oneLineReviewService.getOneLineReviewsByMember(member);
         return ResponseEntity.ok(reviews);
     }

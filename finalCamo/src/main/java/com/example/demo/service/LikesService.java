@@ -49,7 +49,7 @@ public class LikesService {
         LikesDto likesDto = LikesDto.builder()
                 .count(savedLike.getCount())
                 .productId(savedLike.getProduct().getId())
-                .memberId(savedLike.getMember().getUserNumber())
+                .memberId(savedLike.getMember().getId())
                 .build();
 
         return likesDto;
@@ -93,7 +93,7 @@ public class LikesService {
         LikesDto likesDto = LikesDto.builder()
                 .count(savedLike.getCount())
                 .campId(savedLike.getCamp().getId())
-                .memberId(savedLike.getMember().getUserNumber())
+                .memberId(savedLike.getMember().getId())
                 .build();
 
         return likesDto;
