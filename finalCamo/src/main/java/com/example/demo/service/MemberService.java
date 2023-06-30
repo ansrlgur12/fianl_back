@@ -31,6 +31,9 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
+    /**
+     * 회원 가입
+     * */
     public boolean regMember(String nickName, String email, String password, String agreed) {
         // 이메일 중복 체크
         Optional<Member> existingMember = memberRepository.findByEmail(email);
@@ -38,7 +41,6 @@ public class MemberService {
             // 이미 같은 이메일로 가입된 회원이 있는 경우
             return false;
         }
-
         // 회원 가입 로직을 처리하는 코드 작성
         Member newMember = new Member();
         newMember.setNickName(nickName);
@@ -53,6 +55,9 @@ public class MemberService {
         return true;
     }
 
+    /**
+     * 로그인(JSON 반환)
+     * */
 //    public Optional<Member> login(String email, String password) {
 //        // 이메일과 비밀번호를 기반으로 회원을 검색
 //        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
@@ -64,7 +69,10 @@ public class MemberService {
 //            return Optional.empty();
 //        }
 //    }
-    // 로그인 체크
+
+    /**
+     * 로그인(true 반환)
+     * */
     public boolean login(String email, String password) {
         Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
         if (memberOptional.isPresent()) {
@@ -75,7 +83,30 @@ public class MemberService {
     }
 
     /**
-     * 프로필 수정, 비밀번호 변경, 회원 탈퇴
+     * 프로필 수정
      */
 
+    /**
+     * 비밀번호 변경
+     */
+
+    /**
+     * 회원 탈퇴
+     */
+
+    /**
+     * 계정 찾기
+     */
+
+    /**
+     * 닉네임 중복 확인
+     */
+    public boolean nickOverlap(String nickName) {
+        Optional<Member> nickOver = memberRepository.findByNickName(nickName);
+        if(nickOver.isPresent()){
+            return false;
+        }
+        return true;
+
+    }
 }
