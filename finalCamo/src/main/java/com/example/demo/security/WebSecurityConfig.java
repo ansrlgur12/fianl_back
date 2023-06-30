@@ -48,6 +48,7 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/product").permitAll()
                 .antMatchers("/camp/**").permitAll()
                 .antMatchers("/weather/**").permitAll()
+                .antMatchers("/image/**").permitAll()
                 .antMatchers("/cart/**").permitAll()
                 .antMatchers("/likes/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
