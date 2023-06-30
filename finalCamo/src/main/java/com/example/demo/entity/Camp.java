@@ -65,5 +65,6 @@ public class Camp {
     private List<OneLineReview> oneLineReview; // 한줄평
 
     @Column
-    private int viewCount = 0; // 조회수
+    private Integer viewCount = 0; // 조회수
+    private String contentId;
 }
