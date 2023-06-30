@@ -71,4 +71,13 @@ public class MemberController {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("")
+    public ResponseEntity<Boolean> overlapNick(@RequestParam String nickName){
+        boolean isOverlap = memberService.nickOverlap(nickName);
+        return new ResponseEntity<>(isOverlap, HttpStatus.OK);
+    }
+
+
+
 }
