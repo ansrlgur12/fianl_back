@@ -64,8 +64,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<OneLineReview> oneLineReview; // 한줄평
 
-    @OneToMany(mappedBy = "member")
-    private List<Orders> orders; // 주문
+//    @OneToMany(mappedBy = "member")
+//    private List<Order> orders; // 주문
 
     @OneToMany(mappedBy = "member")
     private List<Review> review; // 리뷰게시판

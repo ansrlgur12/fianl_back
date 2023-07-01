@@ -73,20 +73,38 @@ public class CartService {
         cartDetailDtoList = cartItemRepository.findCartDtoList(cart.getId());
         return cartDetailDtoList;
     }
+    /**
+     * 장바구니  상품 수정 권한 검증
+     */
     @Transactional(readOnly = true)
     public boolean validateCartItem(Long cartItemId, String email){
+        // 요청한 이메일로 멤버 정보를 찾음
         Member curMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("No member found with this email"));
+        // 요청한 장바구니 아이템 ID로 장바구니 아이템을 찾음
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
+        // 장바구니의 멤버 정보를 찾음
         Member savedMember = cartItem.getCart().getMember();
-
+        // 요청한 멤버의 이메일과 장바구니의 멤버 이메일이 다르면 false 반환
         if(!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())){
             return false;
         }
 
         return true;
     }
+    /**
+     * 장바구니 상품 수량 수정
+     */
+    public void updateCartItemCount(Long cartItemId, int quantity){
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        cartItem.updateQuantity(quantity);
+    }
+    /**
+     * 장바구니 상품 삭제
+     */
     public void deleteCartItem(Long cartItemId) {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
