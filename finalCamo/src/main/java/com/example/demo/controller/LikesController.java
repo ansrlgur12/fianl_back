@@ -69,6 +69,27 @@ public class LikesController {
     }
 
     /**
-     * 특정멤버가 한 좋아요 갯수 확인
+     * 특정 리뷰 좋아요
      */
+    @PostMapping("/review/{reviewId}/member/{memberId}")
+    public ResponseEntity<LikesDto> likeReview(@PathVariable Long memberId, @PathVariable Long reviewId) {
+        return ResponseEntity.ok(likesService.likeReviewByMember(memberId, reviewId));
+    }
+
+    /**
+     * 특정 리뷰 좋아요 취소
+     */
+    @DeleteMapping("/review/{reviewId}/member/{memberId}")
+    public ResponseEntity<Void> unlikeReview(@PathVariable Long memberId, @PathVariable Long reviewId) {
+        likesService.unlikeReviewByMember(memberId, reviewId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 특정 리뷰 좋아요 갯수 확인
+     */
+    @GetMapping("/review/{reviewId}")
+    public ResponseEntity<Integer> countReviewLikes(@PathVariable Long reviewId) {
+        return ResponseEntity.ok(likesService.countLikesByReview(reviewId));
+    }
 }
