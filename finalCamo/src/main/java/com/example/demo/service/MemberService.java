@@ -58,45 +58,49 @@ public class MemberService {
     /**
      * 로그인(JSON 반환)
      * */
-//    public Optional<Member> login(String email, String password) {
-//        // 이메일과 비밀번호를 기반으로 회원을 검색
-//        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
-//        if (memberOptional.isPresent()) {
-//            // 회원이 존재하면 로그인 성공
-//            return memberOptional;
-//        } else {
-//            // 회원이 존재하지 않으면 로그인 실패
-//            return Optional.empty();
-//        }
-//    }
+    public Optional<Member> login(String email, String password) {
+        // 이메일과 비밀번호를 기반으로 회원을 검색
+        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
+        if (memberOptional.isPresent()) {
+            // 회원이 존재하면 로그인 성공
+            return memberOptional;
+        } else {
+            // 회원이 존재하지 않으면 로그인 실패
+            return Optional.empty();
+        }
+    }
 
     /**
      * 로그인(true 반환)
      * */
-    public boolean login(String email, String password) {
-        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
-        if (memberOptional.isPresent()) {
-            System.out.println(memberOptional);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 프로필 수정
-     */
+//    public boolean login(String email, String password) {
+//        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
+//        if (memberOptional.isPresent()) {
+//            System.out.println(memberOptional);
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * 비밀번호 변경
      */
-
+    public boolean changePwd(String email, String newPwd) {
+        Optional<Member> memberEmail = memberRepository.findByEmail(email);
+        if(memberEmail.isEmpty()) return false;
+        Member member = memberEmail.get();
+        member.setPassword(newPwd);
+//        member.setPassword(passwordEncoder.encode(newPwd));
+        Member savedMember = memberRepository.save(member);
+        log.info(savedMember.toString());
+        return true;
+    }
     /**
-     * 회원 탈퇴
+     * 비밀번호 찾기
      */
-
-    /**
-     * 계정 찾기
-     */
+    public boolean findPwd(String nickName, String email) {
+        return !memberRepository.findByNickNameAndEmail(nickName, email).isEmpty();
+    }
 
     /**
      * 닉네임 중복 확인
@@ -107,6 +111,39 @@ public class MemberService {
             return false;
         }
         return true;
-
     }
+
+    /**
+     * 프로필 수정
+     */
+    public boolean newProfile(Long id, String email, String newNick, String userPhoneNm, String userImg){
+        Optional<Member> memberProfile=memberRepository.findById(id);
+        if(memberProfile.isEmpty()) return false;
+        Member member = memberProfile.get();
+        if (!email.isEmpty()) {
+            member.setEmail(email);
+        }
+        if (!newNick.isEmpty()) {
+            member.setNickName(newNick);
+        }
+        if (!userPhoneNm.isEmpty()) {
+            member.setUserPhoneNm(userPhoneNm);
+        }
+        if (!userImg.isEmpty()) {
+            member.setUserImg(userImg);
+        }
+        Member savedMember = memberRepository.save(member);
+        log.info(savedMember.toString());
+        return true;
+    }
+
+    /**
+     * 회원 탈퇴
+     */
+
+
+    /**
+     * 계정 찾기
+     */
+
 }

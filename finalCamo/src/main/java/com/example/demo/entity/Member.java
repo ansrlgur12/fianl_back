@@ -29,7 +29,7 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
     private String userAddr;
-    private int userPhoneNm;
+    private String userPhoneNm;
     private String userImg;
     private String userGrade = "1";
     private int userScore;

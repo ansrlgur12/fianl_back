@@ -43,4 +43,6 @@ public class CampDto {
         private String lineIntro;
         private String eqpmnLendCl;
 
+        private int viewCount;
+
 }

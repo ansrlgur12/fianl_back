@@ -18,7 +18,7 @@ public class MemberDto {
     private String password;
     private String email;
     private String userAddr;
-    private int userPhoneNm;
+    private String userPhoneNm;
     private String userImg;
     private String userGrade;
     private int userScore;
