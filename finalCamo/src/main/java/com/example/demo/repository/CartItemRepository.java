@@ -4,6 +4,7 @@ import com.example.demo.dto.CartDto;
 import com.example.demo.entity.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             "from CartItem ci " +
             "join ci.product p " +
             "where ci.cart.id = :cartId")
-    List<CartDto> findCartDtoList(Long cartId);
+    List<CartDto> findCartDtoList(@Param("cartId") Long cartId);
 
 
 }

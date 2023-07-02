@@ -87,18 +87,10 @@ public class CampingDataService {
         camp.setCreatedtime(campDto.getCreatedtime());
         camp.setLineIntro(campDto.getLineIntro());
         camp.setEqpmnLendCl(campDto.getEqpmnLendCl());
+        camp.setContentId(campDto.getContentId());
         return campRepository.save(camp);
     }
-    //    public void saveCampingData(List<CampDto> campDto) {
-//        List<Camp> campingEntityList = new ArrayList<>();
-//        for (CampDto campingDTO : campDto) {
-//            Camp camp = new Camp();
-//            camp.setFacltNm(campingDTO.getFacltNm());
-//
-//            campingEntityList.add(camp);
-//        }
-//        campRepository.saveAll(campingEntityList);
-//    }
+
     public void saveCampingData(JsonNode arrayNode) {
         List<CampDto> campingDTOList = new ArrayList<>();
         for (JsonNode item : arrayNode) {
@@ -137,6 +129,7 @@ public class CampingDataService {
             campingDTO.setCreatedtime(item.get("createdtime").asText());
             campingDTO.setLineIntro(item.get("lineIntro").asText());
             campingDTO.setEqpmnLendCl(item.get("eqpmnLendCl").asText());
+            campingDTO.setContentId(item.get("contentId").asText());
 
             campingDTOList.add(campingDTO);
         }
@@ -286,6 +279,11 @@ public class CampingDataService {
             campDto.setMapX(camp.getMapX());
             campDto.setMapY(camp.getMapY());
             campDto.setViewCount(camp.getViewCount());
+            campDto.setIntro(camp.getIntro());
+            campDto.setFeatureNm(camp.getFeatureNm());
+            campDto.setContentId(camp.getContentId());
+            campDto.setResveCl(camp.getResveCl());
+            campDto.setHomepage(camp.getHomepage());
             campDtos.add(campDto);
         }
         return campDtos;
