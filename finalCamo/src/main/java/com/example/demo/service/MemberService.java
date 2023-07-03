@@ -72,8 +72,7 @@ public class MemberService {
 
 
 
-     * 비밀번호 변경
-     */
+
     public boolean changePwd(String email, String newPwd) {
         Optional<Member> memberEmail = memberRepository.findByEmail(email);
         if(memberEmail.isEmpty()) return false;
@@ -137,15 +136,4 @@ public class MemberService {
 
      */
 
-    /**
-     * 닉네임 중복 확인
-     */
-    public boolean nickOverlap(String nickName) {
-        Optional<Member> nickOver = memberRepository.findByNickName(nickName);
-        if(nickOver.isPresent()){
-            return false;
-        }
-        return true;
-
-    }
 }

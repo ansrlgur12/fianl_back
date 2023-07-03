@@ -68,20 +68,25 @@ public class WeatherService {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonNode root = objectMapper.readTree(jsonResponse);
-        JsonNode arrayNode = root.get("response").get("body").get("items").get("item");
+        try{
+            JsonNode root = objectMapper.readTree(jsonResponse);
+            JsonNode arrayNode = root.get("response").get("body").get("items").get("item");
 
-        List<WeatherDto> weatherDtoList = new ArrayList<>();
-        for (JsonNode item : arrayNode){
-            WeatherDto weatherDto = new WeatherDto();
-            weatherDto.setFcstDate(item.get("fcstDate").asText());
-            weatherDto.setFcstTime(item.get("fcstTime").asText());
-            weatherDto.setCategory(item.get("category").asText());
-            weatherDto.setFcstValue(item.get("fcstValue").asText());
-            weatherDto.setNx(item.get("nx").asText());
-            weatherDto.setNy(item.get("ny").asText());
-            weatherDtoList.add(weatherDto);
+            List<WeatherDto> weatherDtoList = new ArrayList<>();
+            for (JsonNode item : arrayNode){
+                WeatherDto weatherDto = new WeatherDto();
+                weatherDto.setFcstDate(item.get("fcstDate").asText());
+                weatherDto.setFcstTime(item.get("fcstTime").asText());
+                weatherDto.setCategory(item.get("category").asText());
+                weatherDto.setFcstValue(item.get("fcstValue").asText());
+                weatherDto.setNx(item.get("nx").asText());
+                weatherDto.setNy(item.get("ny").asText());
+                weatherDtoList.add(weatherDto);
+            }
+            return weatherDtoList;
+        } catch(Exception e){
+            e.printStackTrace();
+            return new ArrayList<>();
         }
-        return weatherDtoList;
     }
 }
