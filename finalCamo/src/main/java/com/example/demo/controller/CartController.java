@@ -17,6 +17,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/cart")
 public class CartController {
 
@@ -24,7 +25,7 @@ public class CartController {
 
     @PostMapping
     public @ResponseBody
-    ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, @RequestParam String email) {
+    ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
@@ -37,7 +38,7 @@ public class CartController {
 
 
         Long cartItemId;
-
+        String email = cartItemDto.getEmail();
         try {
             cartItemId = cartService.addCart(cartItemDto, email);
         } catch (Exception e) {

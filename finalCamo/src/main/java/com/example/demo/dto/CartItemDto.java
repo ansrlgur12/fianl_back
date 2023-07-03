@@ -12,4 +12,5 @@ import lombok.ToString;
 public class CartItemDto {
     private Long productId;
     private int quantity;
+    private String email;
 }
