@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,8 +50,9 @@ public class CartController {
 
     }
 
-    @GetMapping
-    public @ResponseBody ResponseEntity<List<CartDto>> orderHist(@RequestParam String email) {
+    @PostMapping("/cartList")
+    public @ResponseBody ResponseEntity<List<CartDto>> orderHist(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
         List<CartDto> cartList = cartService.getCartList(email);
         return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
     }
