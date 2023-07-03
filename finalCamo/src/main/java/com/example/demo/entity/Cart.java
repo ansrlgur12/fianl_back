@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ public class Cart {
 
     @OneToOne(fetch = FetchType.LAZY)           // @OneToOne 어노테이션을 통해 회원 엔티티와 일대일로 매핑
     @JoinColumn(name="member_id")               // JoinColumn 어노테이션을 이용해 매핑할 외래키를 지정
+    @JsonIgnore
     private Member member;
 
     public static Cart createCart(Member member) {
