@@ -88,5 +88,10 @@ public class GoCampingController {
         return ResponseEntity.ok(facltNm + "의 조회수가 증가되었습니다.");
     }
 
+//    @GetMapping("/getImage/{contentId}")
+//    public ResponseEntity<List<CampDto>> getImage(@PathVariable String contentId){
+//        List<CampDto> list = campingDataService.getImage(contentId);
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
 }
 
