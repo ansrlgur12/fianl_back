@@ -13,7 +13,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,12 +49,11 @@ public class CartController {
     }
 
     @GetMapping
-    public String orderHist(String email, Model model) {
+    public @ResponseBody ResponseEntity<List<CartDto>> orderHist(@RequestParam String email) {
         List<CartDto> cartList = cartService.getCartList(email);
-        model.addAttribute("cartItems", cartList);
-        return "cart/cartList";
+        return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
     }
-    @PostMapping(value = "/cartItem/{cartItemId}")
+    @PostMapping(value = "/deleteItem/{cartItemId}")
     public @ResponseBody ResponseEntity deleteCartItem(@PathVariable("cartItemId") Long cartItemId, String email) {
 
         if(!cartService.validateCartItem(cartItemId, email)) {
@@ -63,6 +61,19 @@ public class CartController {
         }
 
         cartService.deleteCartItem(cartItemId);
+        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/updateItem/{cartItemId}")
+    public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, @RequestParam("quantity")int quantity,@RequestParam("email") String email){
+
+        if(quantity <= 0){
+            return new ResponseEntity<String>("최소 1개 이상 담아주세요", HttpStatus.BAD_REQUEST);
+        } else if(!cartService.validateCartItem(cartItemId, email)){
+            return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        cartService.updateCartItemCount(cartItemId, quantity);
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
 }

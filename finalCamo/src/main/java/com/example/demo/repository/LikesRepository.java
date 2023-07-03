@@ -1,9 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Camp;
-import com.example.demo.entity.Likes;
-import com.example.demo.entity.Member;
-import com.example.demo.entity.Product;
+import com.example.demo.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +11,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 
     int countByCamp(Camp camp);
     void deleteByMemberAndCamp(Member member, Camp camp);
+    void deleteByMemberAndReview(Member member, Review review);
+    int countByReview(Review review);
 }

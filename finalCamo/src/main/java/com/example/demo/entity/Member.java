@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+//import com.example.demo.constant.Authority;
 import com.example.demo.constant.Authority;
 import lombok.*;
 
@@ -52,8 +53,8 @@ public class Member {
         this.authority = authority;
     }
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Cart> cart; // 회원의 장바구니 리스트
+    @OneToMany(mappedBy = "member")
+    private List<Cart> cart; // 회원의 장바구니 리스트
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comment; // 답글
@@ -64,8 +65,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<OneLineReview> oneLineReview; // 한줄평
 
-    @OneToMany(mappedBy = "member")
-    private List<Orders> orders; // 주문
+//    @OneToMany(mappedBy = "member")
+//    private List<Order> orders; // 주문
 
     @OneToMany(mappedBy = "member")
     private List<Review> review; // 리뷰게시판

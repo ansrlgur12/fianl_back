@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import com.example.demo.constant.Authority;
+//import com.example.demo.constant.Authority;
 import com.example.demo.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +23,7 @@ public class MemberRequestDto {
                 .email(email)
                 .password(passwordEncoder.encode(password))
                 .nickName(nickName)
-                .authority(Authority.ROLE_USER)
+//                .authority(Authority.ROLE_USER)
                 .build();
     }
     public UsernamePasswordAuthenticationToken toAuthentication() {

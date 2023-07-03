@@ -70,19 +70,8 @@ public class MemberService {
         }
     }
 
-    /**
-     * 로그인(true 반환)
-     * */
-//    public boolean login(String email, String password) {
-//        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
-//        if (memberOptional.isPresent()) {
-//            System.out.println(memberOptional);
-//            return true;
-//        }
-//        return false;
-//    }
 
-    /**
+
      * 비밀번호 변경
      */
     public boolean changePwd(String email, String newPwd) {
@@ -128,6 +117,7 @@ public class MemberService {
         }
         if (!userPhoneNm.isEmpty()) {
             member.setUserPhoneNm(userPhoneNm);
+
         }
         if (!userImg.isEmpty()) {
             member.setUserImg(userImg);
@@ -144,6 +134,18 @@ public class MemberService {
 
     /**
      * 계정 찾기
+
      */
 
+    /**
+     * 닉네임 중복 확인
+     */
+    public boolean nickOverlap(String nickName) {
+        Optional<Member> nickOver = memberRepository.findByNickName(nickName);
+        if(nickOver.isPresent()){
+            return false;
+        }
+        return true;
+
+    }
 }

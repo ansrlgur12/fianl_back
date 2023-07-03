@@ -30,7 +30,8 @@ public class ReviewController {
                 reviewDto.getTitle(),
                 reviewDto.getContent(),
                 reviewDto.getDate(),
-                reviewDto.getPostType()
+                reviewDto.getPostType(),
+                reviewDto.getViewCount()
         );
 
         return ResponseEntity.ok(createdReview);
@@ -40,8 +41,8 @@ public class ReviewController {
      * 리뷰 수정
      */
     @PutMapping("/{id}")
-    public ResponseEntity<ReviewDto> updateReview(@PathVariable("id") Long id, @RequestBody ReviewDto reviewDto) {
-        ReviewDto updatedReview = reviewService.updateReview(id, reviewDto);
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable("id") Long id, @RequestBody ReviewDto reviewDto, @RequestParam Long memberId) {
+        ReviewDto updatedReview = reviewService.updateReview(id, reviewDto, memberId);
         return ResponseEntity.ok(updatedReview);
     }
 
@@ -49,9 +50,9 @@ public class ReviewController {
      * 리뷰삭제
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable("id") Long id) {
-        reviewService.deleteReview(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteReview(@PathVariable("id") Long id, @RequestParam("memberId") Long memberId) {
+        reviewService.deleteReview(id, memberId);
+        return ResponseEntity.ok("리뷰가 성공적으로 삭제되었습니다.");
     }
 
     /**
