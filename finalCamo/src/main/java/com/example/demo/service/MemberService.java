@@ -70,17 +70,6 @@ public class MemberService {
         }
     }
 
-    /**
-     * 로그인(true 반환)
-     * */
-//    public boolean login(String email, String password) {
-//        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
-//        if (memberOptional.isPresent()) {
-//            System.out.println(memberOptional);
-//            return true;
-//        }
-//        return false;
-//    }
 
     /**
      * 비밀번호 변경
@@ -116,15 +105,15 @@ public class MemberService {
     /**
      * 프로필 수정
      */
-    public boolean newProfile(Long id, String email, String newNick, String userPhoneNm, String userImg){
+    public boolean newProfile(Long id, String newNick, String email, String userPhoneNm, String userImg){
         Optional<Member> memberProfile=memberRepository.findById(id);
         if(memberProfile.isEmpty()) return false;
         Member member = memberProfile.get();
-        if (!email.isEmpty()) {
-            member.setEmail(email);
-        }
         if (!newNick.isEmpty()) {
             member.setNickName(newNick);
+        }
+        if (!email.isEmpty()) {
+            member.setEmail(email);
         }
         if (!userPhoneNm.isEmpty()) {
             member.setUserPhoneNm(userPhoneNm);
@@ -144,6 +133,11 @@ public class MemberService {
 
     /**
      * 계정 찾기
+
+     */
+
+    /**
+     * 닉네임 중복 확인
      */
 
 }

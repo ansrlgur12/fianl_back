@@ -63,38 +63,38 @@ public class CommentService {
     /**
      * 특정 회원 댓글 수정
      */
-    public CommentDto updateComment(Long commentId, String content) {
+    public CommentDto updateComment(Long commentId, Long memberId, String content) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("댓글이 없습니다.")); // 에러처리
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다."));
 
+        if(!comment.getMember().getId().equals(memberId)) {
+            throw new IllegalStateException("댓글 작성자만 댓글을 수정할 수 있습니다.");
+        }
         comment.setContent(content);
 
-        Comment updatedComment = commentRepository.save(comment);
+        commentRepository.save(comment);
 
-        return CommentDto.builder()
-                .id(updatedComment.getId())
-                .postType(updatedComment.getPostType())
-                .reviewId(updatedComment.getReview().getId())
-                .memberId(updatedComment.getMember().getId())
-                .content(updatedComment.getContent())
-                .createdAt(updatedComment.getCreatedAt())
-                .build();
+        return new CommentDto(comment);
     }
 
     /**
      * 특정 회원 댓글 삭제
      */
-    public void deleteComment(Long commentId) {
+    public void deleteComment(Long commentId, Long memberId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new RuntimeException("댓글이 없습니다.")); // 에러처리
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다.")); // 에러처리
 
-        commentRepository.delete(comment);
+        if(!comment.getMember().getId().equals(memberId)){
+            throw new IllegalStateException("댓글 작성자만 댓글을 작성할 수 있습니다.");
+        }
+
+        commentRepository.deleteById(commentId);
 
     }
 
 
     /**
-     * 특정 회원 댓글 조회
+     * 특정 게시글 댓글 조회
      */
     public List<CommentDto> getCommentsByReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
@@ -117,5 +117,28 @@ public class CommentService {
 
         return commentDtos;
     }
+
+    /**
+     * 특정 회원이 작성한 댓글 가져오기
+     */
+    public List<CommentDto> getCommentsByMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+
+        List<Comment> comments = commentRepository.findByMember(member);
+        List<CommentDto> commentDtoList = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDto commentDto = CommentDto.builder()
+                    .id(comment.getId())
+                    .reviewId(comment.getReview().getId())
+                    .memberId(comment.getMember().getId())
+                    .content(comment.getContent())
+                    .createdAt(comment.getCreatedAt())
+                    .build();
+            commentDtoList.add(commentDto);
+        }
+        return commentDtoList;
+    }
+
 }
 

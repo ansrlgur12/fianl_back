@@ -13,4 +13,5 @@ public class LikesDto {
     private Long productId;
     private Long memberId;
     private Long campId;
+    private Long reviewId;
 }
