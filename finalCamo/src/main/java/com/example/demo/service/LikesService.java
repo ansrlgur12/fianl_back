@@ -1,14 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.LikesDto;
-import com.example.demo.entity.Camp;
-import com.example.demo.entity.Likes;
-import com.example.demo.entity.Member;
-import com.example.demo.entity.Product;
-import com.example.demo.repository.CampRepository;
-import com.example.demo.repository.LikesRepository;
-import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.ProductRepository;
+import com.example.demo.entity.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +16,18 @@ public class LikesService {
     private final ProductRepository productRepository;
     private final CampRepository campRepository;
 
+    private final ReviewRepository reviewRepository;
+
     @Autowired
     public LikesService(LikesRepository likesRepository, MemberRepository memberRepository,
-                        ProductRepository productRepository, CampRepository campRepository) {
+                        ProductRepository productRepository, CampRepository campRepository,
+                        ReviewRepository reviewRepository){
+
         this.likesRepository = likesRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
         this.campRepository = campRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     /**
@@ -119,4 +118,49 @@ public class LikesService {
                 .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
         return likesRepository.countByCamp(camp);
     }
+
+    /**
+     * 특정 게시판 리뷰 좋아요 추가
+     */
+    public LikesDto likeReviewByMember(Long memberId, Long reviewId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+
+        Likes savedLike = Likes.builder()
+                .member(member)
+                .review(review)
+                .build();
+        savedLike = likesRepository.save(savedLike);
+
+        LikesDto likesDto = LikesDto.builder()
+                .count(savedLike.getCount())
+                .reviewId(savedLike.getReview().getId())
+                .memberId(savedLike.getMember().getId())
+                .build();
+
+        return likesDto;
+    }
+
+    /**
+     * 특정 게시판 리뷰 좋아요 취소
+     */
+    public void unlikeReviewByMember(Long memberId, Long reviewId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+        likesRepository.deleteByMemberAndReview(member, review);
+    }
+
+    /**
+     * 특정 게시판 리뷰 갯수 확인
+     */
+    public int countLikesByReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+        return likesRepository.countByReview(review);
+    }
+
 }

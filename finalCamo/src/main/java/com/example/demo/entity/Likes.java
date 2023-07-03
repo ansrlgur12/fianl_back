@@ -32,4 +32,8 @@ public class Likes {
     @JoinColumn(name = "camp")
     private Camp camp;
 
+    @ManyToOne
+    @JoinColumn(name = "review")
+    private Review review;
+
 }

@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.Comment;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,4 +18,13 @@ public class CommentDto {
     private Long memberId;
     private String content;
     private LocalDateTime createdAt;
+
+    public CommentDto(Comment comment) {
+        this.id = comment.getId();
+        this.postType = comment.getPostType();
+        this.reviewId = comment.getReview().getId();
+        this.memberId = comment.getMember().getId();
+        this.content = comment.getContent();
+        this.createdAt = comment.getCreatedAt();
+    }
 }

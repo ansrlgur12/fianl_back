@@ -3,6 +3,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 리뷰
@@ -21,8 +22,14 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "member")
+    @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "review")
+    private List<Comment> comment;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    private List<Likes> likes;
 
     @Column(nullable = false) //게시글 제목
     private String title;
@@ -35,4 +42,7 @@ public class Review {
 
     @Column(nullable = false) //글타입
     private int postType;
+
+    @Column(nullable = false)
+    private Long viewCount; // 조회수
 }
