@@ -18,4 +18,5 @@ public class ReviewDto {
     private LocalDate date;
     private int postType;
     private Long viewCount;
+    private String img;
 }

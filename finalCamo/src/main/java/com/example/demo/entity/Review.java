@@ -45,4 +45,7 @@ public class Review {
 
     @Column(nullable = false)
     private Long viewCount; // 조회수
+
+    @Column(nullable = false)
+    private String img; // 이미지
 }
