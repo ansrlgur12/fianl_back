@@ -10,6 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class CartItemDto {
+    private Long cartItemId;
     private Long productId;
     private int quantity;
+    private String email;
 }

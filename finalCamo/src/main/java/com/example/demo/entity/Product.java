@@ -37,7 +37,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<OneLineReview> oneLineReview; // 회원의 리뷰
 
- 
+
 
     @OneToMany(mappedBy = "product")
     private List<Favorite> favorites;
