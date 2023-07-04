@@ -77,7 +77,7 @@ public class MemberController {
     /**
      * 비밀번호 변경
      */
-    @PostMapping("/intro/newpwd")
+    @PostMapping("/NewPassword")
     @ResponseBody
     public ResponseEntity<Boolean> newPwd(@RequestBody Map<String, String> resetPwdData) {
         String email = resetPwdData.get("email");
@@ -107,15 +107,15 @@ public class MemberController {
     /**
      * 프로필 수정
      */
-    @PostMapping("/intro/changeprofile")
+    @PostMapping("/UserEdit")
     @ResponseBody
     public ResponseEntity<Boolean> newProfile(@RequestBody Map<String, String> newData){
         Long id = Long.valueOf(newData.get("id"));
-        String email = newData.get("email");
         String newNick = newData.get("newNick");
+        String email = newData.get("email");
         String userPhoneNm = newData.get("newPhone");
         String userImg = newData.get("newImg");
-        return ResponseEntity.ok(memberService.newProfile(id, email, newNick, userPhoneNm, userImg));
+        return ResponseEntity.ok(memberService.newProfile(id, newNick, email, userPhoneNm, userImg));
     }
 
     /**
