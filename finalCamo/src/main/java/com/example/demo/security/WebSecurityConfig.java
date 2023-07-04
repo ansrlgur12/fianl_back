@@ -49,6 +49,7 @@ public class WebSecurityConfig {
                 .antMatchers("/camp/**").permitAll()
                 .antMatchers("/weather/**").permitAll()
                 .antMatchers("/image/**").permitAll()
+                .antMatchers("/oji/**").permitAll()
                 .antMatchers("/cart/**").permitAll()
                 .antMatchers("/likes/**").permitAll()
                 .antMatchers("/comment/**").permitAll()
