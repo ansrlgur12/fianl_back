@@ -31,7 +31,8 @@ public class ReviewController {
                 reviewDto.getContent(),
                 reviewDto.getDate(),
                 reviewDto.getPostType(),
-                reviewDto.getViewCount()
+                reviewDto.getViewCount(),
+                reviewDto.getImg()
         );
 
         return ResponseEntity.ok(createdReview);

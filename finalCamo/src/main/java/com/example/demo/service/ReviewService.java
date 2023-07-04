@@ -36,7 +36,7 @@ public class ReviewService {
      * 리뷰 작성
      */
     public ReviewDto createReview(Long memberId, String title, String content, LocalDate date, int postType,
-                                  Long viewCount) {
+                                  Long viewCount, String img) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
 
@@ -47,6 +47,7 @@ public class ReviewService {
         review.setDate(date);
         review.setPostType(postType);
         review.setViewCount(viewCount);
+        review.setImg(img);
 
         Review savedReview = reviewRepository.save(review);
 
@@ -57,6 +58,7 @@ public class ReviewService {
                 .content(savedReview.getContent())
                 .date(savedReview.getDate())
                 .postType(savedReview.getPostType())
+                .img(savedReview.getImg())
                 .viewCount(review.getViewCount() + 1)
                 .build();
     }
@@ -78,6 +80,7 @@ public class ReviewService {
         review.setDate(reviewDto.getDate());
         review.setPostType(reviewDto.getPostType());
         review.setViewCount(review.getViewCount());
+        review.setImg(review.getImg());
 
         Review updatedReview = reviewRepository.save(review);
 
@@ -88,6 +91,7 @@ public class ReviewService {
                 .content(updatedReview.getContent())
                 .date(updatedReview.getDate())
                 .postType(updatedReview.getPostType())
+                .img(updatedReview.getImg())
                 .viewCount(review.getViewCount() + 1)
                 .build();
     }
@@ -127,6 +131,7 @@ public class ReviewService {
                     .content(review.getContent())
                     .date(review.getDate())
                     .postType(review.getPostType())
+                    .img(review.getImg())
                     .viewCount(review.getViewCount() + 1)
                     .build();
             reviewDtoList.add(reviewDto);
@@ -152,6 +157,7 @@ public class ReviewService {
                     .content(review.getContent())
                     .date(review.getDate())
                     .postType(review.getPostType())
+                    .img(review.getImg())
                     .viewCount(review.getViewCount() + 1)
                     .build();
             reviewDtoList.add(reviewDto);
@@ -174,6 +180,7 @@ public class ReviewService {
                     .content(review.getContent())
                     .date(review.getDate())
                     .postType(review.getPostType())
+                    .img(review.getImg())
                     .viewCount(review.getViewCount() + 1)
                     .build();
             reviewDtoList.add(reviewDto);
@@ -195,6 +202,7 @@ public class ReviewService {
                 .content(review.getContent())
                 .date(review.getDate())
                 .postType(review.getPostType())
+                .img(review.getImg())
                 .viewCount(review.getViewCount() + 1)
                 .build();
     }
