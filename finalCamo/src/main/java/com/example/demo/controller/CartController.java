@@ -57,8 +57,8 @@ public class CartController {
         return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
     }
     @PostMapping(value = "/deleteItem/{cartItemId}")
-    public @ResponseBody ResponseEntity deleteCartItem(@PathVariable("cartItemId") Long cartItemId, String email) {
-
+    public @ResponseBody ResponseEntity deleteCartItem(@PathVariable Long cartItemId, @RequestBody Map<String, String> body) {
+        String email = body.get("email");
         if(!cartService.validateCartItem(cartItemId, email)) {
             return new ResponseEntity<String> ("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
@@ -68,7 +68,9 @@ public class CartController {
     }
 
     @PostMapping(value = "/updateItem/{cartItemId}")
-    public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, @RequestParam("quantity")int quantity,@RequestParam("email") String email){
+    public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, @RequestBody CartItemDto cartItemDto){
+        int quantity = cartItemDto.getQuantity();
+        String email = cartItemDto.getEmail();
 
         if(quantity <= 0){
             return new ResponseEntity<String>("최소 1개 이상 담아주세요", HttpStatus.BAD_REQUEST);
