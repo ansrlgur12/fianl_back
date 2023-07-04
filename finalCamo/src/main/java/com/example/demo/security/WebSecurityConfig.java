@@ -58,6 +58,7 @@ public class WebSecurityConfig {
                 .antMatchers("/intro/**").permitAll()
                 .antMatchers("/UserEdit/**").permitAll()
                 .antMatchers("/NewPassword/**").permitAll()
+                .antMatchers("/favorite/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
                 .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
 

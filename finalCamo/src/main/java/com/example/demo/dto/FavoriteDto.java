@@ -10,8 +10,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class FavoriteDto {
-    private Long id;
-    private ProductDto product;
-    private Long userNumber;
-
+    private Long favoriteItemId;
+    private String productName;
+    private double price;
+    private String imageUrl;
+    public FavoriteDto(Long favoriteItemId, String productName, double price, String imageUrl) {
+        this.favoriteItemId = favoriteItemId;
+        this.productName = productName;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
 }
