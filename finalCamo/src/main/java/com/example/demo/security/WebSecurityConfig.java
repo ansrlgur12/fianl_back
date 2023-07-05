@@ -56,6 +56,7 @@ public class WebSecurityConfig {
                 .antMatchers("/review/**").permitAll()
                 .antMatchers("/one-Line/**").permitAll()
                 .antMatchers("/intro/**").permitAll()
+                .antMatchers("/open/**").permitAll()
                 .antMatchers("/UserEdit/**").permitAll()
                 .antMatchers("/NewPassword/**").permitAll()
                 .antMatchers("/favorite/**").permitAll()
