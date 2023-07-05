@@ -24,4 +24,12 @@ public class OjiNoji {
     private String intro;
     private String sbrsCl;
     private String diff;
+    private String addr1;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String url;
+
+    @Column
+    private Integer viewCount = 0; // 조회수
 }
