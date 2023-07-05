@@ -39,7 +39,7 @@ public class CartService {
         Product product = productRepository.findById(cartItemDto.getProductId())
                 .orElseThrow(EntityNotFoundException::new);
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("No member found with this email"));
+                .orElseThrow(() -> new IllegalArgumentException("회원이 아닙니다"));
         // 사용자의 장바구니를 조회하고, 없다면 새로 생성 후 저장
         Cart cart = cartRepository.findByMemberId(member.getId());
         if (cart == null) {
@@ -64,7 +64,7 @@ public class CartService {
         List<CartDto> cartDetailDtoList = new ArrayList<CartDto>();
 
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("No member found with this email"));
+                .orElseThrow(() -> new IllegalArgumentException("회원이 아닙니다"));
         Cart cart = cartRepository.findByMemberId(member.getId());
         if (cart == null) {
             return cartDetailDtoList;
@@ -80,7 +80,7 @@ public class CartService {
     public boolean validateCartItem(Long cartItemId, String email){
         // 요청한 이메일로 멤버 정보를 찾음
         Member curMember = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("No member found with this email"));
+                .orElseThrow(() -> new IllegalArgumentException("회원이 아닙니다"));
         // 요청한 장바구니 아이템 ID로 장바구니 아이템을 찾음
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
@@ -109,6 +109,19 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
         cartItemRepository.delete(cartItem);
+    }
+    /**
+     *  이메일로 cartId 찾기
+     */
+    @Transactional(readOnly = true)
+    public Long findCartIdByEmail(String email){
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 아닙니다"));
+        Cart cart = cartRepository.findByMemberId(member.getId());
+        if (cart == null) {
+            throw new IllegalArgumentException("해당 회원의 장바구니가 존재하지 않습니다");
+        }
+        return cart.getId();
     }
 }
 

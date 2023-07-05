@@ -5,13 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @ToString
-public class CartItemDto {
-    private Long cartItemId;
+public class FavoriteItemDto {
+    private Long favoriteItemId;
     private Long productId;
-    private int quantity;
     private String email;
+
+
 }

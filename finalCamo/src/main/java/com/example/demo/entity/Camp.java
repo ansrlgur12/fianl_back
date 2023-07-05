@@ -59,7 +59,7 @@ public class Camp {
     private String eqpmnLendCl; // 캠핑장비 대여 -> 아이콘
 
     @OneToMany(mappedBy = "camp")
-    private List<Likes> likes; // 회원의 장바구니 리스트
+    private List<Likes> likes;
 
     @OneToMany(mappedBy = "camp")
     private List<OneLineReview> oneLineReview; // 한줄평
