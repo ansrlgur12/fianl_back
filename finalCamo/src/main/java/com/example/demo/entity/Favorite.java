@@ -11,22 +11,22 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name= "favorite")
+@Table(name="favorite")
 public class Favorite {
 
-
     @Id
-    @Column(name="favorite_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; //찜목록 번호
+    @GeneratedValue
+    @Column(name = "favorite_id")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
     private Member member;
 
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    public static Favorite createFavorite(Member member) {
+        Favorite favorite = new Favorite();
+        favorite.setMember(member);
+        return favorite;
     }
+}
 
