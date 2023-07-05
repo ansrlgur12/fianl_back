@@ -28,7 +28,7 @@ public class CartController {
 
     @PostMapping
     public @ResponseBody
-    ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult) {
+    ResponseEntity addToCart(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
@@ -53,7 +53,7 @@ public class CartController {
     }
 
     @PostMapping("/cartList")
-    public @ResponseBody ResponseEntity<List<CartDto>> orderHist(@RequestBody Map<String, String> body) {
+    public @ResponseBody ResponseEntity<List<CartDto>> cartList(@RequestBody Map<String, String> body) {
         String email = body.get("email");
         List<CartDto> cartList = cartService.getCartList(email);
         return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
