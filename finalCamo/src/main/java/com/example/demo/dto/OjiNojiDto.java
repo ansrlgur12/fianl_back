@@ -16,4 +16,7 @@ public class OjiNojiDto {
     private String intro;
     private String sbrsCl;
     private String diff;
+    private String addr1;
+    private String url;
+    private Integer viewCount;
 }
