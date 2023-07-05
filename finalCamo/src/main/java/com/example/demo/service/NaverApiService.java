@@ -24,7 +24,7 @@ public class NaverApiService {
         }
 
         // URL 세팅
-        String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + query;
+        String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + query + "&display=50";
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
