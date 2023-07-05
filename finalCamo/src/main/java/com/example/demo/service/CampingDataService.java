@@ -51,7 +51,7 @@ public class CampingDataService {
         return new Camp();
     }
 
-    public Camp save(CampDto campDto){// ProductDto를 매개변수로 받는 save 메소드
+    public Camp save(CampDto campDto){
         Camp camp = new Camp(); // 객체 생성
         camp.setFacltNm(campDto.getFacltNm());
         camp.setBrazierCl(campDto.getBrazierCl());
@@ -147,39 +147,11 @@ public class CampingDataService {
             for (Camp camp : items) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
                 campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }
@@ -187,39 +159,11 @@ public class CampingDataService {
             for (Camp camp : itemsByDho) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
-                campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setMapY(camp.getMapY());   campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }
@@ -227,39 +171,11 @@ public class CampingDataService {
             for (Camp camp : itemsBySelect) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
                 campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }
@@ -272,6 +188,7 @@ public class CampingDataService {
         List<CampDto> campDtos = new ArrayList<>();
         for (Camp camp : items ) {
             CampDto campDto = new CampDto();
+            campDto.setId(camp.getId());
             campDto.setFacltNm(camp.getFacltNm());
             campDto.setAddr1(camp.getAddr1());
             campDto.setTel(camp.getTel());
@@ -297,39 +214,11 @@ public class CampingDataService {
             for (Camp camp : items) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
                 campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }
@@ -337,39 +226,11 @@ public class CampingDataService {
             for (Camp camp : itemsByDho) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
                 campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }
@@ -377,39 +238,11 @@ public class CampingDataService {
             for (Camp camp : itemsBySelect) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
                 campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }
@@ -439,39 +272,11 @@ public class CampingDataService {
             for (Camp camp : itemsAnimal ) {
                 CampDto campDto = new CampDto();
                 campDto.setFacltNm(camp.getFacltNm());
-//                campDto.setBrazierCl(camp.getBrazierCl());
-//                campDto.setSbrsCl(camp.getSbrsCl());
-//                campDto.setSbrsEtc(camp.getSbrsEtc());
-//                campDto.setHvofBgnde(camp.getHvofBgnde());
-//                campDto.setHvofEnddle(camp.getHvofEnddle());
-//                campDto.setWtrplCo(camp.getWtrplCo());
-//                campDto.setToiletCo(camp.getToiletCo());
-//                campDto.setSwrmCo(camp.getSwrmCo());
-//                campDto.setDoNm(camp.getDoNm());
-//                campDto.setSigunguNm(camp.getSigunguNm());
-//                campDto.setZipcode(camp.getZipcode());
                 campDto.setAddr1(camp.getAddr1());
-//                campDto.setAddr2(camp.getAddr2());
                 campDto.setMapX(camp.getMapX());
                 campDto.setMapY(camp.getMapY());
-//                campDto.setTel(camp.getTel());
-//                campDto.setHomepage(camp.getHomepage());
-//                campDto.setResveCl(camp.getResveCl());
-//                campDto.setIntro(camp.getIntro());
-//                campDto.setFeatureNm(camp.getFeatureNm());
-//                campDto.setSiteBottomCl1(camp.getSiteBottomCl1());
-//                campDto.setSiteBottomCl2(camp.getSiteBottomCl2());
-//                campDto.setSiteBottomCl3(camp.getSiteBottomCl3());
-//                campDto.setSiteBottomCl4(camp.getSiteBottomCl4());
-//                campDto.setSiteBottomCl5(camp.getSiteBottomCl5());
-//                campDto.setExtshrCo(camp.getExtshrCo());
-//                campDto.setFrprvtSandCo(camp.getFrprvtSandCo());
-//                campDto.setFrprvtWrppCo(camp.getFrprvtWrppCo());
-//                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
-//                campDto.setLineIntro(camp.getLineIntro());
-//                campDto.setEqpmnLendCl(camp.getEqpmnLendCl());
                 campDto.setViewCount(camp.getViewCount());
                 campDtos.add(campDto);
             }

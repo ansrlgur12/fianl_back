@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CampDto {
+        private Long id;
         private String facltNm;
         private String brazierCl;
         private String sbrsCl;
