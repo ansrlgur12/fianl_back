@@ -163,4 +163,21 @@ public class LikesService {
         return likesRepository.countByReview(review);
     }
 
+    /**
+     * 특정 회원 좋아요 여부 확인
+     */
+    public int checkLike(Long campId, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+        Camp camp = campRepository.findById(campId)
+                .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
+
+        boolean liked = likesRepository.existsByCampAndMember(camp, member);
+
+        if (liked) {
+            return 1; // 좋아요를 이미 눌렀음
+        } else {
+            return 0; // 좋아요를 누르지 않았음
+        }
+    }
 }
