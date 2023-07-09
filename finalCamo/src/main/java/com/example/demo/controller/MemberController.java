@@ -2,18 +2,19 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.MemberDto;
 import com.example.demo.entity.Member;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@Slf4j
 @RequestMapping("")
 public class MemberController {
 
@@ -22,9 +23,12 @@ public class MemberController {
      */
     private final MemberService memberService;
 
+    private final EmailService emailService;
+
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, EmailService emailService) {
         this.memberService = memberService;
+        this.emailService = emailService;
     }
 
     /**
@@ -58,22 +62,6 @@ public class MemberController {
         }
     }
 
-    /**
-     * 로그인(Boolean)
-     */
-//    @PostMapping(value="/intro/login")
-//    public ResponseEntity<Boolean> login(@RequestBody Map<String, String> loginData) {
-//        String email = loginData.get("email");
-//        String password = loginData.get("password");
-//        System.out.println("이메일 : " + email);
-//        System.out.println("패스워드 : " + password);
-//        boolean result = memberService.login(email, password);
-//        if (result) {
-//            return new ResponseEntity<>(true, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-//        }
-//    }
     /**
      * 비밀번호 변경
      */
@@ -122,10 +110,28 @@ public class MemberController {
      * 회원 탈퇴
      */
 
-
     /**
      * 계정 찾기
      */
+
+    /**
+     * 이메일 인증번호 전송
+     */
+    @PostMapping("/intro")
+    @ResponseBody
+    public Object findEmailOverlap(@RequestBody Map<String, String> findEmailOver) throws Exception {
+        String email = findEmailOver.get("emailOverlap");
+        boolean isOverlap = emailService.emailOverlap(email);
+        if (isOverlap) {
+            System.out.println("이메일 등록여부 : " + isOverlap);
+            return false; // 이메일이 이미 등록되어 있다면 false를 반환합니다.
+        } else {
+            String code = emailService.sendSimpleMessage(email);
+            System.out.println(email);
+            log.info("인증 코드: " + code);
+            return code; // 인증 코드를 반환합니다.
+        }
+    }
 
 
 }
