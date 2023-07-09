@@ -23,6 +23,7 @@ public class OjiNojiService {
     public Boolean save(Map<String, String> data){
         OjiNoji ojiNoji = new OjiNoji();
         System.out.println(data);
+        ojiNoji.setMemberId(data.get("memberId"));
         ojiNoji.setMapX(data.get("mapX"));
         ojiNoji.setMapY(data.get("mapY"));
         ojiNoji.setSbrsCl(data.get("sbrsCl"));
@@ -131,6 +132,21 @@ public class OjiNojiService {
                 ojinojiDto.setUrl(camp.getUrl());
                 ojiNojiDtos.add(ojinojiDto);
             }
+        return ojiNojiDtos;
+    }
+
+    public List<OjiNojiDto> getMemberMarkedCamp(String memberId) {
+        List<OjiNoji> items = ojiNojiRepository.findByMemberId(memberId);
+        List<OjiNojiDto> ojiNojiDtos = new ArrayList<>();
+
+        for (OjiNoji camp : items ) {
+            OjiNojiDto ojinojiDto = new OjiNojiDto();
+            ojinojiDto.setFacltNm(camp.getFacltNm());
+            ojinojiDto.setMapX(camp.getMapX());
+            ojinojiDto.setMapY(camp.getMapY());
+            ojinojiDto.setUrl(camp.getUrl());
+            ojiNojiDtos.add(ojinojiDto);
+        }
         return ojiNojiDtos;
     }
 }
