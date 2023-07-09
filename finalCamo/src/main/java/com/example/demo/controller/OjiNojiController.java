@@ -9,6 +9,7 @@ import com.example.demo.service.OjiNojiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class OjiNojiController {
 
     @PostMapping("/newMark")
     public ResponseEntity<Boolean> newMark(@RequestBody Map<String, String> data) {
+        System.out.println(data);
         Boolean isTrue = ojiNojiService.save(data);
         return new ResponseEntity<>(isTrue, HttpStatus.OK);
     }
@@ -58,5 +60,11 @@ public class OjiNojiController {
         ojiNoji.setViewCount(ojiNoji.getViewCount() + 1);
         ojiNojiRepository.save(ojiNoji);
         return ResponseEntity.ok(facltNm + "의 조회수가 증가되었습니다.");
+    }
+
+    @GetMapping("/memberMarkedCamp/{memberId}")
+    public ResponseEntity<List<OjiNojiDto>> memberMarkedCamp(@PathVariable String memberId) {
+        List<OjiNojiDto> list = ojiNojiService.getMemberMarkedCamp(memberId);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

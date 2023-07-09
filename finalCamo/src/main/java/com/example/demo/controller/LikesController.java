@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CampDto;
 import com.example.demo.dto.LikesDto;
 import com.example.demo.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -101,5 +104,14 @@ public class LikesController {
     public ResponseEntity<Integer> checkLike(@PathVariable Long campId, @PathVariable Long memberId) {
         int count = likesService.checkLike(campId, memberId);
         return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    /**
+     * 특정 회원 좋아요 클릭한 캠핑장 목록
+     */
+    @GetMapping("/memberLikedCamp/{memberId}")
+    public ResponseEntity<List<CampDto>> getMemberLikedCamps(@PathVariable Long memberId) {
+        List<CampDto> campDtos = likesService.getMemberLikedCamps(memberId);
+        return ResponseEntity.ok(campDtos);
     }
 }
