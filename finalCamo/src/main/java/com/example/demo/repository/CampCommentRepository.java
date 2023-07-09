@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface CampCommentRepository extends JpaRepository<CampComment, Long> {
     List<CampComment> findByCamp(Camp camp);
+    int countByCamp(Camp camp);
 }

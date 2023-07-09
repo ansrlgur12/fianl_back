@@ -33,4 +33,10 @@ public class CampCommentController {
         List<CampCommentDto> comments = campCommentService.getComment(campId);
         return ResponseEntity.ok(comments);
     }
+
+    @GetMapping("/checkCount/{campId}")
+    public ResponseEntity<Integer> checkCount(@PathVariable Long campId) {
+        int count = campCommentService.getCount(campId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 }

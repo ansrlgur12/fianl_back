@@ -53,10 +53,12 @@ public class MemberController {
     @PostMapping("/intro/login")
     public ResponseEntity<Member> login(@RequestBody MemberDto memberDto) {
         Optional<Member> member = memberService.login(memberDto.getEmail(), memberDto.getPassword());
+        System.out.println("1 : " + memberDto);
         if (member.isPresent()) {
             // 로그인 성공
             return new ResponseEntity<>(member.get(), HttpStatus.OK);
         } else {
+            System.out.println("2 : " + member.isPresent());
             // 로그인 실패
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

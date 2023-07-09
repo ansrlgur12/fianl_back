@@ -15,6 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -77,6 +78,7 @@ public class GoCampingController {
     }
 
     @GetMapping("/viewCount/{facltNm}")
+    @Transactional
     public ResponseEntity<String> viewCount(@PathVariable String facltNm) {
         List<Camp> camps = campRepository.findByFacltNm(facltNm);
         if (camps.isEmpty()) {
@@ -93,5 +95,15 @@ public class GoCampingController {
         List<CampDto> list = campingDataService.getIcon(contentId);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/viewCampMarker/{markerLat}/{markerLng}")
+    public ResponseEntity<List<CampDto>> viewCampMarker(@PathVariable String markerLat, @PathVariable String markerLng) {
+        double mapXCord = Double.parseDouble(markerLng);
+        double mapYCord = Double.parseDouble(markerLat);
+        List<CampDto> list = campingDataService.getClosestCampData(mapXCord, mapYCord, 100);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 }
+
+
 

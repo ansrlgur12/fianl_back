@@ -57,16 +57,12 @@ public class CampingDataService {
         camp.setBrazierCl(campDto.getBrazierCl());
         camp.setSbrsCl(campDto.getSbrsCl());
         camp.setSbrsEtc(campDto.getSbrsEtc());
-        camp.setHvofBgnde(campDto.getHvofBgnde());
-        camp.setHvofEnddle(campDto.getHvofEnddle());
         camp.setWtrplCo(campDto.getWtrplCo());
         camp.setToiletCo(campDto.getToiletCo());
         camp.setSwrmCo(campDto.getSwrmCo());
         camp.setDoNm(campDto.getDoNm());
         camp.setSigunguNm(campDto.getSigunguNm());
-        camp.setZipcode(campDto.getZipcode());
         camp.setAddr1(campDto.getAddr1());
-        camp.setAddr2(campDto.getAddr2());
         camp.setMapX(campDto.getMapX());
         camp.setMapY(campDto.getMapY());
         camp.setTel(campDto.getTel());
@@ -74,14 +70,6 @@ public class CampingDataService {
         camp.setResveCl(campDto.getResveCl());
         camp.setFeatureNm(campDto.getFeatureNm());
         camp.setIntro(campDto.getIntro());
-        camp.setSiteBottomCl1(campDto.getSiteBottomCl1());
-        camp.setSiteBottomCl2(campDto.getSiteBottomCl2());
-        camp.setSiteBottomCl3(campDto.getSiteBottomCl3());
-        camp.setSiteBottomCl4(campDto.getSiteBottomCl4());
-        camp.setSiteBottomCl5(campDto.getSiteBottomCl5());
-        camp.setExtshrCo(campDto.getExtshrCo());
-        camp.setFrprvtSandCo(campDto.getFrprvtSandCo());
-        camp.setFrprvtWrppCo(campDto.getFrprvtWrppCo());
         camp.setAnimalCmgCl(campDto.getAnimalCmgCl());
         camp.setFirstImageUrl(campDto.getFirstImageUrl());
         camp.setCreatedtime(campDto.getCreatedtime());
@@ -99,16 +87,12 @@ public class CampingDataService {
             campingDTO.setBrazierCl(item.get("brazierCl").asText());
             campingDTO.setSbrsCl(item.get("sbrsCl").asText());
             campingDTO.setSbrsEtc(item.get("sbrsEtc").asText());
-            campingDTO.setHvofBgnde(item.get("hvofBgnde").asText());
-            campingDTO.setHvofEnddle(item.get("hvofEnddle").asText());
             campingDTO.setWtrplCo(item.get("wtrplCo").asText());
             campingDTO.setToiletCo(item.get("toiletCo").asText());
             campingDTO.setSwrmCo(item.get("swrmCo").asText());
             campingDTO.setDoNm(item.get("doNm").asText());
             campingDTO.setSigunguNm(item.get("sigunguNm").asText());
-            campingDTO.setZipcode(item.get("zipcode").asText());
             campingDTO.setAddr1(item.get("addr1").asText());
-            campingDTO.setAddr2(item.get("addr2").asText());
             campingDTO.setMapX(item.get("mapX").asText());
             campingDTO.setMapY(item.get("mapY").asText());
             campingDTO.setTel(item.get("tel").asText());
@@ -116,14 +100,6 @@ public class CampingDataService {
             campingDTO.setResveCl(item.get("resveCl").asText());
             campingDTO.setIntro(item.get("intro").asText());
             campingDTO.setFeatureNm(item.get("featureNm").asText());
-            campingDTO.setSiteBottomCl1(item.get("siteBottomCl1").asText());
-            campingDTO.setSiteBottomCl2(item.get("siteBottomCl2").asText());
-            campingDTO.setSiteBottomCl3(item.get("siteBottomCl3").asText());
-            campingDTO.setSiteBottomCl4(item.get("siteBottomCl4").asText());
-            campingDTO.setSiteBottomCl5(item.get("siteBottomCl5").asText());
-            campingDTO.setExtshrCo(item.get("extshrCo").asText());
-            campingDTO.setFrprvtSandCo(item.get("frprvtSandCo").asText());
-            campingDTO.setFrprvtWrppCo(item.get("frprvtWrppCo").asText());
             campingDTO.setAnimalCmgCl(item.get("animalCmgCl").asText());
             campingDTO.setFirstImageUrl(item.get("firstImageUrl").asText());
             campingDTO.setCreatedtime(item.get("createdtime").asText());
@@ -139,13 +115,14 @@ public class CampingDataService {
     }
 
     public List<CampDto> getCampData(String dho, String sigungu){
-        List<Camp> items = campRepository.findAll();
-        List<Camp> itemsBySelect = campRepository.findByDoNmContainingAndSigunguNmContaining(dho, sigungu);
-        List<Camp> itemsByDho = campRepository.findByDoNmContaining(dho);
+        List<Camp> items = campRepository.findTop32ByOrderById();
+        List<Camp> itemsBySelect = campRepository.findTop32ByDoNmContainingAndSigunguNmContaining(dho, sigungu);
+        List<Camp> itemsByDho = campRepository.findTop32ByDoNmContaining(dho);
         List<CampDto> campDtos = new ArrayList<>();
         if("ALL".equals(dho) && "시.군.구".equals(sigungu)){
             for (Camp camp : items) {
                 CampDto campDto = new CampDto();
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFacltNm(camp.getFacltNm());
                 campDto.setAddr1(camp.getAddr1());
                 campDto.setMapX(camp.getMapX());
@@ -153,23 +130,14 @@ public class CampingDataService {
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
                 campDto.setViewCount(camp.getViewCount());
+                campDto.setLikes(camp.getLikes().size());
+                campDto.setComments(camp.getCampComments().size());
                 campDtos.add(campDto);
             }
         } else if (!"ALL".equals(dho) && "시.군.구".equals(sigungu)) {
             for (Camp camp : itemsByDho) {
                 CampDto campDto = new CampDto();
-                campDto.setFacltNm(camp.getFacltNm());
-                campDto.setAddr1(camp.getAddr1());
-                campDto.setMapX(camp.getMapX());
-                campDto.setMapY(camp.getMapY());   campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
-                campDto.setFirstImageUrl(camp.getFirstImageUrl());
-                campDto.setCreatedtime(camp.getCreatedtime());
-                campDto.setViewCount(camp.getViewCount());
-                campDtos.add(campDto);
-            }
-        } else {
-            for (Camp camp : itemsBySelect) {
-                CampDto campDto = new CampDto();
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFacltNm(camp.getFacltNm());
                 campDto.setAddr1(camp.getAddr1());
                 campDto.setMapX(camp.getMapX());
@@ -177,6 +145,23 @@ public class CampingDataService {
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
                 campDto.setViewCount(camp.getViewCount());
+                campDto.setLikes(camp.getLikes().size());
+                campDto.setComments(camp.getCampComments().size());
+                campDtos.add(campDto);
+            }
+        } else {
+            for (Camp camp : itemsBySelect) {
+                CampDto campDto = new CampDto();
+                campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+                campDto.setFacltNm(camp.getFacltNm());
+                campDto.setAddr1(camp.getAddr1());
+                campDto.setMapX(camp.getMapX());
+                campDto.setMapY(camp.getMapY());
+                campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                campDto.setCreatedtime(camp.getCreatedtime());
+                campDto.setViewCount(camp.getViewCount());
+                campDto.setLikes(camp.getLikes().size());
+                campDto.setComments(camp.getCampComments().size());
                 campDtos.add(campDto);
             }
         }
@@ -201,14 +186,15 @@ public class CampingDataService {
             campDto.setContentId(camp.getContentId());
             campDto.setResveCl(camp.getResveCl());
             campDto.setHomepage(camp.getHomepage());
+            campDto.setComments(camp.getCampComments().size());
             campDtos.add(campDto);
         }
         return campDtos;
     }
     public List<CampDto> getAnimalData(String dho, String sigungu) {
-        List<Camp> items = campRepository.findByAnimalCmgClNot("불가능");
-        List<Camp> itemsBySelect = campRepository.findByDoNmContainingAndSigunguNmContainingAndAnimalCmgClNotContaining(dho, sigungu, "불가능");
-        List<Camp> itemsByDho = campRepository.findByDoNmContainingAndAnimalCmgClNotContaining(dho, "불가능");
+        List<Camp> items = campRepository.findTop32ByAnimalCmgClNot("불가능");
+        List<Camp> itemsBySelect = campRepository.findTop32ByDoNmContainingAndSigunguNmContainingAndAnimalCmgClNotContaining(dho, sigungu, "불가능");
+        List<Camp> itemsByDho = campRepository.findTop32ByDoNmContainingAndAnimalCmgClNotContaining(dho, "불가능");
         List<CampDto> campDtos = new ArrayList<>();
         if("ALL".equals(dho) && "시.군.구".equals(sigungu)){
             for (Camp camp : items) {
@@ -220,6 +206,8 @@ public class CampingDataService {
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
                 campDto.setViewCount(camp.getViewCount());
+                campDto.setLikes(camp.getLikes().size());
+                campDto.setComments(camp.getCampComments().size());
                 campDtos.add(campDto);
             }
         } else if (!"ALL".equals(dho) && "시.군.구".equals(sigungu)) {
@@ -232,6 +220,8 @@ public class CampingDataService {
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
                 campDto.setViewCount(camp.getViewCount());
+                campDto.setLikes(camp.getLikes().size());
+                campDto.setComments(camp.getCampComments().size());
                 campDtos.add(campDto);
             }
         } else {
@@ -244,6 +234,8 @@ public class CampingDataService {
                 campDto.setFirstImageUrl(camp.getFirstImageUrl());
                 campDto.setCreatedtime(camp.getCreatedtime());
                 campDto.setViewCount(camp.getViewCount());
+                campDto.setLikes(camp.getLikes().size());
+                campDto.setComments(camp.getCampComments().size());
                 campDtos.add(campDto);
             }
         }
@@ -299,5 +291,23 @@ public class CampingDataService {
         }
         return campDtos;
     }
+
+    public List<CampDto> getClosestCampData(double mapX, double mapY, int limit) {
+        List<Camp> closestCamps = campRepository.findClosestCampsByCoordinates(mapX, mapY, limit);
+        List<CampDto> campDtos = new ArrayList<>();
+
+        for (Camp camp : closestCamps) {
+            CampDto campDto = new CampDto();
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setMapX(camp.getMapX());
+            campDto.setMapY(camp.getMapY());
+            campDtos.add(campDto);
+        }
+
+        return campDtos;
+    }
+
 
 }

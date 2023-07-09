@@ -133,11 +133,6 @@ public class MemberService {
 
     /**
      * 계정 찾기
-
-     */
-
-    /**
-     * 닉네임 중복 확인
      */
 
 }

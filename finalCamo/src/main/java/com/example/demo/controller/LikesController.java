@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.LikesDto;
 import com.example.demo.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,5 +92,14 @@ public class LikesController {
     @GetMapping("/review/{reviewId}")
     public ResponseEntity<Integer> countReviewLikes(@PathVariable Long reviewId) {
         return ResponseEntity.ok(likesService.countLikesByReview(reviewId));
+    }
+
+    /**
+     * 특정 회원 좋아요 클릭 여부
+     */
+    @GetMapping("/checkLike/{campId}/{memberId}")
+    public ResponseEntity<Integer> checkLike(@PathVariable Long campId, @PathVariable Long memberId) {
+        int count = likesService.checkLike(campId, memberId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }
