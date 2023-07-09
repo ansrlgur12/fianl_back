@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.CampDto;
 import com.example.demo.dto.LikesDto;
 import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -179,5 +183,31 @@ public class LikesService {
         } else {
             return 0; // 좋아요를 누르지 않았음
         }
+    }
+
+    /**
+     * 특정 회원 좋아요 클릭한 캠핑장 목록
+     */
+    public List<CampDto> getMemberLikedCamps(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+
+        List<Camp> likedCamps = member.getLikes().stream()
+                .map(Likes::getCamp)
+                .collect(Collectors.toList());
+
+        List<CampDto> campDtos = likedCamps.stream()
+                .map(camp -> {
+                    CampDto campDto = new CampDto();
+                    campDto.setFacltNm(camp.getFacltNm());
+                    campDto.setAddr1(camp.getAddr1());
+                    campDto.setMapX(camp.getMapX());
+                    campDto.setMapY(camp.getMapY());
+                    campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                    return campDto;
+                })
+                .collect(Collectors.toList());
+
+        return campDtos;
     }
 }

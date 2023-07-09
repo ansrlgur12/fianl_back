@@ -19,4 +19,5 @@ public class OjiNojiDto {
     private String addr1;
     private String url;
     private Integer viewCount;
+    private String memberId;
 }

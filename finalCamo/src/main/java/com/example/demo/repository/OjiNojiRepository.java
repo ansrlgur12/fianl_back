@@ -20,4 +20,6 @@ public interface OjiNojiRepository extends JpaRepository<OjiNoji, Long> {
 
     List<OjiNoji> findByFacltNm(String facltNm);
 
+    List<OjiNoji> findByMemberId(String memberId);
+
 }

@@ -32,4 +32,6 @@ public class OjiNoji {
 
     @Column
     private Integer viewCount = 0; // 조회수
+
+    private String memberId;
 }
