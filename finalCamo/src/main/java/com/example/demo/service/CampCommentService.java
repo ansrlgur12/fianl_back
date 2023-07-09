@@ -61,4 +61,11 @@ public class CampCommentService {
 
         return commentDtos;
     }
+
+    public int getCount(Long campId) {
+        Camp camp = campRepository.findById(campId)
+                .orElseThrow(() -> new RuntimeException("캠핑장이 없습니다.")); // 에러처리
+        int commentCount = campCommentRepository.countByCamp(camp);
+        return commentCount;
+    }
 }

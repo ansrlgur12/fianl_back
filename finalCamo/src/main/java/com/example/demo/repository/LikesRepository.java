@@ -13,4 +13,5 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     void deleteByMemberAndCamp(Member member, Camp camp);
     void deleteByMemberAndReview(Member member, Review review);
     int countByReview(Review review);
+    boolean existsByCampAndMember(Camp camp, Member member);
 }
