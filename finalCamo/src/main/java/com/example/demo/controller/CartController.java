@@ -25,7 +25,9 @@ public class CartController {
     private final CartService cartService;
 
 
-
+    /**
+     * 장바구니 추가
+     */
     @PostMapping
     public @ResponseBody
     ResponseEntity addToCart(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult) {
@@ -51,13 +53,18 @@ public class CartController {
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
 
     }
-
+    /**
+     * 장바구니 조회
+     */
     @PostMapping("/cartList")
     public @ResponseBody ResponseEntity<List<CartDto>> cartList(@RequestBody Map<String, String> body) {
         String email = body.get("email");
         List<CartDto> cartList = cartService.getCartList(email);
         return new ResponseEntity<List<CartDto>>(cartList, HttpStatus.OK);
     }
+    /**
+     * 장바구니 삭제
+     */
     @PostMapping(value = "/deleteItem/{cartItemId}")
     public @ResponseBody ResponseEntity deleteCartItem(@PathVariable Long cartItemId, @RequestBody Map<String, String> body) {
         String email = body.get("email");
@@ -68,7 +75,9 @@ public class CartController {
         cartService.deleteCartItem(cartItemId);
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
-
+    /**
+     * 장바구니 수량 수정
+     */
     @PostMapping(value = "/updateItem/{cartItemId}")
     public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, @RequestBody CartItemDto cartItemDto){
         int quantity = cartItemDto.getQuantity();

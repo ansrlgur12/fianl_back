@@ -20,7 +20,7 @@ public class OrderItemDto {
         this.productName = orderItem.getProduct().getProductName();
         this.quantity = orderItem.getQuantity();
         this.orderPrice = orderItem.getOrderPrice();
-        this.imageUrl = imageUrl;
+        this.imageUrl = orderItem.getProduct().getImageUrl();
     }
 
 }
