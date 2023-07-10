@@ -9,4 +9,7 @@ public class OrderDto {
 
     private Long productId;
     private int quantity;
+    private String email;
+    private Long orderId;
+
 }

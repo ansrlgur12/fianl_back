@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                 .antMatchers("/favorite/**").permitAll()
                 .antMatchers("/mainsection2/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
+                .antMatchers("/order/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()
                 .antMatchers("/verifyIamport/**").permitAll()
                 .antMatchers("/camping-data", "/campData").permitAll()
