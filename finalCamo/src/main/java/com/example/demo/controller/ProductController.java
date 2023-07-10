@@ -26,6 +26,15 @@ public class ProductController {
         this.productService = productService; // 주입받은 ProductService를 사용할 수 있도록 필드에 저장
     }
 
+    /**
+     * 상품조회기능
+     */
+    @GetMapping("/product-search")
+    public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam("brand") String brand, @RequestParam("productName") String productName) {
+        List<ProductDto> products = productService.searchByBrandAndProductName(brand, productName);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
     @PostMapping("/product-data")
 
     public void createFromJson() {

@@ -1,14 +1,15 @@
 package com.example.demo.dto;
 
 import com.example.demo.entity.Likes;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.Entity;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class CampDto {
         private Long id;

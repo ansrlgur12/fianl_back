@@ -229,4 +229,26 @@ public class ReviewService {
         return commentDtoList;
     }
 
+    /**
+     * 리뷰 검색(제목, 내용)
+     */
+    @Transactional(readOnly = true)
+    public List<ReviewDto> searchReviews(String keyword) {
+        List<Review> reviews = reviewRepository.search(keyword);
+        List<ReviewDto> reviewDtoList = new ArrayList<>();
+        for (Review review : reviews) {
+            ReviewDto reviewDto = ReviewDto.builder()
+                    .id(review.getId())
+                    .memberId(review.getMember().getId())
+                    .title(review.getTitle())
+                    .content(review.getContent())
+                    .date(review.getDate())
+                    .postType(review.getPostType())
+                    .img(review.getImg())
+                    .viewCount(review.getViewCount() + 1)
+                    .build();
+            reviewDtoList.add(reviewDto);
+        }
+        return reviewDtoList;
+    }
 }

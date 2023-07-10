@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface CampRepository extends JpaRepository<Camp, Long> {
+    @Query("SELECT c FROM Camp c WHERE c.facltNm LIKE %:faclt_nm%")
+    List<Camp> searchByFacltNmAndDoNmAndSigunguNm(@Param("faclt_nm") String facltNm);
+
     List<Camp> findByMapXAndMapY(String mapX, String mapY);
 
     List<Camp> findByFacltNmContaining(String facltNm);
