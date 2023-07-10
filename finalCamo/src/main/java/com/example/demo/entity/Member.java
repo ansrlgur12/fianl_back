@@ -31,6 +31,7 @@ public class Member {
     private String email;
     private String userAddr;
     private String userPhoneNm;
+    @Column(length = 500)
     private String userImg;
     private String userGrade = "1";
     private int userScore;
