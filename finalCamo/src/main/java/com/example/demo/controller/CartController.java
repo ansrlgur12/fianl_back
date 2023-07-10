@@ -65,15 +65,18 @@ public class CartController {
     /**
      * 장바구니 삭제
      */
-    @PostMapping(value = "/deleteItem/{cartItemId}")
-    public @ResponseBody ResponseEntity deleteCartItem(@PathVariable Long cartItemId, @RequestBody Map<String, String> body) {
-        String email = body.get("email");
-        if(!cartService.validateCartItem(cartItemId, email)) {
-            return new ResponseEntity<String> ("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
+    @PostMapping(value = "/deleteItem")
+    public @ResponseBody ResponseEntity deleteCartItem(@RequestBody Map<String, Object> body) {
+        String email = (String) body.get("email");
+        List<Integer> cartItemIds = (List<Integer>) body.get("cartItemId");
 
-        cartService.deleteCartItem(cartItemId);
-        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+        for (Integer cartItemId : cartItemIds) {
+            if(!cartService.validateCartItem(cartItemId.longValue(), email)) {
+                return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            }
+            cartService.deleteCartItem(cartItemId.longValue());
+        }
+        return new ResponseEntity<List<Integer>>(cartItemIds, HttpStatus.OK);
     }
     /**
      * 장바구니 수량 수정
