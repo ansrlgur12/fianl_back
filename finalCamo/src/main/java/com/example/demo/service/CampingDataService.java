@@ -139,6 +139,7 @@ public class CampingDataService {
         if("ALL".equals(dho) && "시.군.구".equals(sigungu)){
             for (Camp camp : items) {
                 CampDto campDto = new CampDto();
+                campDto.setId(camp.getId());
                 campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFacltNm(camp.getFacltNm());
                 campDto.setAddr1(camp.getAddr1());
@@ -154,6 +155,7 @@ public class CampingDataService {
         } else if (!"ALL".equals(dho) && "시.군.구".equals(sigungu)) {
             for (Camp camp : itemsByDho) {
                 CampDto campDto = new CampDto();
+                campDto.setId(camp.getId());
                 campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFacltNm(camp.getFacltNm());
                 campDto.setAddr1(camp.getAddr1());
@@ -169,6 +171,7 @@ public class CampingDataService {
         } else {
             for (Camp camp : itemsBySelect) {
                 CampDto campDto = new CampDto();
+                campDto.setId(camp.getId());
                 campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
                 campDto.setFacltNm(camp.getFacltNm());
                 campDto.setAddr1(camp.getAddr1());
