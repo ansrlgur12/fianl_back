@@ -13,14 +13,16 @@ import java.util.List;
 @ToString
 public class CartDto {
     private Long cartItemId;
+    private Long productId;
     private String productName;
     private int quantity;
     private double price;
     private String imageUrl;
-    private String email;
 
-    public CartDto(Long cartItemId, String productName, double price, int quantity, String imageUrl) {
+
+    public CartDto(Long cartItemId,Long productId, String productName, double price, int quantity, String imageUrl) {
         this.cartItemId = cartItemId;
+        this.productId = productId;
         this.productName = productName;
         this.price = price;
         this.quantity = quantity;
