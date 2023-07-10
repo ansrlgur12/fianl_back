@@ -92,5 +92,13 @@ public class ReviewController {
         return ResponseEntity.ok(reviewDto);
     }
 
+    /**
+     * 리뷰 검색(제목, 내용)
+     */
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<List<ReviewDto>> searchReviewsByKeyword(@PathVariable("keyword") String keyword) {
+        List<ReviewDto> reviews = reviewService.searchReviews(keyword);
+        return ResponseEntity.ok(reviews);
+    }
 
 }

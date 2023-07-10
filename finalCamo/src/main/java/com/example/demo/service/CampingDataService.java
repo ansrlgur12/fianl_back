@@ -7,11 +7,13 @@ import com.example.demo.repository.CampRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,21 @@ public class CampingDataService {
         Camp campingDataEntity = convertToEntity(campDto);
         campRepository.save(campingDataEntity);
     }
+
+    public List<CampDto> searchCamp(String facltNm) {
+        List<Camp> camps = campRepository.searchByFacltNmAndDoNmAndSigunguNm(facltNm);
+        List<CampDto> dtos = new ArrayList<>();
+
+        for (Camp camp : camps) {
+            CampDto dto = new CampDto();
+            dto.setId(camp.getId());
+            dto.setFacltNm(camp.getFacltNm());
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
 
     private CampDto parseResponse(String response) {
         // 공공 API 응답 데이터를 파싱하여 CampingDataDTO 객체로 변환하는 로직을 구현해야 합니다.

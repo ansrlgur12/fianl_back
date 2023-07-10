@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
@@ -33,6 +34,15 @@ public class GoCampingController {
 
     private final CampingDataService campingDataService;
     private final CampRepository campRepository;
+
+    /**
+     * 캠핑장 검색
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<CampDto>> searchCamps(@RequestParam String facltNm) {
+        List<CampDto> camps = campingDataService.searchCamp(facltNm);
+        return ResponseEntity.ok(camps);
+    }
 
     @GetMapping("/camping-data") // 캠핑장 정보 불러오기
     public String getCampingData() throws JsonProcessingException {

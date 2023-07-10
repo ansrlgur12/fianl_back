@@ -17,6 +17,9 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByPostType(int postType);
 
+    @Query("SELECT r FROM Review r WHERE r.title LIKE %:keyword% OR r.content LIKE %:keyword%")
+    List<Review> search(@Param("keyword") String keyword);
+
     @Modifying
     @Transactional
     @Query("update Review r set r.viewCount = r.viewCount + 1 where r.id = :id")

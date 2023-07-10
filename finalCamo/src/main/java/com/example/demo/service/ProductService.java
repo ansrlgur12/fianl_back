@@ -10,11 +10,32 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    
+    /**
+     * 상품조회기능
+     */
+    public List<ProductDto> searchByBrandAndProductName(String brand, String productName) {
+        List<Product> products = productRepository.searchByBrandAndProductName(brand, productName);
+        List<ProductDto> dtos = new ArrayList<>();
+        for (Product product : products) {
+            ProductDto dto = new ProductDto();
+            dto.setId(product.getId());
+            dto.setProductName(product.getProductName());
+            dto.setPrice(product.getPrice());
+            dto.setBrand(product.getBrand());
+            dto.setImageUrl(product.getImageUrl());
+            dto.setCategory3Name(product.getCategory3Name());
+            dto.setCategory4Name(product.getCategory4Name());
+            dtos.add(dto);
+        }
+        return dtos;
+    }
 
 
     public Product save(ProductDto productDto) {// ProductDto를 매개변수로 받는 save 메소드
@@ -62,4 +83,5 @@ public class ProductService {
         } else {
             throw new RuntimeException("에러" + id);
         }
+
     }}
