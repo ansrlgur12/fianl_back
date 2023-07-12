@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Camp;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,4 +42,11 @@ public interface CampRepository extends JpaRepository<Camp, Long> {
                                              @Param("limit") int limit);
 
 
+    // 페이지네이션 테스트
+
+    Page<Camp> findAll(Pageable pageable);
+
+    Page<Camp> findByDoNmContaining(String doNm, Pageable pageable);
+
+    Page<Camp> findByDoNmContainingAndSigunguNmContaining(String doNm, String sigunguNm, Pageable pageable);
 }

@@ -54,7 +54,7 @@ public class Camp {
     private List<OneLineReview> oneLineReview; // 한줄평
 
     @OneToMany(mappedBy = "camp")
-    private List<CampComment> campComments; // 한줄평
+    private List<CampComment> campComments;
 
     @Column
     private Integer viewCount = 0; // 조회수

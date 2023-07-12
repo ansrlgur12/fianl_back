@@ -113,6 +113,14 @@ public class GoCampingController {
         List<CampDto> list = campingDataService.getClosestCampData(mapXCord, mapYCord, 100);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    // 페이지네이션 테스트
+
+    @GetMapping("/sideBarList/{dho}/{sigungu}/{page}/{size}/{sortBy}")
+    public ResponseEntity<List<CampDto>> getSidebarList(@PathVariable String dho, @PathVariable String sigungu, @PathVariable int page, @PathVariable int size, @PathVariable String sortBy) {
+        List<CampDto> list = campingDataService.getCampDataWithPagination(dho, sigungu, page, size, sortBy);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 }
 
 
