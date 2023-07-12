@@ -15,6 +15,7 @@ import org.thymeleaf.util.StringUtils;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,14 +105,26 @@ public class FavoriteService {
 
 
     @Transactional
-    public void moveToCart(Long FavoriteItemId, Long cartId) {
-      FavoriteItem favoriteItem = favoriteItemRepository.findById(FavoriteItemId)
+    public void moveToCart(Long favoriteItemId, Long cartId) {
+        FavoriteItem favoriteItem = favoriteItemRepository.findById(favoriteItemId)
                 .orElseThrow(() -> new IllegalArgumentException("id가 다릅니다"));
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new IllegalArgumentException("cart id가 다릅니다"));
 
-        CartItem cartItem = CartItem.createCartItem(cart, favoriteItem.getProduct(), 1);
-        cartItemRepository.save(cartItem);
+        // Check if the product already exists in the cart
+        Optional<CartItem> existingCartItem = cartItemRepository.findByCartAndProduct(cart, favoriteItem.getProduct());
+
+        if (existingCartItem.isPresent()) {
+            // If the product already exists in the cart, increase the quantity
+            CartItem cartItem = existingCartItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            cartItemRepository.save(cartItem);
+        } else {
+            // If the product does not exist in the cart, create a new cart item
+            CartItem cartItem = CartItem.createCartItem(cart, favoriteItem.getProduct(), 1);
+            cartItemRepository.save(cartItem);
+        }
+
         favoriteItemRepository.delete(favoriteItem);
     }
 
