@@ -7,6 +7,10 @@ import com.example.demo.repository.CampRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -323,6 +327,51 @@ public class CampingDataService {
             campDto.setAddr1(camp.getAddr1());
             campDto.setMapX(camp.getMapX());
             campDto.setMapY(camp.getMapY());
+            campDtos.add(campDto);
+        }
+
+        return campDtos;
+    }
+
+    // 페이지네이션 테스트
+    public List<CampDto> getCampDataWithPagination(String dho, String sigungu, int page, int size, String sortBy) {
+        Pageable pageable;
+        if("이름순".equals(sortBy)) {
+            pageable = PageRequest.of(page, size, Sort.by("facltNm").ascending());
+        } else if("등록순".equals(sortBy)){
+            pageable = PageRequest.of(page, size, Sort.by("createdtime").ascending());
+        } else if("조회순".equals(sortBy)){
+            pageable = PageRequest.of(page, size, Sort.by("viewCount").descending());
+        } else if("인기순".equals(sortBy)){
+            pageable = PageRequest.of(page, size, Sort.by("likes").descending());
+        } else{
+            pageable = PageRequest.of(page, size, Sort.by("campComments").descending());
+        }
+
+
+        Page<Camp> campPage;
+        if ("ALL".equals(dho) && "시.군.구".equals(sigungu)) {
+            campPage = campRepository.findAll(pageable);
+        } else if (!"ALL".equals(dho) && "시.군.구".equals(sigungu)) {
+            campPage = campRepository.findByDoNmContaining(dho, pageable);
+        } else {
+            campPage = campRepository.findByDoNmContainingAndSigunguNmContaining(dho, sigungu, pageable);
+        }
+
+        List<CampDto> campDtos = new ArrayList<>();
+        for (Camp camp : campPage) {
+            CampDto campDto = new CampDto();
+            campDto.setId(camp.getId());
+            campDto.setAnimalCmgCl(camp.getAnimalCmgCl());
+            campDto.setFacltNm(camp.getFacltNm());
+            campDto.setAddr1(camp.getAddr1());
+            campDto.setMapX(camp.getMapX());
+            campDto.setMapY(camp.getMapY());
+            campDto.setFirstImageUrl(camp.getFirstImageUrl());
+            campDto.setCreatedtime(camp.getCreatedtime());
+            campDto.setViewCount(camp.getViewCount());
+            campDto.setLikes(camp.getLikes().size());
+            campDto.setComments(camp.getCampComments().size());
             campDtos.add(campDto);
         }
 
