@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.MemberResponseDto;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import lombok.ToString;
@@ -27,9 +28,36 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
+    /**
+     * JWT 회원 찾기(회원번호)
+     */
     public List<Member> findMember() {
         return memberRepository.findAll();
     }
+
+    public MemberResponseDto findMemberInfoById(Long memberId){
+        return memberRepository.findById(memberId)
+                .map(MemberResponseDto::of)
+                //map(MemberResponseDto::of)는 Optional<Member>에 대해 MemberResponseDto로 변환합니다.
+                // MemberResponseDto::of는 MemberResponseDto 클래스의 정적 메서드인 of를 참조합니다.
+
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+        //이 코드는 memberId를 사용하여 회원 정보를 조회하고, 조회된 회원 정보를 MemberResponseDto 객체로 변환하여 반환합니다.
+        //만약 memberId에 해당하는 회원이 없을 경우 예외를 발생시킵니다
+    }
+
+    /**
+     * JWT 회원 찾기(이메일)
+     */
+
+    public MemberResponseDto findMemberInfoByEmail(String email){
+        return memberRepository.findByEmail(email)
+                .map(MemberResponseDto::of)
+                .orElseThrow(() -> new RuntimeException("유저 정보가 없습니다."));
+    }
+
+
 
     /**
      * 회원 가입

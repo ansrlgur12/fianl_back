@@ -40,18 +40,22 @@ public class Member {
     private String optAgreed;
     private String snsLogin;
     private LocalDateTime join_time;
+    @Column(length = 10)
+    private String authKey;                         // 이메일 인증키
 
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     @Builder
-    public Member(String nickName, String email, String password, String reqAgreed, Authority authority){
+    public Member(String nickName, String email, String password, String reqAgreed,
+                  Authority authority, String authKey){
         this.nickName = nickName;
         this.email = email;
         this.password = password;
         this.reqAgreed = reqAgreed;
         this.authority = authority;
+        this.authKey = authKey;
     }
 
     @OneToMany(mappedBy = "member")
