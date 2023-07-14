@@ -36,6 +36,11 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+
+                .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -63,6 +68,7 @@ public class WebSecurityConfig {
                 .antMatchers("/favorite/**").permitAll()
                 .antMatchers("/product-search/**").permitAll()
                 .antMatchers("/mainsection2/**").permitAll()
+                .antMatchers("/api/v1/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/json").permitAll()
                 .antMatchers("/order/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/product","/productDetail/**").permitAll()

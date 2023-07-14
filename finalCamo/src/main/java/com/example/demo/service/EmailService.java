@@ -4,6 +4,7 @@ import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
@@ -91,11 +92,11 @@ public class EmailService {
     }
 
     /**
-       메일 발송
-       sendSimpleMessage의 매개변수로 들어온 to는 인증번호를 받을 메일주소
-       MimeMessage 객체 안에 내가 전송할 메일의 내용을 담아준다.
-       bean으로 등록해둔 javaMailSender 객체를 사용하여 이메일 send
-    */
+     메일 발송
+     sendSimpleMessage의 매개변수로 들어온 to는 인증번호를 받을 메일주소
+     MimeMessage 객체 안에 내가 전송할 메일의 내용을 담아준다.
+     bean으로 등록해둔 javaMailSender 객체를 사용하여 이메일 send
+     */
 
     /**
      * 비밀번호찾기 인증번호 전송
