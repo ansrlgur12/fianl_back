@@ -10,8 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -63,34 +66,43 @@ public class MemberController {
         return ResponseEntity.ok(memberService.findMemberInfoById(SecurityUtil.getCurrentMemberId()));
     }
 
+    /**
+     *  비밀번호 변경
+     */
+    @PutMapping("/changePwd")
+    public ResponseEntity<?> changePwd(@RequestBody Member member, HttpServletRequest request,
+                                             @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            boolean isUpdate = memberService.changePwd(member, request, userDetails);
+            return ResponseEntity.ok("비밀번호 변경 ");
+        } catch (IllegalAccessError e) {
+            return ResponseEntity.badRequest().body("비밀번호 변경 실패.. 😰" + e.getMessage());
+        }
+    }
 
-//    @PostMapping("/intro/signup")
-//    public ResponseEntity<Boolean> registerMember(@RequestBody Map<String, String> data) {
-//        String nickName = data.get("nickName");
-//        String email = data.get("email");
-//        String password = data.get("password");
-//        String agreed = data.get("agreed");
-//        boolean isTrue = memberService.regMember(nickName, email, password, agreed);
-//        return new ResponseEntity<>(isTrue, HttpStatus.OK);
-//    }
+    /**
+     * 회원정보 가져오기
+     */
+    @GetMapping("/userinfo")
+    public MemberDto getUerInfo(HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return memberService.getUerInfo(request, userDetails);
+    }
 
-//    @PostMapping("/intro/login")
-//    public ResponseEntity<Member> login(@RequestBody MemberDto memberDto) {
-//        Optional<Member> member = memberService.login(memberDto.getEmail(), memberDto.getPassword());
-//        if (member.isPresent()) {
-//            return new ResponseEntity<>(member.get(), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
-//    }
+    /**
+     * 회원정보 수정
+     */
+    @PutMapping("/updateUserInfo")
+    public ResponseEntity<Boolean> updateUserInfo(@RequestBody MemberDto memberDto, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        boolean result = memberService.updateUserInfo(memberDto, request, userDetails);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
-//    @PostMapping("/NewPassword")
-//    @ResponseBody
-//    public ResponseEntity<Boolean> newPwd(@RequestBody Map<String, String> resetPwdData) {
-//        String email = resetPwdData.get("email");
-//        String newPwd = resetPwdData.get("newPwd");
-//        return ResponseEntity.ok(memberService.changePwd(email, newPwd));
-//    }
+
+
+
+
+
+
 
 //    @PostMapping("/intro/findpwd")
 //    public ResponseEntity<Boolean> memberFindPwd(@RequestBody Map<String, String> findPwdData) {
@@ -101,16 +113,16 @@ public class MemberController {
 
 
 
-//    @PostMapping("/UserEdit")
-//    @ResponseBody
-//    public ResponseEntity<Boolean> newProfile(@RequestBody Map<String, String> newData){
-//        Long id = Long.valueOf(newData.get("id"));
-//        String newNick = newData.get("newNick");
-//        String email = newData.get("email");
-//        String userPhoneNm = newData.get("newPhone");
-//        String userImg = newData.get("newImg");
-//        return ResponseEntity.ok(memberService.newProfile(id, newNick, email, userPhoneNm, userImg));
-//    }
+    @PostMapping("/UserEdit")
+    @ResponseBody
+    public ResponseEntity<Boolean> newProfile(@RequestBody Map<String, String> newData){
+        Long id = Long.valueOf(newData.get("id"));
+        String newNick = newData.get("newNick");
+        String email = newData.get("email");
+        String userPhoneNm = newData.get("newPhone");
+        String userImg = newData.get("newImg");
+        return ResponseEntity.ok(memberService.newProfile(id, newNick, email, userPhoneNm, userImg));
+    }
 
 
 }

@@ -1,32 +1,33 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.MemberDto;
 import com.example.demo.dto.MemberResponseDto;
 import com.example.demo.entity.Member;
 import com.example.demo.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @ToString
 @Service
-//@RequiredArgsConstructor
+@Transactional
+@RequiredArgsConstructor
+
 public class MemberService {
     private final MemberRepository memberRepository;
-
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public MemberService (MemberRepository memberRepository, PasswordEncoder passwordEncoder){
-        this.memberRepository = memberRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final AuthService authService;
+    private final ReviewService reviewService;
 
 
     /**
@@ -50,7 +51,6 @@ public class MemberService {
     /**
      * JWT 회원 찾기(이메일)
      */
-
     public MemberResponseDto findMemberInfoByEmail(String email){
         return memberRepository.findByEmail(email)
                 .map(MemberResponseDto::of)
@@ -58,65 +58,25 @@ public class MemberService {
     }
 
 
-
-    /**
-     * 회원 가입
-     * */
-    public boolean regMember(String nickName, String email, String password, String agreed) {
-        // 이메일 중복 체크
-        Optional<Member> existingMember = memberRepository.findByEmail(email);
-        if (existingMember.isPresent()) {
-            // 이미 같은 이메일로 가입된 회원이 있는 경우
-            return false;
-        }
-        // 회원 가입 로직을 처리하는 코드 작성
-        Member newMember = new Member();
-        newMember.setNickName(nickName);
-        newMember.setEmail(email);
-        newMember.setPassword(password);
-        newMember.setReqAgreed(agreed);
-        newMember.setJoin_time(LocalDateTime.now());
-        newMember.setUserGrade("1");
-        // 회원 저장
-        memberRepository.save(newMember);
-
-        return true;
-    }
-
-    /**
-     * 로그인(JSON 반환)
-     * */
-    public Optional<Member> login(String email, String password) {
-        // 이메일과 비밀번호를 기반으로 회원을 검색
-        Optional<Member> memberOptional = memberRepository.findByEmailAndPassword(email, password);
-        if (memberOptional.isPresent()) {
-            // 회원이 존재하면 로그인 성공
-            return memberOptional;
-        } else {
-            // 회원이 존재하지 않으면 로그인 실패
-            return Optional.empty();
-        }
-    }
-
-
     /**
      * 비밀번호 변경
      */
-    public boolean changePwd(String email, String newPwd) {
-        Optional<Member> memberEmail = memberRepository.findByEmail(email);
-        if(memberEmail.isEmpty()) return false;
-        Member member = memberEmail.get();
-        member.setPassword(newPwd);
-//        member.setPassword(passwordEncoder.encode(newPwd));
-        Member savedMember = memberRepository.save(member);
-        log.info(savedMember.toString());
+    public boolean changePwd(Member member, HttpServletRequest request, UserDetails userDetails) {
+        Member authUser = authService.validateTokenAndGetUser(request, userDetails);
+
+        Member user = memberRepository.findById(authUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
+        if (member.getPassword() == null || member.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("비밀번호가 없어요.");
+        }
+
+        String encodedPassword = passwordEncoder.encode(member.getPassword());
+        user.setPassword(encodedPassword);
+        Member saveMember = memberRepository.save(user);
+        log.info(saveMember.toString());
+
         return true;
-    }
-    /**
-     * 비밀번호 찾기
-     */
-    public boolean findPwd(String nickName, String email) {
-        return !memberRepository.findByNickNameAndEmail(nickName, email).isEmpty();
+
     }
 
     /**
@@ -131,8 +91,44 @@ public class MemberService {
     }
 
     /**
-     * 프로필 수정
+     * 회원정보 가져오기
      */
+    public MemberDto getUerInfo(HttpServletRequest request, UserDetails userDetails){
+        Member authUser = authService.validateTokenAndGetUser(request, userDetails);
+        Optional<Member> member = memberRepository.findById(authUser.getId());
+        MemberDto memberDto = new MemberDto();
+        memberDto.setId(member.get().getId());
+        memberDto.setEmail(member.get().getEmail());
+        memberDto.setUserImg(member.get().getUserImg());
+        memberDto.setNickName(member.get().getNickName());
+        memberDto.setUserAddr(member.get().getUserAddr());
+        memberDto.setUserPhoneNm(member.get().getUserPhoneNm());
+        return memberDto;
+    }
+
+    /**
+     * 회원정보 수정
+     */
+    public boolean updateUserInfo(MemberDto memberDto, HttpServletRequest request, UserDetails userDetails) throws IllegalAccessError{
+        Member authUser = authService.validateTokenAndGetUser(request, userDetails);
+        Member user = memberRepository.findById(authUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
+        user.setUserImg(memberDto.getUserImg());
+        user.setUserAddr(memberDto.getUserAddr());
+        user.setUserPhoneNm(memberDto.getUserPhoneNm());
+        memberRepository.save(user);
+
+        return true;
+    }
+
+
+
+
+
+
+
+
+
     public boolean newProfile(Long id, String newNick, String email, String userPhoneNm, String userImg){
         Optional<Member> memberProfile=memberRepository.findById(id);
         if(memberProfile.isEmpty()) return false;
