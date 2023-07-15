@@ -13,7 +13,7 @@ public interface FavoriteItemRepository extends JpaRepository<FavoriteItem, Long
 
     FavoriteItem findByFavoriteIdAndProductId(Long favoriteId, Long productId);
 
-    @Query(value = "select new com.example.demo.dto.FavoriteDto(fi.id, p.productName, p.price, p.imageUrl) " +
+    @Query(value = "select new com.example.demo.dto.FavoriteDto(fi.id, p.id,p.productName, p.price, p.imageUrl) " +
             "from FavoriteItem fi " +
             "join fi.product p " +
             "where fi.favorite.id = :favoriteId")
