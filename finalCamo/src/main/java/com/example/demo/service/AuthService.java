@@ -15,10 +15,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -110,5 +112,23 @@ public class AuthService {
         Optional<Member> member = memberRepository.findByEmail(email);
         return member.isPresent();
     }
+
+    public Member validateTokenAndGetUser(HttpServletRequest request, UserDetails userDetails) {
+        String accessToken = request.getHeader("Authorization");
+        if (accessToken != null && accessToken.startsWith("Bearer ")) {
+            accessToken = accessToken.substring(7);
+        }
+        // 🔑토큰 유효한지 검증
+        if (accessToken != null && tokenProvider.validateToken(accessToken)) {
+            Long Id = Long.valueOf(userDetails.getUsername());
+            Member member =  memberRepository.findById(Id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+            return member;
+        } else {
+            throw new IllegalStateException("토큰이 만료됐습니다. Refresh Token을 보내주세요.");
+        }
+    }
+
+
 
 }
