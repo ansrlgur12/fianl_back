@@ -3,9 +3,13 @@ package com.example.demo.controller;
 import com.example.demo.dto.ReviewDto;
 import com.example.demo.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -24,18 +28,12 @@ public class ReviewController {
      * 리뷰 작성
      */
     @PostMapping
-    public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDto) {
-        ReviewDto createdReview = reviewService.createReview(
-                reviewDto.getMemberId(),
-                reviewDto.getTitle(),
-                reviewDto.getContent(),
-                reviewDto.getDate(),
-                reviewDto.getPostType(),
-                reviewDto.getViewCount(),
-                reviewDto.getImg()
-        );
+    public ResponseEntity<?> createReview(@RequestBody ReviewDto reviewDto, @AuthenticationPrincipal UserDetails userDetails,
+                                          HttpServletRequest request){
 
-        return ResponseEntity.ok(createdReview);
+     boolean isCreate = reviewService.createReview(reviewDto, request, userDetails);
+     if (isCreate) return new ResponseEntity<>("글 작성 성공", HttpStatus.OK);
+     else return new ResponseEntity<>("글 작성 실패", HttpStatus.NO_CONTENT);
     }
 
     /**

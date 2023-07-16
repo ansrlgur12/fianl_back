@@ -97,32 +97,19 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * 회원 탈퇴
+     */
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal UserDetails userDetails, HttpServletRequest request) {
+        try {
+            memberService.deleteUser(request, userDetails);
+            return new ResponseEntity<>("회원 탈퇴", HttpStatus.ACCEPTED);
+        } catch (IllegalAccessException e) {
+            return new ResponseEntity<>("회원 탈퇴 실패" + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 
 
-
-
-
-
-
-//    @PostMapping("/intro/findpwd")
-//    public ResponseEntity<Boolean> memberFindPwd(@RequestBody Map<String, String> findPwdData) {
-//        String nickName = findPwdData.get("nickName");
-//        String email = findPwdData.get("email");
-//        return ResponseEntity.ok(memberService.findPwd(nickName, email));
-//    }
-
-
-
-    @PostMapping("/UserEdit")
-    @ResponseBody
-    public ResponseEntity<Boolean> newProfile(@RequestBody Map<String, String> newData){
-        Long id = Long.valueOf(newData.get("id"));
-        String newNick = newData.get("newNick");
-        String email = newData.get("email");
-        String userPhoneNm = newData.get("newPhone");
-        String userImg = newData.get("newImg");
-        return ResponseEntity.ok(memberService.newProfile(id, newNick, email, userPhoneNm, userImg));
     }
-
 
 }
