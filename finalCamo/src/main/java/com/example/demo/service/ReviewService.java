@@ -8,60 +8,61 @@ import com.example.demo.entity.Review;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.ReviewRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
+    private final AuthService authService;
 
     @Autowired
     public ReviewService(ReviewRepository reviewRepository, MemberRepository memberRepository,
-                         CommentRepository commentRepository) {
+                         CommentRepository commentRepository, AuthService authService) {
         this.reviewRepository = reviewRepository;
         this.memberRepository = memberRepository;
         this.commentRepository = commentRepository;
+        this.authService = authService;
     }
 
     /**
      * 리뷰 작성
      */
-    public ReviewDto createReview(Long memberId, String title, String content, LocalDate date, int postType,
-                                  Long viewCount, String img) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+    /**
+     * 리뷰 작성
+     */
+    public boolean createReview(ReviewDto reviewDto, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+
+        reviewDto.setId(member.getId());
 
         Review review = new Review();
         review.setMember(member);
-        review.setTitle(title);
-        review.setContent(content);
-        review.setDate(date);
-        review.setPostType(postType);
-        review.setViewCount(viewCount);
-        review.setImg(img);
+        review.setTitle(reviewDto.getTitle());
+        review.setContent(reviewDto.getContent());
+        review.setDate(reviewDto.getDate());
+        review.setPostType(reviewDto.getPostType());
+        review.setViewCount(reviewDto.getViewCount());
+        review.setImg(reviewDto.getImg());
 
         Review savedReview = reviewRepository.save(review);
-
-        return ReviewDto.builder()
-                .id(savedReview.getId())
-                .memberId(savedReview.getMember().getId())
-                .title(savedReview.getTitle())
-                .content(savedReview.getContent())
-                .date(savedReview.getDate())
-                .postType(savedReview.getPostType())
-                .img(savedReview.getImg())
-                .viewCount(review.getViewCount() + 1)
-                .build();
+        return savedReview != null;
     }
+
 
     /**
      * 리뷰 수정

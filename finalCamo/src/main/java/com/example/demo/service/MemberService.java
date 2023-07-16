@@ -121,38 +121,16 @@ public class MemberService {
         return true;
     }
 
-
-
-
-
-
-
-
-
-    public boolean newProfile(Long id, String newNick, String email, String userPhoneNm, String userImg){
-        Optional<Member> memberProfile=memberRepository.findById(id);
-        if(memberProfile.isEmpty()) return false;
-        Member member = memberProfile.get();
-        if (!newNick.isEmpty()) {
-            member.setNickName(newNick);
-        }
-        if (!email.isEmpty()) {
-            member.setEmail(email);
-        }
-        if (!userPhoneNm.isEmpty()) {
-            member.setUserPhoneNm(userPhoneNm);
-        }
-        if (!userImg.isEmpty()) {
-            member.setUserImg(userImg);
-        }
-        Member savedMember = memberRepository.save(member);
-        log.info(savedMember.toString());
-        return true;
-    }
-
     /**
      * 회원 탈퇴
      */
+    public void deleteUser(HttpServletRequest request, UserDetails userDetails) throws IllegalAccessException {
+        Member authUser =  authService.validateTokenAndGetUser(request, userDetails);
+
+        Member member = memberRepository.findById(authUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
+        memberRepository.delete(member);
+    }
 
 
     /**
