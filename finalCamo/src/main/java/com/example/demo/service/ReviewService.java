@@ -42,9 +42,6 @@ public class ReviewService {
     /**
      * 리뷰 작성
      */
-    /**
-     * 리뷰 작성
-     */
     public boolean createReview(ReviewDto reviewDto, HttpServletRequest request, UserDetails userDetails) {
         Member member = authService.validateTokenAndGetUser(request, userDetails);
 
@@ -68,13 +65,12 @@ public class ReviewService {
      * 리뷰 수정
      */
     @Transactional
-    public ReviewDto updateReview(Long id, ReviewDto reviewDto, Long memberId) {  // memberId 파라미터 추가
+    public ReviewDto updateReview(Long id, ReviewDto reviewDto, HttpServletRequest request,
+                                  UserDetails userDetails) {
+
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
-
-        if (!review.getMember().getId().equals(memberId)) {  // 작성자와 로그인한 사용자가 다른 경우 예외 발생
-            throw new IllegalStateException("본인이 작성한 리뷰만 수정할 수 있습니다.");
-        }
 
         review.setTitle(reviewDto.getTitle());
         review.setContent(reviewDto.getContent());
@@ -100,13 +96,13 @@ public class ReviewService {
     /**
      * 리뷰 삭제
      */
-    public void deleteReview(Long id, Long memberId) {
+    public void deleteReview(Long id, HttpServletRequest request,
+                             UserDetails userDetails) {
+
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 리뷰가 없습니다."));
-
-        if (!review.getMember().getId().equals(memberId)) {
-            throw new IllegalArgumentException("리뷰 작성자만 리뷰를 삭제할 수 있습니다.");
-        }
 
         // 관련된 댓글 삭제
         List<Comment> comments = review.getComment();
@@ -144,9 +140,10 @@ public class ReviewService {
      * 특정 회원이 작성한 리뷰 가져오기
      */
     @Transactional(readOnly = true)
-    public List<ReviewDto> getReviewsByMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+    public List<ReviewDto> getReviewsByMember(HttpServletRequest request,
+                                              UserDetails userDetails)
+    {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
 
         List<Review> reviews = reviewRepository.findByMember(member);
         List<ReviewDto> reviewDtoList = new ArrayList<>();
@@ -159,7 +156,7 @@ public class ReviewService {
                     .date(review.getDate())
                     .postType(review.getPostType())
                     .img(review.getImg())
-                    .viewCount(review.getViewCount() + 1)
+                    .viewCount(review.getViewCount())
                     .build();
             reviewDtoList.add(reviewDto);
         }

@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ReviewDto;
+import com.example.demo.repository.MemberRepository;
+import com.example.demo.service.AuthService;
 import com.example.demo.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,19 +42,32 @@ public class ReviewController {
      * 리뷰 수정
      */
     @PutMapping("/{id}")
-    public ResponseEntity<ReviewDto> updateReview(@PathVariable("id") Long id, @RequestBody ReviewDto reviewDto, @RequestParam Long memberId) {
-        ReviewDto updatedReview = reviewService.updateReview(id, reviewDto, memberId);
-        return ResponseEntity.ok(updatedReview);
+    public ResponseEntity<?> updateReview(@PathVariable("id") Long id, @RequestBody ReviewDto reviewDto,
+                                          @AuthenticationPrincipal UserDetails userDetails,
+                                          HttpServletRequest request) {
+        try {
+            ReviewDto updatedReview = reviewService.updateReview(id, reviewDto, request, userDetails);
+            return ResponseEntity.ok(updatedReview);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalStateException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
     }
+
 
     /**
      * 리뷰삭제
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteReview(@PathVariable("id") Long id, @RequestParam("memberId") Long memberId) {
-        reviewService.deleteReview(id, memberId);
-        return ResponseEntity.ok("리뷰가 성공적으로 삭제되었습니다.");
+    public ResponseEntity<?> deleteReview(@PathVariable Long id,
+                                               @AuthenticationPrincipal UserDetails userDetails,
+                                               HttpServletRequest request) {
+        reviewService.deleteReview(id, request, userDetails);
+
+        return new ResponseEntity<>("게시글 삭제", HttpStatus.ACCEPTED);
     }
+
 
     /**
      * 모든 리뷰 가져오기
@@ -66,9 +81,10 @@ public class ReviewController {
     /**
      * 특정 회원이 작성한 리뷰 가져오기
      */
-    @GetMapping("/member/{memberId}")
-    public ResponseEntity<List<ReviewDto>> getReviewsByMember(@PathVariable("memberId") Long memberId) {
-        List<ReviewDto> reviews = reviewService.getReviewsByMember(memberId);
+    @GetMapping("/member/")
+    public ResponseEntity<List<ReviewDto>> getReviewsByMember(@AuthenticationPrincipal UserDetails userDetails,
+                                                              HttpServletRequest request) {
+        List<ReviewDto> reviews = reviewService.getReviewsByMember(request, userDetails);
         return ResponseEntity.ok(reviews);
     }
 

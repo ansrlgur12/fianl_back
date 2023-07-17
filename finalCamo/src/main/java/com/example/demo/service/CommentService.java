@@ -8,9 +8,11 @@ import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,74 +24,83 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+    private final AuthService authService;
 
     @Autowired
     public CommentService(CommentRepository commentRepository, MemberRepository member1Repository,
-                          ReviewRepository reviewRepository) {
+                          ReviewRepository reviewRepository, AuthService authService) {
         this.commentRepository = commentRepository;
         this.memberRepository = member1Repository;
         this.reviewRepository = reviewRepository;
+        this.authService = authService;
     }
 
     /**
      * 특정 회원 댓글 생성
      */
-    public CommentDto createComment(Long reviewId, Long memberId, String content) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다.")); // 에러처리
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다.")); // 에러처리
+    public boolean createComment(Long id, CommentDto commentDto,
+                                 HttpServletRequest request, UserDetails userDetails) {
+
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
 
         Comment comment = new Comment();
         comment.setReview(review);
         comment.setMember(member);
-        comment.setContent(content);
+        comment.setContent(commentDto.getContent());
         comment.setCreatedAt(LocalDateTime.now());
 
         Comment savedComment = commentRepository.save(comment);
 
-        return CommentDto.builder()
-                .id(savedComment.getId())
-                .postType(savedComment.getPostType())
-                .reviewId(savedComment.getReview().getId())
-                .memberId(savedComment.getMember().getId())
-                .content(savedComment.getContent())
-                .createdAt(savedComment.getCreatedAt())
-                .build();
+        if (savedComment != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
 
     /**
      * 특정 회원 댓글 수정
      */
-    public CommentDto updateComment(Long commentId, Long memberId, String content) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다."));
+    public boolean updateComment(Long id, CommentDto commentDto,
+                                    HttpServletRequest request, UserDetails userDetails) {
 
-        if(!comment.getMember().getId().equals(memberId)) {
-            throw new IllegalStateException("댓글 작성자만 댓글을 수정할 수 있습니다.");
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+
+        Comment comment = new Comment();
+        comment.setReview(review);
+        comment.setMember(member);
+        comment.setContent(commentDto.getContent());
+        comment.setCreatedAt(LocalDateTime.now());
+
+        Comment savedComment = commentRepository.save(comment);
+
+        if (savedComment != null) {
+            return true;
+        } else {
+            return false;
         }
-        comment.setContent(content);
-
-        commentRepository.save(comment);
-
-        return new CommentDto(comment);
     }
 
     /**
      * 특정 회원 댓글 삭제
      */
-    public void deleteComment(Long commentId, Long memberId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다.")); // 에러처리
+    public void deleteComment(Long id, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
 
-        if(!comment.getMember().getId().equals(memberId)){
-            throw new IllegalStateException("댓글 작성자만 댓글을 작성할 수 있습니다.");
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+
+        if (member.getId().equals(comment.getMember().getId())){
+            commentRepository.delete(comment);
+        } else {
+            throw new IllegalArgumentException("댓글 작성자가 아닙니다.");
         }
-
-        commentRepository.deleteById(commentId);
-
     }
 
 
@@ -121,10 +132,9 @@ public class CommentService {
     /**
      * 특정 회원이 작성한 댓글 가져오기
      */
-    public List<CommentDto> getCommentsByMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
-
+    public List<CommentDto> getCommentsByMember(HttpServletRequest request,
+                                                UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request,userDetails);
         List<Comment> comments = commentRepository.findByMember(member);
         List<CommentDto> commentDtoList = new ArrayList<>();
         for (Comment comment : comments) {
