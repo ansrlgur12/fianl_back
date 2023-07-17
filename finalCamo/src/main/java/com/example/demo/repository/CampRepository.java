@@ -30,7 +30,6 @@ public interface CampRepository extends JpaRepository<Camp, Long> {
     List<Camp> findTop32ByDoNmContainingAndAnimalCmgClNotContaining(String doNm, String animalCmgCl);
 
     List<Camp> findByFacltNm(String facltNm);
-
     List<Camp> findByContentId(String contentId);
 
     @Query(value = "SELECT * FROM camp " +
