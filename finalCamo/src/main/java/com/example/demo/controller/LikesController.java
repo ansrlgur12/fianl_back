@@ -6,8 +6,11 @@ import com.example.demo.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -20,6 +23,22 @@ public class LikesController {
     @Autowired
     public LikesController(LikesService likesService) {
         this.likesService = likesService;
+    }
+
+    /**
+     * 특정 리뷰 좋아요(JWT적용)
+     */
+    @PostMapping("/review/{reviewId}")
+    public ResponseEntity<?> likeReview(@PathVariable Long reviewId, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(likesService.likeReviewByMember(reviewId, request, userDetails));
+    }
+
+    /**
+     * 특정 리뷰 좋아요 갯수 확인(JWT적용)
+     */
+    @GetMapping("/review/{reviewId}")
+    public ResponseEntity<Integer> countReviewLikes(@PathVariable Long reviewId, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(likesService.countLikesByReview(reviewId, request, userDetails));
     }
 
     /**
@@ -73,28 +92,12 @@ public class LikesController {
     }
 
     /**
-     * 특정 리뷰 좋아요
-     */
-    @PostMapping("/review/{reviewId}/member/{memberId}")
-    public ResponseEntity<LikesDto> likeReview(@PathVariable Long memberId, @PathVariable Long reviewId) {
-        return ResponseEntity.ok(likesService.likeReviewByMember(memberId, reviewId));
-    }
-
-    /**
      * 특정 리뷰 좋아요 취소
      */
     @DeleteMapping("/review/{reviewId}/member/{memberId}")
     public ResponseEntity<Void> unlikeReview(@PathVariable Long memberId, @PathVariable Long reviewId) {
         likesService.unlikeReviewByMember(memberId, reviewId);
         return ResponseEntity.ok().build();
-    }
-
-    /**
-     * 특정 리뷰 좋아요 갯수 확인
-     */
-    @GetMapping("/review/{reviewId}")
-    public ResponseEntity<Integer> countReviewLikes(@PathVariable Long reviewId) {
-        return ResponseEntity.ok(likesService.countLikesByReview(reviewId));
     }
 
     /**

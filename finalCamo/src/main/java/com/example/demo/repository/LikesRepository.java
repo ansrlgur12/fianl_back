@@ -4,8 +4,11 @@ import com.example.demo.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, Long> {
+    Optional<Likes> findByMemberAndReview(Member member, Review review);
     int countByProduct(Product product);
     void deleteByMemberAndProduct(Member member, Product product);
 
