@@ -2,13 +2,17 @@ package com.example.demo.service;
 
 import com.example.demo.dto.CampDto;
 import com.example.demo.dto.LikesDto;
+import com.example.demo.dto.ReviewDto;
 import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,19 +23,52 @@ public class LikesService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
     private final CampRepository campRepository;
-
     private final ReviewRepository reviewRepository;
+    private final AuthService authService;
 
     @Autowired
     public LikesService(LikesRepository likesRepository, MemberRepository memberRepository,
                         ProductRepository productRepository, CampRepository campRepository,
-                        ReviewRepository reviewRepository){
+                        ReviewRepository reviewRepository, AuthService authService){
 
         this.likesRepository = likesRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
         this.campRepository = campRepository;
         this.reviewRepository = reviewRepository;
+        this.authService = authService;
+    }
+
+    /**
+     * 특정 리뷰 좋아요(JWT적용)
+     */
+    public boolean likeReviewByMember(Long reviewId, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+
+        Optional<Likes> existingLike = likesRepository.findByMemberAndReview(member, review);
+        if (existingLike.isPresent()) {
+            return false;
+        }
+
+        Likes savedLike = Likes.builder()
+                .member(member)
+                .review(review)
+                .build();
+        likesRepository.save(savedLike);
+
+        return true;
+    }
+
+    /**
+     * 특정 게시판 리뷰 갯수 확인(JWT 적용)
+     */
+    public int countLikesByReview(Long reviewId, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
+        return likesRepository.countByReview(review);
     }
 
     /**
@@ -124,30 +161,6 @@ public class LikesService {
     }
 
     /**
-     * 특정 게시판 리뷰 좋아요 추가
-     */
-    public LikesDto likeReviewByMember(Long memberId, Long reviewId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
-
-        Likes savedLike = Likes.builder()
-                .member(member)
-                .review(review)
-                .build();
-        savedLike = likesRepository.save(savedLike);
-
-        LikesDto likesDto = LikesDto.builder()
-                .count(savedLike.getCount())
-                .reviewId(savedLike.getReview().getId())
-                .memberId(savedLike.getMember().getId())
-                .build();
-
-        return likesDto;
-    }
-
-    /**
      * 특정 게시판 리뷰 좋아요 취소
      */
     public void unlikeReviewByMember(Long memberId, Long reviewId) {
@@ -156,15 +169,6 @@ public class LikesService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
         likesRepository.deleteByMemberAndReview(member, review);
-    }
-
-    /**
-     * 특정 게시판 리뷰 갯수 확인
-     */
-    public int countLikesByReview(Long reviewId) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
-        return likesRepository.countByReview(review);
     }
 
     /**
