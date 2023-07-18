@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -112,14 +113,16 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
-
     /**
      * 모든 리뷰 가져오기
      */
     @Transactional(readOnly = true)
-    public List<ReviewDto> getAllReviews() {
+    public List<ReviewDto> getAllReviews(HttpServletRequest request, UserDetails userDetails) throws IllegalAccessException {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+
         List<Review> reviews = reviewRepository.findAll();
         List<ReviewDto> reviewDtoList = new ArrayList<>();
+
         for (Review review : reviews) {
             ReviewDto reviewDto = ReviewDto.builder()
                     .id(review.getId())
@@ -133,8 +136,10 @@ public class ReviewService {
                     .build();
             reviewDtoList.add(reviewDto);
         }
+
         return reviewDtoList;
     }
+
 
     /**
      * 특정 회원이 작성한 리뷰 가져오기
@@ -187,12 +192,13 @@ public class ReviewService {
     }
 
     /**
-     * 특정 게시글번호에 해당하는 리뷰 가져오기 및 조회수 증가
+     * 특정 게시글번호에 해당하는 리뷰 가져오기 및 조회수 증가 이거임
      */
-    public ReviewDto getReviewById(Long id) {
+    @Transactional
+    public ReviewDto getReviewById(Long id, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
-        reviewRepository.incrementViewCount(id);
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
         return ReviewDto.builder()
                 .id(review.getId())
                 .memberId(review.getMember().getId())
