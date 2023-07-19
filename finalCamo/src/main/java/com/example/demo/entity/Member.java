@@ -61,18 +61,19 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Cart> cart; // 회원의 장바구니 리스트
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Comment> comment; // 답글
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Likes> likes; // 좋아요
 
-    @OneToMany(mappedBy = "member")
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<OneLineReview> oneLineReview; // 한줄평
 
 //    @OneToMany(mappedBy = "member")
 //    private List<Order> orders; // 주문
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Review> review; // 리뷰게시판
 }
