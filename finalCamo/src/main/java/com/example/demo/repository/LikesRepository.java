@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, Long> {
     Optional<Likes> findByMemberAndReview(Member member, Review review);
+    Optional<Likes> findByMemberAndCamp(Member member, Camp camp);
     int countByProduct(Product product);
     void deleteByMemberAndProduct(Member member, Product product);
 
