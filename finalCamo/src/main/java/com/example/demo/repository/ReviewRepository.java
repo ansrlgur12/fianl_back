@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 
+
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByMember(Member member);

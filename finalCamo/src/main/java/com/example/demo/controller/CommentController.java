@@ -64,10 +64,10 @@ public class CommentController {
     }
 
     /**
-     * 특정 게시글 댓글 조회
+     * 특정 게시글 댓글 조회 이거임
      */
     @GetMapping("/review/{reviewId}")
-    public ResponseEntity<List<CommentDto>> getCommentsByReview(@PathVariable Long reviewId) {
+    public ResponseEntity<?> getCommentsByReview(@PathVariable Long reviewId) {
         List<CommentDto> comments = commentService.getCommentsByReview(reviewId);
         return ResponseEntity.ok(comments);
     }

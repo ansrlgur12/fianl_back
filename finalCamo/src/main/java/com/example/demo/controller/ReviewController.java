@@ -4,6 +4,7 @@ import com.example.demo.dto.ReviewDto;
 import com.example.demo.repository.MemberRepository;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.ReviewService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,13 +69,13 @@ public class ReviewController {
         return new ResponseEntity<>("게시글 삭제", HttpStatus.ACCEPTED);
     }
 
-
     /**
      * 모든 리뷰 가져오기
      */
     @GetMapping
-    public ResponseEntity<List<ReviewDto>> getAllReviews() {
-        List<ReviewDto> reviews = reviewService.getAllReviews();
+    public ResponseEntity<List<ReviewDto>> getAllReviews(HttpServletRequest request,
+                                                         @AuthenticationPrincipal UserDetails userDetails) throws IllegalAccessException {
+        List<ReviewDto> reviews = reviewService.getAllReviews(request, userDetails);
         return ResponseEntity.ok(reviews);
     }
 
@@ -89,21 +90,23 @@ public class ReviewController {
     }
 
     /**
+     * 특정 게시글번호에 맞는 글 가져오기 이거임
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getReviewById(@PathVariable Long id,
+                                                   @AuthenticationPrincipal UserDetails userDetails,
+                                                   HttpServletRequest request) {
+        ReviewDto reviewDto = reviewService.getReviewById(id, request, userDetails);
+        return ResponseEntity.ok(reviewDto);
+    }
+
+    /**
      * 특정 게시글에 맞는 글 가져오기
      */
     @GetMapping("/postType/{postType}")
     public ResponseEntity<List<ReviewDto>> getReviewsByPostType(@PathVariable("postType") int postType) {
         List<ReviewDto> reviews = reviewService.getReviewsByPostType(postType);
         return ResponseEntity.ok(reviews);
-    }
-
-    /**
-     * 특정 게시글번호에 맞는 글 가져오기
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<ReviewDto> getReviewById(@PathVariable("id") Long id) {
-        ReviewDto reviewDto = reviewService.getReviewById(id);
-        return ResponseEntity.ok(reviewDto);
     }
 
     /**
