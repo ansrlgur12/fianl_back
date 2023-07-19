@@ -66,12 +66,30 @@ public class LikesController {
         return ResponseEntity.ok(likesService.countLikesByProduct(productId));
     }
 
+//    /**
+//     * 특정 캠핑장 좋아요
+//     */
+//    @PostMapping("/camp/{campId}/member/{memberId}")
+//    public ResponseEntity<LikesDto> likeCamp(@PathVariable Long memberId, @PathVariable Long campId) {
+//        return ResponseEntity.ok(likesService.likeCampByMember(memberId, campId));
+//    }
+
+
     /**
-     * 특정 캠핑장 좋아요
+     * 특정 캠핑장 좋아요 갯수 확인(JWT적용)
      */
-    @PostMapping("/camp/{campId}/member/{memberId}")
-    public ResponseEntity<LikesDto> likeCamp(@PathVariable Long memberId, @PathVariable Long campId) {
-        return ResponseEntity.ok(likesService.likeCampByMember(memberId, campId));
+    @GetMapping("/camp/{campId}")
+    public ResponseEntity<Integer> countCampLikesJwt(@PathVariable Long campId, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(likesService.countLikesByCampJwt(campId, request, userDetails));
+    }
+
+
+    /**
+     * 특정 캠핑장 좋아요(JWT적용)
+     */
+    @PostMapping("/camp/{campId}")
+    public ResponseEntity<?> likeCampJwt(@PathVariable Long campId, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(likesService.likeCampByMemberJwt(campId, request, userDetails));
     }
 
     /**
@@ -83,13 +101,13 @@ public class LikesController {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * 특정 상품 캠핑장 갯수 확인
-     */
-    @GetMapping("/camp/{campId}")
-    public ResponseEntity<Integer> countCampLikes(@PathVariable Long campId) {
-        return ResponseEntity.ok(likesService.countLikesByCamp(campId));
-    }
+//    /**
+//     * 특정 캠핑장 갯수 확인
+//     */
+//    @GetMapping("/camp/{campId}")
+//    public ResponseEntity<Integer> countCampLikes(@PathVariable Long campId) {
+//        return ResponseEntity.ok(likesService.countLikesByCamp(campId));
+//    }
 
     /**
      * 특정 리뷰 좋아요 취소

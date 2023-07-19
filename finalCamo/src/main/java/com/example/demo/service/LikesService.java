@@ -139,6 +139,28 @@ public class LikesService {
         return likesDto;
     }
 
+    /**
+     * 특정 캠핑장 좋아요(JWT적용)
+     */
+    public boolean likeCampByMemberJwt(Long campId, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+        Camp camp = campRepository.findById(campId)
+                .orElseThrow(() -> new RuntimeException("캠핑장이 없습니다."));
+
+        Optional<Likes> existingLike = likesRepository.findByMemberAndCamp(member, camp);
+        if (existingLike.isPresent()) {
+            return false;
+        }
+
+        Likes savedCamp = Likes.builder()
+                .member(member)
+                .camp(camp)
+                .build();
+        likesRepository.save(savedCamp);
+
+        return true;
+    }
+
 
     /**
      * 특정 캠핑장 좋아요 취소
@@ -157,6 +179,16 @@ public class LikesService {
     public int countLikesByCamp(Long campId) {
         Camp camp = campRepository.findById(campId)
                 .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
+        return likesRepository.countByCamp(camp);
+    }
+
+    /**
+     * 특정 캠핑장 좋아요 갯수 확인(JWT 적용)
+     */
+    public int countLikesByCampJwt(Long campId, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+        Camp camp = campRepository.findById(campId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 없습니다."));
         return likesRepository.countByCamp(camp);
     }
 
