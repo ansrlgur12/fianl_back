@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "member") // Exclude the member field from toString()
 public class OjiNoji {
     @Id
     @Column(name = "oji_id")
@@ -33,5 +33,7 @@ public class OjiNoji {
     @Column
     private Integer viewCount = 0; // 조회수
 
-    private String memberId;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
