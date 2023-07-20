@@ -163,11 +163,10 @@ public class LikesService {
 
 
     /**
-     * 특정 캠핑장 좋아요 취소
+     * 특정 캠핑장 좋아요 취소(JWT)
      */
-    public void unlikeCampByMember(Long memberId, Long campId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+    public void unlikeCampByMemberJwt(Long campId, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
         Camp camp = campRepository.findById(campId)
                 .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
         likesRepository.deleteByMemberAndCamp(member, camp);
@@ -209,6 +208,23 @@ public class LikesService {
     public int checkLike(Long campId, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("회원이 없습니다."));
+        Camp camp = campRepository.findById(campId)
+                .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
+
+        boolean liked = likesRepository.existsByCampAndMember(camp, member);
+
+        if (liked) {
+            return 1; // 좋아요를 이미 눌렀음
+        } else {
+            return 0; // 좋아요를 누르지 않았음
+        }
+    }
+
+    /**
+     * 특정 회원 좋아요 여부 확인 JWT
+     */
+    public int checkLikeJwt(Long campId, HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
         Camp camp = campRepository.findById(campId)
                 .orElseThrow(() -> new RuntimeException("캠프가 없습니다."));
 
