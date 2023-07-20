@@ -262,4 +262,28 @@ public class LikesService {
 
         return campDtos;
     }
+
+    /**
+     * 특정 회원 좋아요 클릭한 캠핑장 목록(jwt)
+     */
+    public List<CampDto> getMemberLikedCampsJwt(HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+        List<Camp> likedCamps = member.getLikes().stream()
+                .map(Likes::getCamp)
+                .collect(Collectors.toList());
+
+        List<CampDto> campDtos = likedCamps.stream()
+                .map(camp -> {
+                    CampDto campDto = new CampDto();
+                    campDto.setFacltNm(camp.getFacltNm());
+                    campDto.setAddr1(camp.getAddr1());
+                    campDto.setMapX(camp.getMapX());
+                    campDto.setMapY(camp.getMapY());
+                    campDto.setFirstImageUrl(camp.getFirstImageUrl());
+                    return campDto;
+                })
+                .collect(Collectors.toList());
+
+        return campDtos;
+    }
 }

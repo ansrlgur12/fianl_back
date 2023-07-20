@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Camp;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.OjiNoji;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,6 @@ public interface OjiNojiRepository extends JpaRepository<OjiNoji, Long> {
 
     List<OjiNoji> findByFacltNm(String facltNm);
 
-    List<OjiNoji> findByMemberId(String memberId);
+    List<OjiNoji> findByMember(Member member);
 
 }

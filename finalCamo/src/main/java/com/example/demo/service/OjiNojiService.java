@@ -2,13 +2,18 @@ package com.example.demo.service;
 
 import com.example.demo.dto.CampDto;
 import com.example.demo.dto.OjiNojiDto;
+import com.example.demo.dto.ReviewDto;
 import com.example.demo.entity.Camp;
+import com.example.demo.entity.Member;
 import com.example.demo.entity.OjiNoji;
+import com.example.demo.entity.Review;
 import com.example.demo.repository.OjiNojiRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,27 +21,82 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class OjiNojiService {
+
+
     @Autowired
     private OjiNojiRepository ojiNojiRepository;
     private OjiNojiDto ojiNojiDto;
+    @Autowired
+    private AuthService authService;
 
-    public Boolean save(Map<String, String> data){
+//    public Boolean save(Map<String, String> data){
+//        OjiNoji ojiNoji = new OjiNoji();
+//        System.out.println(data);
+//        ojiNoji.setMemberId(data.get("memberId"));
+//        ojiNoji.setMapX(data.get("mapX"));
+//        ojiNoji.setMapY(data.get("mapY"));
+//        ojiNoji.setSbrsCl(data.get("sbrsCl"));
+//        ojiNoji.setDoNm(data.get("doNm"));
+//        ojiNoji.setSigunguNm(data.get("sigunguNm"));
+//        ojiNoji.setFacltNm(data.get("facltNm"));
+//        ojiNoji.setDiff(data.get("diff"));
+//        ojiNoji.setIntro(data.get("intro"));
+//        ojiNoji.setAddr1(data.get("addr1"));
+//        ojiNoji.setUrl(data.get("url"));
+//
+//        ojiNojiRepository.save(ojiNoji);
+//        return true;
+//    }
+
+//    public boolean createMarker(Map<String, String> data, HttpServletRequest request, UserDetails userDetails) {
+//        System.out.println(data);
+//        Member member = authService.validateTokenAndGetUser(request, userDetails);
+//        System.out.println(member);
+//
+//
+//
+//        OjiNoji ojiNoji = new OjiNoji();
+//        System.out.println("OjiNoji 진입");
+//        ojiNoji.setId(member.getId());
+//        ojiNoji.setMember(member);
+//        ojiNoji.setMapX(data.get("mapX"));
+//        ojiNoji.setMapY(data.get("mapY"));
+//        ojiNoji.setSbrsCl(data.get("sbrsCl"));
+//        ojiNoji.setDoNm(data.get("doNm"));
+//        ojiNoji.setSigunguNm(data.get("sigunguNm"));
+//        ojiNoji.setFacltNm(data.get("facltNm"));
+//        ojiNoji.setDiff(data.get("diff"));
+//        ojiNoji.setIntro(data.get("intro"));
+//        ojiNoji.setAddr1(data.get("addr1"));
+//        ojiNoji.setUrl(data.get("url"));
+//
+//        OjiNoji savedOjinoji = ojiNojiRepository.save(ojiNoji);
+//        return savedOjinoji != null;
+//    }
+
+    public boolean createMarker(OjiNojiDto ojiNojiDto, HttpServletRequest request, UserDetails userDetails) {
+
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
+        System.out.println(member);
+
+        ojiNojiDto.setId(member.getId());
+
         OjiNoji ojiNoji = new OjiNoji();
-        System.out.println(data);
-        ojiNoji.setMemberId(data.get("memberId"));
-        ojiNoji.setMapX(data.get("mapX"));
-        ojiNoji.setMapY(data.get("mapY"));
-        ojiNoji.setSbrsCl(data.get("sbrsCl"));
-        ojiNoji.setDoNm(data.get("doNm"));
-        ojiNoji.setSigunguNm(data.get("sigunguNm"));
-        ojiNoji.setFacltNm(data.get("facltNm"));
-        ojiNoji.setDiff(data.get("diff"));
-        ojiNoji.setIntro(data.get("intro"));
-        ojiNoji.setAddr1(data.get("addr1"));
-        ojiNoji.setUrl(data.get("url"));
+        System.out.println("OjiNoji 진입");
+        ojiNoji.setMember(member);
+        ojiNoji.setMapX(ojiNojiDto.getMapX());
+        ojiNoji.setMapY(ojiNojiDto.getMapY());
+        ojiNoji.setSbrsCl(ojiNojiDto.getSbrsCl());
+        ojiNoji.setDoNm(ojiNojiDto.getDoNm());
+        ojiNoji.setSigunguNm(ojiNojiDto.getSigunguNm());
+        ojiNoji.setFacltNm(ojiNojiDto.getFacltNm());
+        ojiNoji.setDiff(ojiNojiDto.getDiff());
+        ojiNoji.setIntro(ojiNojiDto.getIntro());
+        ojiNoji.setAddr1(ojiNojiDto.getAddr1());
+        ojiNoji.setUrl(ojiNojiDto.getUrl());
 
-        ojiNojiRepository.save(ojiNoji);
-        return true;
+        OjiNoji savedOjinoji = ojiNojiRepository.save(ojiNoji);
+        return savedOjinoji != null;
     }
 
     public List<OjiNojiDto> getOjiData(String dho, String sigungu){
@@ -135,18 +195,28 @@ public class OjiNojiService {
         return ojiNojiDtos;
     }
 
-    public List<OjiNojiDto> getMemberMarkedCamp(String memberId) {
-        List<OjiNoji> items = ojiNojiRepository.findByMemberId(memberId);
+    public List<OjiNojiDto> getMemberMarkedCampJwt(HttpServletRequest request, UserDetails userDetails) {
+        Member member = authService.validateTokenAndGetUser(request, userDetails);
         List<OjiNojiDto> ojiNojiDtos = new ArrayList<>();
 
-        for (OjiNoji camp : items ) {
-            OjiNojiDto ojinojiDto = new OjiNojiDto();
-            ojinojiDto.setFacltNm(camp.getFacltNm());
-            ojinojiDto.setMapX(camp.getMapX());
-            ojinojiDto.setMapY(camp.getMapY());
-            ojinojiDto.setUrl(camp.getUrl());
-            ojiNojiDtos.add(ojinojiDto);
+        List<OjiNoji> ojiNojis = ojiNojiRepository.findByMember(member);
+
+        for (OjiNoji ojiNoji : ojiNojis) {
+            OjiNojiDto ojiNojiDto = new OjiNojiDto();
+            ojiNojiDto.setId(ojiNoji.getId());
+            ojiNojiDto.setFacltNm(ojiNoji.getFacltNm());
+            ojiNojiDto.setDoNm(ojiNoji.getDoNm());
+            ojiNojiDto.setSigunguNm(ojiNoji.getSigunguNm());
+            ojiNojiDto.setMapX(ojiNoji.getMapX());
+            ojiNojiDto.setMapY(ojiNoji.getMapY());
+            ojiNojiDto.setIntro(ojiNoji.getIntro());
+            ojiNojiDto.setSbrsCl(ojiNoji.getSbrsCl());
+            ojiNojiDto.setDiff(ojiNoji.getDiff());
+            ojiNojiDto.setAddr1(ojiNoji.getAddr1());
+            ojiNojiDto.setUrl(ojiNoji.getUrl());
+            ojiNojiDtos.add(ojiNojiDto);
         }
+
         return ojiNojiDtos;
     }
 }

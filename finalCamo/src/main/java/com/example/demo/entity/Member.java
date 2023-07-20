@@ -12,10 +12,11 @@ import java.util.List;
 @Table(name = "member")
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "ojiNoji") // Exclude the ojiNoji field from toString()
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
 public class Member {
     @Id
     @Column(name="member_id")
@@ -66,6 +67,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Likes> likes; // 좋아요
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<OjiNoji> ojiNoji;
 
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)

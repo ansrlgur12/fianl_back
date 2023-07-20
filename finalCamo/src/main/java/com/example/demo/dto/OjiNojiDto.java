@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OjiNojiDto {
+    private Long Id;
     private String facltNm;
     private String doNm;
     private String sigunguNm;
@@ -19,5 +20,5 @@ public class OjiNojiDto {
     private String addr1;
     private String url;
     private Integer viewCount;
-    private String memberId;
+    private Long memberId;
 }

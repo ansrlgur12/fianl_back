@@ -144,12 +144,20 @@ public class LikesController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
+//    /**
+//     * 특정 회원 좋아요 클릭한 캠핑장 목록
+//     */
+//    @GetMapping("/memberLikedCamp/{memberId}")
+//    public ResponseEntity<List<CampDto>> getMemberLikedCamps(@PathVariable Long memberId) {
+//        List<CampDto> campDtos = likesService.getMemberLikedCamps(memberId);
+//        return ResponseEntity.ok(campDtos);
+//    }
     /**
      * 특정 회원 좋아요 클릭한 캠핑장 목록
      */
-    @GetMapping("/memberLikedCamp/{memberId}")
-    public ResponseEntity<List<CampDto>> getMemberLikedCamps(@PathVariable Long memberId) {
-        List<CampDto> campDtos = likesService.getMemberLikedCamps(memberId);
+    @GetMapping("/memberLikedCamp")
+    public ResponseEntity<List<CampDto>> getMemberLikedCampsJwt(HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        List<CampDto> campDtos = likesService.getMemberLikedCampsJwt(request, userDetails);
         return ResponseEntity.ok(campDtos);
     }
 }
