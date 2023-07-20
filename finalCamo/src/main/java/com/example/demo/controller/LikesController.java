@@ -93,13 +93,21 @@ public class LikesController {
     }
 
     /**
-     * 특정 캠핑장 좋아요 취소
+     * 특정 캠핑장 좋아요 취소(JWT 적용)
      */
-    @DeleteMapping("/camp/{campId}/member/{memberId}")
-    public ResponseEntity<Void> unlikeCamp(@PathVariable Long memberId, @PathVariable Long campId) {
-        likesService.unlikeCampByMember(memberId, campId);
+    @DeleteMapping("/camp/{campId}")
+    public ResponseEntity<Void> unlikeCamp(@PathVariable Long campId, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        likesService.unlikeCampByMemberJwt(campId, request, userDetails);
         return ResponseEntity.ok().build();
     }
+//    /**
+//     * 특정 캠핑장 좋아요 취소
+//     */
+//    @DeleteMapping("/camp/{campId}/member/{memberId}")
+//    public ResponseEntity<Void> unlikeCamp(@PathVariable Long memberId, @PathVariable Long campId) {
+//        likesService.unlikeCampByMember(memberId, campId);
+//        return ResponseEntity.ok().build();
+//    }
 
 //    /**
 //     * 특정 캠핑장 갯수 확인
@@ -118,12 +126,21 @@ public class LikesController {
         return ResponseEntity.ok().build();
     }
 
+//    /**
+//     * 특정 회원 좋아요 클릭 여부
+//     */
+//    @GetMapping("/checkLike/{campId}/{memberId}")
+//    public ResponseEntity<Integer> checkLike(@PathVariable Long campId, @PathVariable Long memberId) {
+//        int count = likesService.checkLike(campId, memberId);
+//        return new ResponseEntity<>(count, HttpStatus.OK);
+//    }
+
     /**
-     * 특정 회원 좋아요 클릭 여부
+     * 특정 회원 좋아요 클릭 여부 JWT
      */
-    @GetMapping("/checkLike/{campId}/{memberId}")
-    public ResponseEntity<Integer> checkLike(@PathVariable Long campId, @PathVariable Long memberId) {
-        int count = likesService.checkLike(campId, memberId);
+    @GetMapping("/checkLike/{campId}")
+    public ResponseEntity<Integer> checkLikeJwt(@PathVariable Long campId, HttpServletRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        int count = likesService.checkLikeJwt(campId, request, userDetails);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
