@@ -82,7 +82,7 @@ public class ReviewController {
     /**
      * 특정 회원이 작성한 리뷰 가져오기
      */
-    @GetMapping("/member/")
+    @GetMapping("/member/{id}")
     public ResponseEntity<List<ReviewDto>> getReviewsByMember(@AuthenticationPrincipal UserDetails userDetails,
                                                               HttpServletRequest request) {
         List<ReviewDto> reviews = reviewService.getReviewsByMember(request, userDetails);
