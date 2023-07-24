@@ -43,7 +43,7 @@ public class MemberController {
         if (isOverlap) {
             return false;
         } else {
-            String code = emailService.sendSimpleMessage(email);
+            String code = emailService.sendNewMessage(email);
             log.info("인증 코드: " + code);
             return code;
         }

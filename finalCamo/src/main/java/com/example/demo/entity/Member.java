@@ -59,7 +59,7 @@ public class Member {
         this.authKey = authKey;
     }
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Cart> cart; // 회원의 장바구니 리스트
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
