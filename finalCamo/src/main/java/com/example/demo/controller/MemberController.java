@@ -71,12 +71,12 @@ public class MemberController {
      */
     @PutMapping("/changePwd")
     public ResponseEntity<?> changePwd(@RequestBody Member member, HttpServletRequest request,
-                                             @AuthenticationPrincipal UserDetails userDetails) {
+                                       @AuthenticationPrincipal UserDetails userDetails) {
         try {
             boolean isUpdate = memberService.changePwd(member, request, userDetails);
             return ResponseEntity.ok("비밀번호 변경 ");
         } catch (IllegalAccessError e) {
-            return ResponseEntity.badRequest().body("비밀번호 변경 실패.. 😰" + e.getMessage());
+            return ResponseEntity.badRequest().body("비밀번호 변경 실패" + e.getMessage());
         }
     }
 
